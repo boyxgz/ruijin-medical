@@ -9,4 +9,10 @@ class QrImageController {
 		def content = QrCode.getTempQr(id, 30 * 60 * 1000)
 		os << content
 	}
+
+	def qr(String id) {
+		def os = response.outputStream
+		def content = QrCode.getQr(id)
+		os << content
+	}
 }

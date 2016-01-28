@@ -7,6 +7,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.surelution.ruijin.Subscriber;
 import com.surelution.whistle.core.Auth2Util;
+import com.surelution.whistle.push.qrcode.QrCode;
 
 class DoctorController {
 
