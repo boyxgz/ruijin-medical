@@ -82,6 +82,18 @@
 			 
 			 <dl class="dl-horizontal">
 				  <dt>
+					<label for="qrImage"> <g:message code="doctor.qr.label" default="Qr" />
+					</label>
+				 </dt>
+				<dd>
+					<div class="col-xs-8">
+						<img src="${createLink(action:'tempQr',controller:'qrImage',id:doctorInstance.id)}" class="img-rounded" style="width: 200px; height:200px "/>
+					</div>
+				</dd>
+			</dl>
+			 
+			 <dl class="dl-horizontal">
+				  <dt>
 					<label for="image"> <g:message code="doctor.image.label"
 							default="image" />
 					</label>
