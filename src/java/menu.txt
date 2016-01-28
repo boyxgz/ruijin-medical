@@ -1,0 +1,47 @@
+ {
+    "button": [
+        
+        {
+            "name": "挂号预约",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "在线挂号",
+                    "url": "http://yijuan.sh-hansi.com/ruijin/introDoctor/introDoctor"
+                },
+                {
+                    "type": "view",
+                    "name": "个人中心",
+                    "url": "http://yijuan.sh-hansi.com/ruijin/patient/personalCenter"
+                },
+                {
+                    "type": "view",
+                    "name": "预约指南",
+                    "url": "http://yijuan.sh-hansi.com/ruijin/customerServer/customerServer"
+                }
+            ]
+        },
+        
+        {
+            "name": "在线咨询",
+            "type":"view",
+            "url":"http://www.baidu.com"
+          },
+          
+          {
+            "name": "关于我们",
+            "sub_button": [
+                {
+                    "type": "view",
+                    "name": "科室简介",
+                    "url": "http://yijuan.sh-hansi.com/ruijin/introDepartment/introdeDartment"
+                },
+                {
+                    "type": "view",
+                    "name": "联系我们",
+                    "url": "http://yijuan.sh-hansi.com/ruijin/contact/contact"
+                }
+            ]
+        }      
+    ]
+}

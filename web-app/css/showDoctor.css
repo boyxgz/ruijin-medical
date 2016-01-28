@@ -1,0 +1,28 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+*{ margin:0px; padding:0px;}
+.top{ width: 100%; height:100px;}
+.top_left{ width: 25%; height: 100%;  float:left;}
+.top_right{ width: 70%; height: 100%;  float:left;}
+.r_l{width:60%; height: 100%; margin-top:10px; float:left; }
+.r_r{width: 40%; height: 100%;float:left;}
+.name{ font-size:18px; color:white;font-weight:bold;}
+.title{ font-size:14px; color:white;font-weight:bold; margin-top:7px;}
+.zixun{float:left; border-right: 1px solid white; width:50%; margin-top:10px;}
+.yuyue{float:left;  width:40%;line-height:267px; margin-left:10px;margin-top:10px;}
+.dt1{ font-weight:bold;color: white; font-size:12px;text-align: center;}
+.dd1{ color: white; font-size:24px; text-align: center;}
+.middle{margin-top:10px;background-color: #F2F2F2; height:82%;}
+.zhiyedian{ margin-top:10px; width: 100%; background-color: white; border: 1px solid #F2F2F2;}
+.mi{margin-left:8px;}
+.font_style{color:#666;}
+.foot{height: 55px;background-color:white;}
+.home{ height: 100%; width: 50%; float:left; border-right: 1px solid #F2F2F2;}
+.mime{ height:100%; width: 50%; float:left;}
+.dt2{ text-align: center;}
+
+.tab{ margin-top:10px;background-color: white;}
+.t1{text-align: center;}
+
