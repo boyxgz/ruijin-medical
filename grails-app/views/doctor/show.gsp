@@ -87,7 +87,7 @@
 				 </dt>
 				<dd>
 					<div class="col-xs-8">
-						<img src="${createLink(action:'tempQr',controller:'qrImage',id:doctorInstance.id)}" class="img-rounded" style="width: 200px; height:200px "/>
+						<img src="${createLink(action:'qr',controller:'qrImage',id:doctorInstance.id)}" class="img-rounded" style="width: 200px; height:200px "/>
 					</div>
 				</dd>
 			</dl>
