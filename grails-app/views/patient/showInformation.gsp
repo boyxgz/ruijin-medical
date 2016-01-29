@@ -14,103 +14,6 @@
 	.wtd{width:120px;}
 	tr{line-height:50px;}
 </style>
-<script type="text/javascript">
-function check(form){
-	//姓名不为空校验
-	if( form.name.value == ''){
-		alert('请输入你的姓名。');
-		return false;
-	}
-	else{
-		var str = form.name.value;
-		var pormpt;
-		for(var i=0; i<form.name.value.length; i++){
-			if(str[i] != ' '){
-				pormpt = '';
-			}
-			else{
-				pormpt = "您输入的是空格，请重新输入！";
-			}
-		}
-		if(pormpt != ''){
-			alert(pormpt);
-			form.name.value = '';
-			return false;
-		}
-	}
-
-	if(form.age.value != ''){
-		var age = form.age.value;
-		for(var i=0; i<form.age.value.length; i++){
-			var num = parseInt(age[i]);
-			if(num >= 0 && num <= 9){
-				
-			}
-			else{
-				alert("请正确的输入您的年龄！注意是数字哦！");
-				return false;
-			}
-		}
-		
-	}
-	else{
-		alert("请输入您的年龄");
-		return false;
-	}
-	
-	//联系方式不为空校验 
-	if(form.phoneNumb.value == ''){
-		alert('请输入您的联系方式。');
-		return false;
-	}
-	else{
-		var str = form.phoneNumb.value;
-		var pormpt;
-		for(var i=0; i<form.phoneNumb.value.length; i++){
-			if(str[i] != ' '){
-				pormpt = '';
-			}
-			else{
-				pormpt = "您输入的是空格，请重新输入您的联系方式！";
-			}
-		}
-		if(pormpt != ''){
-			alert(pormpt);
-			form.phoneNumb.value = '';
-			return false;
-		}
-	}
-	//以下身份证号码校验
-	if(form.IDcard.value != '' && form.IDcard.value.length >= 18){
-		var pormpt = 0;
-		var str = form.IDcard.value;
-		for(var i=0; i<form.IDcard.value.length; i++){
-			if(str[i] != ' '){
-				var num = parseInt(str[i]);
-				if(num >= 0 && num <= 9 || str[i] == 'x'){
-					
-				}
-				else{
-					alert("请正确的输入您的身份证号！");
-					return false;
-				}
-			}
-			else{
-				pormpt++;
-			}
-		}
-		if(pormpt == form.IDcard.value.length){
-			alert("您输入的格式可能不对哦，请正确输入。");
-			return false;
-		}
-	}
-	else{
-		alert("您输入的身份证号码，为空或不满18位！");
-		return false;
-	}
-	return true;
-}
-</script>
 </head>
 <body>
 <div>
@@ -122,19 +25,20 @@ function check(form){
 	<tr>
 		<td class="text-right wtd">姓名&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="name"  value="${patient.name }" readonly/>
+			<input type="text" class="winput form-control input-sm" name="name"  value="${patient?.name }" readonly/>
 		</td>
 	</tr>
 	<tr>
 		<td class="text-right wtd">年龄&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="age"  value="${patient.age }" readonly/>
+			<input type="text" class="winput form-control input-sm" name="birthday"  
+				value="<g:formatDate date="${patient?.birthday }" format="yyyy-MM-dd"/>" readonly/>
 		</td>
 	</tr>
 	<tr>
 		<td class="text-right wtd">性别&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="sex" value="${patient.sex }" readonly/>
+			<input type="text" class="winput form-control input-sm" name="sex" value="${patient?.sex }" readonly/>
 		</td>
 	</tr>
 	<tr>
@@ -159,6 +63,22 @@ function check(form){
 	</g:form>
 </div>
 </div>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+  <div style="widht:100%; height:5px;"></div>
+  <table style="width:100%; height:15px;">
+  <tr>
+  	<td class="text-center">
+  		<g:link action="personalCenter">个人中心</g:link><!-- 如何关注微信 -->
+  	</td>
+  	  	<td class="text-center">
+  		<g:link action="doctorList" controller="Chat">医生列表</g:link>
+  	</td>
+  </tr>
+  </table>
+  <div style="widht:100%; height:5px;"></div>
+  </div>
+</nav>
 </body>
 </html>
 
