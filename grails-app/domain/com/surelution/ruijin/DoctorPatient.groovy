@@ -16,4 +16,5 @@ class DoctorPatient {
 	Patient patient //患者
 	DynImage illness //病历照片
 	Date dateCreated  //关联时间
+	Boolean isFocus		//是否关注
 }
