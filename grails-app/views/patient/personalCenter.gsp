@@ -4,8 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>个人中心</title>
-<%--<link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>--%>
-<link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.1/css/bootstrap.css">
+<link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <style>
 	*{margin:0px; padding:0px;}
 	body{background-color:#F0F0F0;}
@@ -51,10 +50,10 @@
   <table style="width:100%; height:15px;">
   <tr>
   	<td class="text-center">
-  		<g:link>关注此微信</g:link><!-- 如何关注微信 -->
+  		<g:link action="personalCenter">关注此微信</g:link><!-- 如何关注微信 -->
   	</td>
   	<td class="text-center">
-  		<g:link><span></span>推荐给朋友</g:link><!-- 转发的实现 -->
+  		<g:link action="personalCenter"><span></span>推荐给朋友</g:link><!-- 转发的实现 -->
   	</td>
   </tr>
   </table>

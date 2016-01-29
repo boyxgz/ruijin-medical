@@ -27,9 +27,9 @@ class Patient {
 	 enum  Sex{
 		 Man,Woman,Unknown
 		 
-	   public String toString() {
+	   /*public String toString() {
 			 KeyedMessage.findByKey("Sex-" + name())?.message
-		 }
+		 }*/
 	 }
 	 
 	 Date dateCreated  

@@ -1,18 +1,23 @@
 package com.surelution.ruijin
 
+import com.surelution.whistle.core.Auth2Util;
+import com.surelution.whistle.core.Auth2Util.AuthScope;
+
+import grails.util.Holders;
+
 class PatientController {
 
-	/*private Subscriber subscriber;
-	*//**
+	private Subscriber subscriber;
+	/**
 	 * 自动登录
-	 *//*
+	 */
 	def beforeInterceptor = {
 		def userSn = request.getCookie('user-sn');
 		
 		subscriber = SubscriberCookie.findBySubscriberSn(userSn)?.subscriber;
 		
 		if(!subscriber) {
-			def requestUrl = request.requestURI;
+			def requestUrl = request.forwardURI;
 			def baseUrl = Holders.config.grails.serverURL;
 			def url = Auth2Util.buildRedirectUrl("${baseUrl}/subscriberPortal/autoLogin", requestUrl, AuthScope.BASE);
 			response.deleteCookie('user-sn');
@@ -20,7 +25,7 @@ class PatientController {
 			return false;
 		}
 		return true;
-	}*/
+	}
 	
     def index() { }
 	
@@ -38,26 +43,57 @@ class PatientController {
 	
 	def information(){
 		//个人资料
+		def subID = Subscriber.get(subscriber.id);
+		def patient = Patient.findBySubscriber(subID);
+		if(patient != null){
+			redirect(action:'showInformation');
+			println "112"
+		}
+		else{
+			redirect(action:'registers');
+		}
+	}
+	
+	def registers(){
+		//注册
+		def subID = Subscriber.get(subscriber.id);
+		def patient = Patient.findBySubscriber(subID);
+		[patient:patient];
+	}
+	
+	def showInformation(){
+		//显示个人资料
+		def subID = Subscriber.get(subscriber.id);
+		def patient = Patient.findBySubscriber(subID);
+		[patient:patient];
 	}
 	
 	def saveInformation(){
 		//保存个人资料
+		def patient;
 		def name = params.name;
 		def age = params.int('age');
 		def sex = params.sex;
 		def IDcard = params.IDcard;
 		def phoneNumb = params.phoneNumb;
 		def datecareted = new Date();
-		
-		def patient = new Patient();
+		def subID = Subscriber.get(subscriber.id);
+		def patientSub = Patient.findBySubscriber(subID);
+		if(patientSub != null){
+			patient =patientSub;
+		}
+		else{
+			patient = new Patient();
+		}
 		patient.name = name;
 		patient.age = age;
 		patient.sex = sex;
 		patient.IDcard = IDcard;
 		patient.phoneNumb = phoneNumb;
 		patient.dateCreated = datecareted;
+		patient.subscriber = subscriber;
 		patient.save(flush:true);
-		redirect(action:'information');
+		redirect(action:'showInformation');
 		
 	}
 	
@@ -68,12 +104,27 @@ class PatientController {
 	def oneselfConcern(){
 		//我的关注
 		//TODO 获取用户的subscriber 然后再通过这个类找到患者的id
-		def num = Subscriber.get(1);
+		def num = Subscriber.get(subscriber.id);
 		def patient = Patient.findBySubscriber(num);
-		def doctorpatient = DoctorPatient.findByPatient(patient);
-		println doctorpatient.doctor.name
-		println doctorpatient.doctor.reservations
-		println doctorpatient.dateCreated
-		[doctorpatient:doctorpatient]
+		def doctorpatient = DoctorPatient.createCriteria().list {
+			if(patient){
+				eq('patient',patient);
+			}
+		}
+		def dp = [];
+		for(def i=0; i<doctorpatient.size(); i++){
+			if(doctorpatient[i].isFocus){//为啥会出现下划线
+				dp.add(doctorpatient[i]);
+			}
+		}
+		[doctorpatient:dp]
+	}
+	
+	def isFocusAc(){
+		//取消关注
+		def dp = params.dp;
+		def doctorpatient = DoctorPatient.get(dp);
+		doctorpatient.isFocus = false;
+		redirect(action:'oneselfConcern');
 	}
 }
