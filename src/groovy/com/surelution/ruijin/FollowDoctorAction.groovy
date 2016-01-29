@@ -6,6 +6,7 @@ package com.surelution.ruijin
 import com.surelution.whistle.core.Attribute
 
 /**
+ * 患者关注医生
  * @author <a href="mailto:guangzong.syu@gmail.com">guagnzong</a>
  *
  */
