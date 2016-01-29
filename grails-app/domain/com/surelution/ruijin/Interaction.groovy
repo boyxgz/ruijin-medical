@@ -15,4 +15,5 @@ class Interaction {
 	Date dateCreated   //发送时间
 	Boolean isRead    //是否已读
 	String message    //消息
+	Integer sn        //两人的交互消息的顺序
 }
