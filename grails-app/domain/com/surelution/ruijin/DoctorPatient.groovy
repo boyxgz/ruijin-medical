@@ -10,6 +10,8 @@ class DoctorPatient {
 
     static constraints = {
 		illness nullable:true
+		illness nullable:true
+		doctor(unique:'patient')
     }
 	
 	Doctor doctor  //医生

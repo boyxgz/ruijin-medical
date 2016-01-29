@@ -10,7 +10,7 @@ class QrImageController {
 		os << content
 	}
 
-	def qr(String id) {
+	def qr(Integer id) {
 		def os = response.outputStream
 		def content = QrCode.getQr(id)
 		os << content
