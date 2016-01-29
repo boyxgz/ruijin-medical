@@ -47,7 +47,6 @@ class PatientController {
 		def patient = Patient.findBySubscriber(subID);
 		if(patient != null){
 			redirect(action:'showInformation');
-			println "112"
 		}
 		else{
 			redirect(action:'registers');
@@ -72,7 +71,7 @@ class PatientController {
 		//保存个人资料
 		def patient;
 		def name = params.name;
-		def age = params.int('age');
+		def birthday = params.date('birthday','yyyy-MM-dd')
 		def sex = params.sex;
 		def IDcard = params.IDcard;
 		def phoneNumb = params.phoneNumb;
@@ -86,7 +85,7 @@ class PatientController {
 			patient = new Patient();
 		}
 		patient.name = name;
-		patient.age = age;
+		patient.birthday = birthday;
 		patient.sex = sex;
 		patient.IDcard = IDcard;
 		patient.phoneNumb = phoneNumb;
@@ -116,6 +115,14 @@ class PatientController {
 			if(doctorpatient[i].isFocus){//为啥会出现下划线
 				dp.add(doctorpatient[i]);
 			}
+		}
+		println dp[0] == null
+		if(dp[0] == null){
+			flash.message = "您占时未关注任何一位医生！";
+			println 1;
+		}
+		else{
+			flash.message ="";
 		}
 		[doctorpatient:dp]
 	}

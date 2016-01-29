@@ -20,6 +20,9 @@
 <img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;">
 <div style="width:100%; height:20px;"></div>
 <div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
+<div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
+	<g:if test="${flash.message }">${flash.message }</g:if>
+</div>
 <g:each in="${doctorpatient }" var="dp">
 <div style="background-color:#fff; border-radius:1em; margin-top:5px;">
 	<table style="border-radius:1em;">
@@ -28,7 +31,7 @@
 			<img src="${resource(dir:'images',file:'hospital.jpg')}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
 		</td>
 		<td class="big-wid-td">
-			<strong class="name">${dp?.doctor?.name}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong class="title">${dp?.doctor?.title }</strong>
+			<strong class="name">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>
 		</td>
 		<td rowspan="3" class="small-wid-td" align="center">
 		<g:form action="isFocusAc">
@@ -44,7 +47,7 @@
 	</tr>
 	<tr>
 		<td class="hei-td">
-			<small><small>擅长领域：${dp?.doctor?.skills }</small></small>
+			<small><small>擅长领域：${dp?.doctor?.skills.substring(0,7)  }...</small></small>
 	</td>
 	</tr>
 	<tr>

@@ -6,7 +6,7 @@
 <title>个人资料</title>
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="${resource(dir:'js',file:'bootstrap.min.js') }"></script>
-<script type="text/javascript" src="${resource(dir:'js',file:'jquery.min.js') }"></script>
+<script type="text/javascript" src="${resource(dir:'js',file:'jquery-1.8.3.min.js') }"></script>
 <style>
 	*{margin:0; padding:0;}
 	body{background-color:#F0F0F0;}
@@ -37,25 +37,6 @@ function check(form){
 			form.name.value = '';
 			return false;
 		}
-	}
-
-	if(form.age.value != ''){
-		var age = form.age.value;
-		for(var i=0; i<form.age.value.length; i++){
-			var num = parseInt(age[i]);
-			if(num >= 0 && num <= 9){
-				
-			}
-			else{
-				alert("请正确的输入您的年龄！注意是数字哦！");
-				return false;
-			}
-		}
-		
-	}
-	else{
-		alert("请输入您的年龄");
-		return false;
 	}
 	
 	//联系方式不为空校验 
@@ -126,19 +107,26 @@ function check(form){
 		</td>
 	</tr>
 	<tr>
-		<td class="text-right wtd">年龄&nbsp;&nbsp;*&nbsp;&nbsp;</td>
+		<td class="text-right wtd">生日&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="age" value="${patient?.age }"/>
+		<g:if test="${patient?.birthday == null }">
+		<input type="date" value="${patient?.birthday}" name="birthday" id="birthday" class="form-control"  style="width:230px;"/>
+		</g:if>
+		<g:else>
+		<input type="date" value="<g:formatDate date="${patient?.birthday}" format="yyyy-MM-dd"/>" name="birthday" id="birthday" class="form-control" style="width:230px;" />
+		</g:else>
 		</td>
 	</tr>
 	<tr>
 		<td class="text-right wtd">性别&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
 			<g:if test="${patient?.sex == null }">
-				<g:select name="sex" from="${com.surelution.ruijin.Patient.Sex.values()}" class="form-control" />
+				<g:select name="sex" from="${com.surelution.ruijin.Patient?.Sex?.values()}" 
+					keys="${com.surelution.ruijin.Patient?.Sex?.values()*.name()}" class="form-control" />
 			</g:if>
 			<g:else>
-				<g:select name="sex" from="${com.surelution.ruijin.Patient.Sex.values()}" class="form-control" value="${patient?.sex }"/>
+				<g:select name="sex" value="${patient?.sex.name() }" from="${com.surelution.ruijin.Patient.Sex.values()}" 
+					keys="${com.surelution.ruijin.Patient.Sex.values()*.name()}" class="form-control" />
 			</g:else>
 		</td>
 	</tr>
