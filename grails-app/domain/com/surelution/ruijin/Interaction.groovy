@@ -16,4 +16,5 @@ class Interaction {
 	Boolean isRead    //是否已读
 	String message    //消息
 	Integer sn        //两人的交互消息的顺序
+	Boolean fromDoctor = true //来自医生的消息还是来自患者的消息
 }
