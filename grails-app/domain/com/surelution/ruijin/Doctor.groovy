@@ -17,8 +17,6 @@ class Doctor {
 	
 	DynImage image   //医生头像
 	
-	//DynImage erweima  //医生二维码
-	
 	Subscriber subscriber //微信用户
     
 }

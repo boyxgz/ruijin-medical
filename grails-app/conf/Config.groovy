@@ -64,10 +64,11 @@ environments {
     development {
         grails.logging.jul.usebridge = true
 		grails.dynImage.rootPath="/Users/johnny/temp/"
+		grails.serverURL = "http://surelution.sh-hansi.com"
     }
     production {
         grails.logging.jul.usebridge = false
-        // TODO: grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://www.changeme.com"
     }
 }
 

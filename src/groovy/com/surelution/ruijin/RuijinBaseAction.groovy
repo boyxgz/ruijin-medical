@@ -20,8 +20,8 @@ abstract class RuijinBaseAction extends BaseAction {
 	final public String getRootPath() {
 		return Holders.config.grails.serverURL
 	}
-
-	final public void preExecute() {
+	
+	final public void prepare() {
 		String openId = getParam(KEY_FromUserName)
 		subscriber = Subscriber.findByOpenId(openId)
 		if(!subscriber) {
@@ -29,7 +29,9 @@ abstract class RuijinBaseAction extends BaseAction {
 			subscriber.openId = openId
 			subscriber.save(flush:true)
 		}
-		
+	}
+
+	final public void preExecute() {
 		Set<String> paramNames = paramNames()
 		IncomeMessage sub = new IncomeMessage()
 		sub.content = getParam(KEY_Content)

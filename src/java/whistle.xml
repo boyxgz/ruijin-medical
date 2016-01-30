@@ -5,6 +5,7 @@
 	<secret>95fe6dd42e9355220356a3b4b1ffcd83</secret>
 	<checkRequestRestrictly>true</checkRequestRestrictly>
 	<processor-chain>
+		<processor>com.surelution.ruijin.PatientSendingMessageAction</processor>
 		<processor>com.surelution.ruijin.FollowDoctorAction</processor>
 	    <processor>com.surelution.ruijin.TempQrScannedAction</processor>
 		<processor>com.surelution.whistle.core.SampleAction</processor>

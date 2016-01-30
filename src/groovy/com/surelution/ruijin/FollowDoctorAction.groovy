@@ -36,8 +36,9 @@ class FollowDoctorAction extends RuijinBaseAction {
 	 */
 	public void execute() {
 		def patiend = Patient.findOrSaveBySubscriber(subscriber)
-		def dp = DoctorPatient.findOrSaveByDoctorAndPatient(doctor, patiend)
-		
+		def dp = DoctorPatient.findOrCreateByDoctorAndPatient(doctor, patiend)
+		dp.patientPrefered = true
+		dp.save(flush:true)
 		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}"))
 	}
 
