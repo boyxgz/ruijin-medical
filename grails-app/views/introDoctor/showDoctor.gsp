@@ -37,7 +37,12 @@
                </div>
                </div>
                <div style="height:30%; ">
-                 <div class="title" style="float:left;">${doctor.address.substring(0, 15)}</div>
+               <g:if test="${doctor.address.length() >= 15 }">
+                 <div class="title" style="float:left;">${doctor.address.substring(0, 15)}...</div>
+               </g:if>
+               <g:else>
+               		<div class="title" style="float:left;">${doctor.address}</div>
+               </g:else>
                </div>
            </div>
         </div>

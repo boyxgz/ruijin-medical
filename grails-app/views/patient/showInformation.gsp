@@ -31,8 +31,8 @@
 	<tr>
 		<td class="text-right wtd">年龄&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="birthday"  
-				value="<g:formatDate date="${patient?.birthday }" format="yyyy-MM-dd"/>" readonly/>
+			<input type="text" class="winput form-control input-sm" name="dateOfBirth"  
+				value="<g:formatDate date="${patient?.dateOfBirth }" format="yyyy-MM-dd"/>" readonly/>
 		</td>
 	</tr>
 	<tr>
@@ -50,7 +50,7 @@
 	<tr>
 		<td class="text-right wtd">身份证号&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="IDcard" value="${patient.IDcard }" readonly/>
+			<input type="text" class="winput form-control input-sm" name="iDcard" value="${patient.iDcard }" readonly/>
 		</td>
 	</tr>
 	<tr>

@@ -13,28 +13,27 @@
 <body>
     <div class="contain">
         <div class="top">
-            <p style="margin-left:10px;">共${doctorInstanceTotal}名医生</p>
+            <p style="margin-left:10px;">共${}名医生</p>
         </div>
         
-        <g:each in="${doctorInstanceList}" var="doctor">
-        <a href="${createLink(action:'showDoctor',controller:'introDoctor',id:doctor.id)}">
+        <g:each in="${doctors}" var="doctor">
+        <g:link action="startChat" controller="Chat" id="${doctor.id }">
         <div class="content">
-             <div class="content_left"><img src="${createLink(action:'showPic',controller:'introDoctor',id:doctor.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:10px;margin-left:10px;"/></div>
+        	<!-- createLink(action:'showPic',controller:'introDoctor',id:doctor.id) -->
+             <div class="content_left"><img src="${resource(dir:'images',file:'hospital.jpg')}" class="img-rounded" style="width: 80px; height:80px; margin-top:10px;margin-left:10px;"/></div>
              <div class="content_right">
                  <div class="cr">
                       <div style="width: 75%; float: left;"><strong class="name">${doctor.name}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<strong class="title">${doctor.title }</strong></div>
-                      <div style="width: 20%; float: left; margin-top:5px;" class="btn btn-success btn-xs">有号</div>
+                      <div style="width: 20%; float: left; margin-top:5px;" class="btn btn-success btn-xs">在线</div>
                  </div>
-	             <div class="cr"><span class="font_style">接诊量:${doctor.reservations}</span></div>
-	             <g:if test="${doctor.skills.length() >= 13 }">
-	             <div class="cr"><span class="font_style">擅长： ${doctor.skills.substring(0, 13)}...</span></div>
+	             <div class="cr"><span class="font_style">接诊量:${doctor?.reservations}</span></div>
+	             <g:if test="${doctor?.skills?.length() > 13 }">
+	             <div class="cr"><span class="font_style">擅长： ${doctor?.skills?.substring(0, 13)}...</span></div>
 		         </g:if>
-		         <g:else>
-		         	 <div class="cr"><span class="font_style">擅长： ${doctor?.skills}</span></div>
-		         </g:else>
-		        </div>
+		         <div class="cr"><span class="font_style">擅长： ${doctor?.skills}...</span></div>
+		         </div>
 		</div>
-		</a>
+		</g:link>
 		</g:each>
    </div>
 </body>

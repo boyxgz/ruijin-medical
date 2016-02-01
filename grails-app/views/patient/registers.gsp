@@ -62,10 +62,10 @@ function check(form){
 		}
 	}
 	//以下身份证号码校验
-	if(form.IDcard.value != '' && form.IDcard.value.length >= 18){
+	if(form.iDcard.value != '' && form.iDcard.value.length >= 18){
 		var pormpt = 0;
-		var str = form.IDcard.value;
-		for(var i=0; i<form.IDcard.value.length; i++){
+		var str = form.iDcard.value;
+		for(var i=0; i<form.iDcard.value.length; i++){
 			if(str[i] != ' '){
 				var num = parseInt(str[i]);
 				if(num >= 0 && num <= 9 || str[i] == 'x'){
@@ -80,7 +80,7 @@ function check(form){
 				pormpt++;
 			}
 		}
-		if(pormpt == form.IDcard.value.length){
+		if(pormpt == form.iDcard.value.length){
 			alert("您输入的格式可能不对哦，请正确输入。");
 			return false;
 		}
@@ -109,11 +109,11 @@ function check(form){
 	<tr>
 		<td class="text-right wtd">生日&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-		<g:if test="${patient?.birthday == null }">
-		<input type="date" value="${patient?.birthday}" name="birthday" id="birthday" class="form-control"  style="width:230px;"/>
+		<g:if test="${patient?.dateOfBirth == null }">
+		<input type="date" value="${patient?.dateOfBirth}" name="dateOfBirth" id="dateOfBirth" class="form-control"  style="width:230px;"/>
 		</g:if>
 		<g:else>
-		<input type="date" value="<g:formatDate date="${patient?.birthday}" format="yyyy-MM-dd"/>" name="birthday" id="birthday" class="form-control" style="width:230px;" />
+		<input type="date" value="<g:formatDate date="${patient?.dateOfBirth}" format="yyyy-MM-dd"/>" name="dateOfBirth" id="dateOfBirth" class="form-control" style="width:230px;" />
 		</g:else>
 		</td>
 	</tr>
@@ -139,7 +139,7 @@ function check(form){
 	<tr>
 		<td class="text-right wtd">身份证号&nbsp;&nbsp;*&nbsp;&nbsp;</td>
 		<td>
-			<input type="text" class="winput form-control input-sm" name="IDcard" value="${patient?.IDcard }"/>
+			<input type="text" class="winput form-control input-sm" name="iDcard" value="${patient?.iDcard }"/>
 		</td>
 	</tr>
 	<tr>

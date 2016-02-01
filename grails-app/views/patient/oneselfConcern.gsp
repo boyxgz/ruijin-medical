@@ -47,7 +47,12 @@
 	</tr>
 	<tr>
 		<td class="hei-td">
-			<small><small>擅长领域：${dp?.doctor?.skills.substring(0,7)  }...</small></small>
+		<g:if test="${dp?.doctor?.skills.length() < 7 }">
+			<small><small>擅长领域：${dp?.doctor?.skills}</small></small>
+		</g:if>
+		<g:else>
+			<small><small>擅长领域：${dp?.doctor?.skills.substring(0,7)}...</small></small>
+		</g:else>
 	</td>
 	</tr>
 	<tr>
