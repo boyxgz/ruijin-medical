@@ -20,7 +20,7 @@ class Patient {
 //	 int age     //年龄 commented by xuguangzong
 	 Date dateOfBirth //生日
 	 Sex sex = Sex.Unknown   //性别
-	 
+
 	 String iDcard
 	 String phoneNumb
 	 

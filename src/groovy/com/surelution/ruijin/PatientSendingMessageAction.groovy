@@ -21,7 +21,6 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		def msgType = getParam(Attribute.KEY_MsgType)
 		if(msgType == Attribute.Msg_Type_TEXT) {
 			patient = Patient.findBySubscriber(subscriber)
-			println patient
 			if(patient)
 				dp = DoctorPatient.findByPatient(patient)
 			return dp.patientPrefered

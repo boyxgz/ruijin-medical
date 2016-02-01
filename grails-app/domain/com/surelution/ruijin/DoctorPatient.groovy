@@ -18,7 +18,16 @@ class DoctorPatient {
 	Patient patient //患者
 	DynImage illness //病历照片
 	Date dateCreated  //关联时间
-	Boolean isFocus		//是否关注
+	
+	/**
+	 * 是否关注
+	 */
+	Boolean isFocus
+
+	/**
+	 * 医生备注的患者姓名
+	 */
+	String name
 	
 	/**
 	 * 是否是默认沟通联系的医生，由患者设置，每个患者只能设置不多于一个的医生为默认联系医生，
