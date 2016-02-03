@@ -35,7 +35,6 @@
 		<dt>
 			<label for="inquiries">
 		        <g:message code="doctor.inquiries.label" default="Inquiries" />
-		        <span class="required-indicator">*</span>
 	        </label>
 		</dt>
 		<dd>
@@ -51,11 +50,12 @@
 		<dt>
 			<label for="name">
 	        	<g:message code="doctor.name.label" default="Name" />
+	        	<span class="required-indicator">*</span>
 	        </label>
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-			    <g:textField name="name" value="${doctorInstance?.name}" class="form-control"/>
+			    <g:textField name="name" id="name" value="${doctorInstance?.name}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>
@@ -66,7 +66,7 @@
 		<dt>
 			<label for="reservations">
 		<g:message code="doctor.reservations.label" default="Reservations" />
-		<span class="required-indicator">*</span>
+		
 	</label>
 		</dt>
 		<dd>

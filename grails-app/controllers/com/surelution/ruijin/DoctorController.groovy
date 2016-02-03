@@ -86,8 +86,7 @@ class DoctorController {
     }
 
     def update(Long id, Long version) {
-        def doctorInstance = Doctor.get(id)
-		doctorInstance.image.enable= false
+        def doctorInstance = Doctor.get(id);
         if (!doctorInstance) {
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "list")
@@ -104,26 +103,28 @@ class DoctorController {
             }
         }
 
-        doctorInstance.properties = params
+        doctorInstance.properties = params;		//保存其他值
 		
-		def image = new DynImage()
-		CommonsMultipartFile photo =  request.getFile("doctorPic")
-		def location = Holders.config.grails.dynImage.rootPath
-		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}${uuid}"
-		println picUrl
 		
-		if(photo && !photo.empty){
-			def name = photo.getOriginalFilename()
-			image.picUrl = picUrl
-			image.originPicName = name
-			image.enable = true
-			image.save(flush:true)
-			photo.transferTo(new File(picUrl))
+		CommonsMultipartFile photo =  request.getFile("doctorPic");
+		if(!photo.empty){
+			doctorInstance.image.enable = false;
+			def image = new DynImage()
+			def location = Holders.config.grails.dynImage.rootPath
+			def uuid = UUID.randomUUID().toString()
+			def picUrl = "${location}${uuid}"
+			println picUrl
+			
+			if(photo && !photo.empty){
+				def name = photo.getOriginalFilename()
+				image.picUrl = picUrl
+				image.originPicName = name
+				image.enable = true
+				image.save(flush:true)
+				photo.transferTo(new File(picUrl))
+			}
+			doctorInstance.image = image;
 		}
-		
-		if(image)
-		  doctorInstance.image = image
 
         if (!doctorInstance.save(flush: true)) {
             render(view: "edit", model: [doctorInstance: doctorInstance])
@@ -137,17 +138,20 @@ class DoctorController {
     def delete(Long id) {
         def doctorInstance = Doctor.get(id)
         if (!doctorInstance) {
+			println 3
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "list")
             return
         }
 
-        try {
+        try{
             doctorInstance.delete(flush: true)
+			println 1
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
+			println 2
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "show", id: id)
         }

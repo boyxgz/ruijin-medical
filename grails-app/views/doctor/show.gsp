@@ -13,13 +13,13 @@
          <section class="content-header">
 				<h1>
 					医生信息管理 
-					<small><a href="${createLink(action:'list',controller:'doctor')}" class="btn btn-default">医生信息管理</a></small>
+					<small><a data-toggle="modal" href="${createLink(action:'edit',controller:'doctor',id:doctorInstance.id) }" data-target="#myModal" class="btn btn-primary" data-toggle="tooltip">编辑</a></small>
 				</h1>
 				</section>
 	<section class="content">
 		<div id="show-doctor" class="content scaffold-show" role="main">
-			<h4><g:message code="default.show.label" args="[entityName]" /></h4>
-			<g:if test="${flash.message}">
+			<%--<h4><g:message code="default.show.label" args="[entityName]" /></h4>
+			--%><g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			 
@@ -31,6 +31,12 @@
 			         </tr>
 			      </thead>
 			      <tbody>
+			      <g:if test="${doctorInstance?.name}">
+			         <tr>
+			             <th><span id="name-label" class="property-label"><g:message code="doctor.name.label" default="Name" /></span></th>
+			             <td><span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${doctorInstance}" field="name"/></span></td>
+			        </tr>
+			         </g:if>
 			        <g:if test="${doctorInstance?.address}">
 			          <tr>
 			            <th><span id="address-label" class="property-label"><g:message code="doctor.address.label" default="Address" /></span></th>
@@ -50,13 +56,6 @@
 			             <th><span id="inquiries-label" class="property-label"><g:message code="doctor.inquiries.label" default="Inquiries" /></span></th>
 			             <td><span class="property-value" aria-labelledby="inquiries-label"><g:fieldValue bean="${doctorInstance}" field="inquiries"/></span></td>
 			         </tr>
-			         </g:if>
-			         
-			         <g:if test="${doctorInstance?.name}">
-			         <tr>
-			             <th><span id="name-label" class="property-label"><g:message code="doctor.name.label" default="Name" /></span></th>
-			             <td><span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${doctorInstance}" field="name"/></span></td>
-			        </tr>
 			         </g:if>
 			         
 			         <g:if test="${doctorInstance?.reservations}">
@@ -133,10 +132,10 @@
 			</dl>
 			</g:else>
 			 
-			<div style="margin-left:10%;">
+			<div style="margin-left:10%;"><%--
                <a href="${createLink(action:'delete',controller:'doctor',id:doctorInstance.id) }" onclick="return confirm('${message(code:'default.button.delete.confirm.message',default:'亲，确认删除嘛？ ')}')" class="btn btn-primary" data-toggle="tooltip">删除</a>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-			   <a data-toggle="modal" href="${createLink(action:'edit',controller:'doctor',id:doctorInstance.id) }" data-target="#myModal" class="btn btn-primary" data-toggle="tooltip">编辑</a>
+			   --%>
 		    </div>
 		    <div class="modal" id="myModal">
    			    <div class="modal-dialog">

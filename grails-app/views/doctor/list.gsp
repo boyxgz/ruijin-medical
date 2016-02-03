@@ -43,21 +43,21 @@
 				</section>
 	<section class="content">
 		<div id="list-doctor" class="content scaffold-list" role="main">
-			<h4><g:message code="default.list.label" args="[entityName]" /></h4>
-			<g:if test="${flash.message}">
+			<%--<h4><g:message code="default.list.label" args="[entityName]" /></h4>
+			--%><g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<table class="table table-bordered table-respose">
 				<thead>
 					<tr>
+						
+						<g:sortableColumn property="name" title="${message(code: 'doctor.name.label', default: 'Name')}" class="alink" />
 					    
 						<g:sortableColumn property="address" title="${message(code: 'doctor.address.label', default: 'Address')}" class="alink"/>
 					
 						<g:sortableColumn property="description" title="${message(code: 'doctor.description.label', default: 'Description')}" class="alink"/>
 					
 						<g:sortableColumn property="inquiries" title="${message(code: 'doctor.inquiries.label', default: 'Inquiries')}" class="alink"/>
-					
-						<g:sortableColumn property="name" title="${message(code: 'doctor.name.label', default: 'Name')}" class="alink" />
 					
 						<g:sortableColumn property="reservations" title="${message(code: 'doctor.reservations.label', default: 'Reservations')}" class="alink"/>
 					
@@ -69,14 +69,13 @@
 				<tbody>
 				<g:each in="${doctorInstanceList}" status="i" var="doctorInstance">
 					<tr>
-					
-						<td><g:link action="show" id="${doctorInstance.id}">${fieldValue(bean: doctorInstance, field: "address")}</g:link></td>
+						<td><g:link action="show" id="${doctorInstance.id}">${fieldValue(bean: doctorInstance, field: "name")}</g:link></td>
+						
+						<td>${fieldValue(bean: doctorInstance, field: "address")}</td>
 					
 						<td>${fieldValue(bean: doctorInstance, field: "description")}</td>
 					
 						<td>${fieldValue(bean: doctorInstance, field: "inquiries")}</td>
-					
-						<td>${fieldValue(bean: doctorInstance, field: "name")}</td>
 					
 						<td>${fieldValue(bean: doctorInstance, field: "reservations")}</td>
 					

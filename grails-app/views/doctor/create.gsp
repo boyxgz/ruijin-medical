@@ -4,6 +4,24 @@
 	<head>
 		<g:set var="entityName" value="${message(code: 'doctor.label', default: 'Doctor')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<script type="text/javascript">
+		$("#document").ready(function(){
+			
+			$("#sub").prop('disabled',true);
+			
+			$('#name').change(function(){
+				if($('#name').val() != '' && $('#doctorPic').val() != '' ){
+					$("#sub").prop('disabled',false);
+				}
+			});
+			$('#doctorPic').change(function(){
+				if($('#name').val() != '' && $('#doctorPic').val() != '' ){
+					$("#sub").prop('disabled',false);
+				}
+			});
+			
+		});
+		</script>
 	</head>
 	<body>
 	     <div class="modal-header">
@@ -26,13 +44,14 @@
 				</dt>
 				<dd>
 					<div class="col-xs-8">
-						<input type="file" name="doctorPic" class="form-control" required=""/>
+						<input type="file" id="doctorPic" name="doctorPic" class="form-control" required=""/>
 					</div>
 				</dd>
 			</dl>
+			<p style="margin-left:30%; color:red; font-weight:bold;">温馨提示：星号标记为必填哦！</p>
 		</div>			
         <div class="modal-footer">
-          <g:submitButton name="create" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />
+          <g:submitButton name="create" id="sub" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />
           <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
         </div>
      </g:uploadForm>

@@ -68,35 +68,10 @@
 				<div style="float: left; color: white; line-height: 100%; margin-left: 30%;"><h4 style="font-size:24px;">瑞金微信管理后台
 				   </h4></div>
 				<!-- Navbar Right Menu -->
-				<div class="navbar-custom-menu">
-				   
-					<ul class="nav navbar-nav sidebar-menu">				
-						<li class="dropdown user user-menu treeview" id="alink">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
-              <span class="hidden-xs" style="font-size:16px;">当前用户：<sec:username /></span>
-            </a>
-            <ul class="dropdown-menu" id="dropdown-menu"> 
-              <li class="user-header">
-                <p><small>瑞金微信管理后台</small>
-                </p>
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                 <g:link controller="user" action="updatepassword" class="btn btn-default btn-flat">修改密码</g:link>
-                </div>
-                
-                <div class="pull-right">
-                  <g:link controller="logout" class="btn btn-default btn-flat">退出登录</g:link>
-                </div>
-              </li>
-            </ul>
-          </li>
-								
-						<!-- Control Sidebar Toggle Button -->
-						<%--<li><a href="#" data-toggle="control-sidebar"><i
-								class="fa fa-gears"></i></a></li>
-					--%></ul>
+				<div class="pull-right" style="margin-top:8px;">
+					<span class="hidden-xs" style="font-size:16px; color:#fff;">当前用户：<sec:username /></span>
+					<g:link controller="user" action="updatepassword" class="btn btn-default btn-flat">修改密码</g:link>
+					<g:link controller="logout" class="btn btn-default btn-flat">退出登录</g:link>
 				</div>
 			</nav>
 		</header>
