@@ -47,7 +47,11 @@ class DoctorPortalController {
 		}
 		
 		def msg = interations.collect() {
-			[patientId:it.dp.patient.id, msg:it.message, sn:it.sn, dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss")]
+			[patientId:it.dp.patient.id,
+				openid:it.dp.patient.subscriber.openId, 
+				msg:it.message, 
+				msgId:it.id, 
+				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss")]
 		}
 		
 		interations.each {
@@ -68,11 +72,11 @@ class DoctorPortalController {
 	def fetchPatientInfo() {
 		def patientIds = params.patientIds
 		def ids
-		def msg
+
 		if(patientIds) {
 			ids = patientIds.split(",")
 		}
-		ids?.collect() {
+		def msg = ids?.collect() {
 			Patient p = Patient.get(it)
 			if(p) {
 				DoctorPatient dp = DoctorPatient.findByDoctorAndPatient(doctor, p)
