@@ -70,21 +70,24 @@ class DoctorPortalController {
 	 * @return
 	 */
 	def fetchPatientInfo() {
-		def patientIds = params.patientIds
+		def openids = params.openids
 		def ids
 
-		if(patientIds) {
-			ids = patientIds.split(",")
+		if(openids) {
+			ids = openids.split(",")
 		}
-		def msg = ids?.collect() {
-			Patient p = Patient.get(it)
-			if(p) {
-				DoctorPatient dp = DoctorPatient.findByDoctorAndPatient(doctor, p)
-				def openId = p.subscriber?.openId
-				if(openId) {
-					UserInfo ui = UserInfo.loadUserInfo(openId)
-					return [nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name]
-				}
+		def msg = []
+		ids?.each() {openid->
+			def dp = DoctorPatient.createCriteria().get() {
+				createAlias('patient', 'p')
+				createAlias('p.subscriber', 's')
+				eq('s.openId', openid)
+				eq('doctor', doctor)
+			}
+			if(dp) {
+				UserInfo ui = UserInfo.loadUserInfo(openid)
+				if(ui)
+					msg.add([openid:openid, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name])
 			}
 		}
 		render msg as JSON
