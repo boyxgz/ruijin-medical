@@ -34,9 +34,34 @@ class DoctorPortalController {
     def index() {
 		
 	}
-	
-	def chat() {
-		
+
+	/**
+	 * 
+	 * @param DoctorPatient id
+	 * @return
+	 */
+	def chat(Long id) {
+		def dp = DoctorPatient.get(id)
+		if(dp?.doctor?.id == doctor.id) {
+			
+			return [dp:dp]
+		}
+		render(view:'error')
+	}
+
+	def sendMessage(Long id) {
+		def dp = DoctorPatient.get(id)
+		if(dp?.doctor?.id == doctor.id) {
+			def content = params.content
+			def interation = new Interaction()
+			interation.dp = dp
+			interation.fromDoctor = true
+			interation.isRead = false
+			interation.message = content
+			interation.save(flush:true)
+			render loadMessages() as JSON
+			return
+		}
 	}
 
 	/**
@@ -44,6 +69,35 @@ class DoctorPortalController {
 	 * @return
 	 */
 	def fetchMsg() {
+		render loadMessages() as JSON
+	}
+
+	/**
+	 * 获取患者的信息，如微信昵称、头像、医生备注的其他信息等。为了提升效率，一次可以取一组信息<br/>
+	 * 请求参数如下：
+	 * id=123,345,567……<br/>
+	 * 返回结果为json
+	 * @return
+	 */
+	def fetchPatientInfo(String id) {
+		def ids
+
+		if(id) {
+			ids = id.split(",")
+		}
+		def msg = []
+		ids?.each() {dpId->
+			def dp = DoctorPatient.get(dpId)
+			if(dp?.doctor?.id == doctor.id && dp?.patient?.subscriber) {
+				UserInfo ui = UserInfo.loadUserInfo(dp.patient.subscriber.openId)
+				if(ui)
+					msg.add([doctorPatientId:dp.id, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name])
+			}
+		}
+		render msg as JSON
+	}
+	
+	private List loadMessages() {
 		def interations = Interaction.createCriteria().list {
 			createAlias("dp", "d")
 			eq("d.doctor", doctor)
@@ -51,49 +105,17 @@ class DoctorPortalController {
 		}
 		
 		def msg = interations.collect() {
-			[patientId:it.dp.patient.id,
-				openid:it.dp.patient.subscriber.openId, 
-				msg:it.message, 
-				msgId:it.id, 
+			[doctorPatientId:it.dp.id,
+				msg:it.message,
+				msgId:it.id,
+				inOrOut:it.fromDoctor?"0":"1", //if message sent by doctor, it's 'out' message, so it's '0'
 				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss")]
 		}
-		
+
 		interations.each {
 			it.isRead = true
 			it.save()
 		}
-
-		render msg as JSON
-	}
-
-	/**
-	 * 获取患者的信息，如微信昵称、头像、医生备注的其他信息等。为了提升效率，一次可以取一组信息<br/>
-	 * 请求参数如下：
-	 * patientIds=123,345,567……<br/>
-	 * 返回结果为json
-	 * @return
-	 */
-	def fetchPatientInfo() {
-		def openids = params.openids
-		def ids
-
-		if(openids) {
-			ids = openids.split(",")
-		}
-		def msg = []
-		ids?.each() {openid->
-			def dp = DoctorPatient.createCriteria().get() {
-				createAlias('patient', 'p')
-				createAlias('p.subscriber', 's')
-				eq('s.openId', openid)
-				eq('doctor', doctor)
-			}
-			if(dp) {
-				UserInfo ui = UserInfo.loadUserInfo(openid)
-				if(ui)
-					msg.add([openid:openid, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name])
-			}
-		}
-		render msg as JSON
+		return msg
 	}
 }

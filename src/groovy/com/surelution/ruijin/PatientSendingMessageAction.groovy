@@ -37,7 +37,6 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		i.dp = dp
 		i.isRead = false
 		i.message = getParam(Attribute.KEY_Content)
-		i.sn = Counters.getNextValue("interation@doctor-patient=${dp.id}")
 		i.save(flush:true)
 		keepSilence()
 	}

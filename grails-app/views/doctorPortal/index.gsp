@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>医患互动</title><meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-        <script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+	<title>医患互动</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
 	<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js') }"></script>
 <style>
 	html, body { padding: 0; margin: 0; }
@@ -30,32 +31,34 @@
 		});
 
 		function fm() {
-			fetchMessage();
+			fetchMessage('${createLink(controller:"doctorPortal", action:"fetchMsg")}');
 			patientsNeedcompleting() ;
 			loadPatients();
 			setTimeout(fm, 2000);
 		}
-		var sql = 'select p.openid,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count, m.content,m.msg_type from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
+		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count, m.content,m.msg_type from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
 
 		function loadPatients() {
 			function onsuccess(tx, rs) {
 		        var len = rs.rows.length;
 		        for(var i = 0; i < len; i++) {
 		        	var row = rs.rows.item(i);
-		        	var openid = row.openid;
+		        	var doctorPatientId = row.doctor_patient_id;
 		        	var messageId = row.last_message_id;
-		        	var liCotainer = $("#"+openid);
+		        	var liCotainer = $("#doctorPatientId-"+doctorPatientId);
 		        	if(liCotainer.length == 0) {
-		                var itemContent = '<li id="';
-		                itemContent += openid;
+		                var itemContent = '<li id="doctorPatientId-';
+		                itemContent += doctorPatientId;
 		                itemContent += '" data-messageId="';
 		                itemContent += messageId;
-		                itemContent += '"><a href="#"><img src="';
+		                itemContent += '"><a href="${createLink(controller:'doctorPortal', action:'chat')}/';
+		                itemContent += doctorPatientId;
+		                itemContent += '" rel="external"><img src="';
 		                itemContent += row.headImgUrl;
 		                itemContent += '" /><h3>';
 		                itemContent += row.nickname;
 		                itemContent += '</h3><p id="message_content_';
-		                itemContent += openid;
+		                itemContent += doctorPatientId;
 		                itemContent += '">';
 		                itemContent += row.content;
 		                itemContent += '</p></a></li>';
@@ -64,7 +67,7 @@
 			        } else {
 						if(messageId != liCotainer.data('messageId')) {
 							liCotainer.data('messageId',messageId);
-							$("#message_content_"+openid).text( row.content );
+							$("#message_content_"+doctorPatientId).text( row.content );
 						}
 				    }
 		        }

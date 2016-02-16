@@ -2,14 +2,13 @@
 var db;
 
 // 数据结构，用来保存每个次从服务器端拉取数据后，每个用户对应的最后消息id和未读消息数，
-// 数据内容类似：{'openid1':[lastMsgId1, 未读消息数1], 'sdafdsfdafsafsd':[123,5],
-// 'sddsfdafsafsd':[456,9]}
+// 数据内容类似：{'doctorPatientId1':[lastMsgId1, 未读消息数1], '1':[123,5], '2':[456,9]}
 var map = {};
 
 function createDB() {
 	var result, name, version, display_name, size
 
-	name = 'chat-local-db'
+	name = 'chat-local-db3'
 	version = 1.0
 	display_name = 'Chat Database'
 	size = 262144 // 256KB
@@ -21,8 +20,8 @@ function createDB() {
 function createTable() {
 	var result, patientSql, msgSql;
 
-	patientSql = 'CREATE TABLE IF NOT EXISTS patients(openid TEXT UNIQUE, nickname TEXT, name TEXT, headImgUrl TEXT, last_message_id TEXT, unread_message_count INTEGER);';
-	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id TEXT UNIQUE, openid TEXT, content TEXT, msg_type TEXT, received_at TIMESTAMP);';
+	patientSql = 'CREATE TABLE IF NOT EXISTS patients(doctor_patient_id INTEGER UNIQUE, nickname TEXT, name TEXT, headImgUrl TEXT, last_message_id TEXT, unread_message_count INTEGER);';
+	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id TEXT UNIQUE, doctor_patient_id INTEGER, content TEXT, msg_type TEXT, messaged_at TIMESTAMP, in_or_out INTEGER);';
 
 	function onsuccess(tx) {
 		
@@ -38,22 +37,50 @@ function createTable() {
 	})
 }
 
-function fetchMessage() {
-	var url = '../doctorPortal/fetchMsg';
-	$.getJSON(url).done(function( data ) {
+function fetchMessage(target) {
+	$.getJSON(target).done(function( data ) {
 		map = {};
 		$.each(data, function(){
-			var patientId = this.patientId;
+			var doctorPatientId = this.doctorPatientId;
 			var msgId = this.msgId;
-			var openid = this.openid;
+			//var openid = this.openid;
 			var msg = this.msg;
-			var sn = this.sn;
+			//var sn = this.sn;
+			var inOrOut = this.inOrOut;
 			var dateCreated = this.dateCreated;
-			insertMessage(msgId, msg, 'text', dateCreated, openid);
-			var v = map[openid];
+			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut);
+			var v = map[doctorPatientId];
 			if(v == null) {
 				v = [msgId, 1];
-				map[openid] = v;
+				map[doctorPatientId] = v;
+			} else {
+				v[1] = v[1] + 1;
+				if(msgId > v[0]) {
+					v[0] = msgId;
+				}
+			}
+		})
+	  });
+	  updatePatients();
+}
+
+function sendMessage(target, content) {
+	//var url = target + "/" + doctorPatientId;
+	$.getJSON(target, { content: content }).done(function( data ) {
+		map = {};
+		$.each(data, function(){
+			var doctorPatientId = this.doctorPatientId;
+			var msgId = this.msgId;
+			//var openid = this.openid;
+			var msg = this.msg;
+			//var sn = this.sn;
+			var inOrOut = this.inOrOut;
+			var dateCreated = this.dateCreated;
+			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut);
+			var v = map[doctorPatientId];
+			if(v == null) {
+				v = [msgId, 1];
+				map[doctorPatientId] = v;
 			} else {
 				v[1] = v[1] + 1;
 				if(msgId > v[0]) {
@@ -66,18 +93,18 @@ function fetchMessage() {
 }
 
 function updatePatients() {
-	var openid, lastMsgId, unreadCount
-	var sql = 'select last_message_id, unread_message_count from patients where openid = ?';
+	var doctorPatientId, lastMsgId, unreadCount
+	var sql = 'select last_message_id, unread_message_count from patients where doctor_patient_id = ?';
 	function onsuccess(tx, rs) {
         var len = rs.rows.length;
         if(len == 0) {
-        	insertPatient(openid, lastMsgId, unreadCount);
+        	insertPatient(doctorPatientId, lastMsgId, unreadCount);
 	    } else {
 			var row = rs.rows.item(0);
 			var l = row.last_message_id;
 			var u = row.unread_message_count;
 			if(lastMsgId > l || unreadCount != 0) {
-				updatePatient(openid, lastMsgId, u+unreadCount);
+				updatePatient(doctorPatientId, lastMsgId, u+unreadCount);
 			}
 		}
     }
@@ -86,43 +113,43 @@ function updatePatients() {
     }
 
 	$.each(map, function(key, value){
-		openid = key;
+		doctorPatientId = key;
 		lastMsgId = value[0];
 		unreadCount = value[1];
 	    db.transaction(function (tx) {
-	        tx.executeSql(sql, [openid], onsuccess, onerror);
+	        tx.executeSql(sql, [key], onsuccess, onerror);
 	    })
 	})
 }
 
-function updatePatient(openid, last_message_id, unread_message_count) {
-	var sql = 'update patients set last_message_id = ?, unread_message_count = ? where openid=?;';
+function updatePatient(doctorPatientId, last_message_id, unread_message_count) {
+	var sql = 'update patients set last_message_id = ?, unread_message_count = ? where doctor_patient_id=?;';
 	function onsuccess(tx) {
 	}
 
 	function onerror(tx, error) {
 	}
 	db.transaction(function(tx) {
-		tx.executeSql(sql, [ last_message_id, unread_message_count, openid ],
+		tx.executeSql(sql, [ last_message_id, unread_message_count, doctorPatientId ],
 				onsuccess, onerror);
 	})
 }
 
-function insertPatient(openid, last_message_id, unread_message_count) {
-	var sql = 'insert into patients(openid, last_message_id, unread_message_count) values (?,?,?);';
+function insertPatient(doctorPatientId, last_message_id, unread_message_count) {
+	var sql = 'insert into patients(doctor_patient_id, last_message_id, unread_message_count) values (?,?,?);';
 	function onsuccess(tx) {
 	}
 
 	function onerror(tx, error) {
 	}
 	db.transaction(function(tx) {
-		tx.executeSql(sql, [ openid, last_message_id, unread_message_count ],
+		tx.executeSql(sql, [ doctorPatientId, last_message_id, unread_message_count ],
 				onsuccess, onerror);
 	})
 }
 
-function insertMessage(msgId, content, msgType, receivedAt, openid) {
-	var sql = 'insert into messages(msg_id, openid, content, msg_type, received_at) values (?,?,?,?,?);';
+function insertMessage(msgId, content, msgType, receivedAt, doctorPatientId, inOrOut) {
+	var sql = 'insert into messages(msg_id, doctor_patient_id, content, msg_type, messaged_at,in_or_out) values (?,?,?,?,?,?);';
 
 	function onsuccess(tx) {
 	}
@@ -130,31 +157,31 @@ function insertMessage(msgId, content, msgType, receivedAt, openid) {
 	function onerror(tx, error) {
 	}
 	db.transaction(function(tx) {
-		tx.executeSql(sql, [ msgId, openid, content, msgType, receivedAt],
+		tx.executeSql(sql, [ msgId, doctorPatientId, content, msgType, receivedAt, inOrOut],
 				onsuccess, onerror);
 	})
 }
 
 function patientsNeedcompleting() {
-	var openid, lastMsgId, unreadCount
-	var sql = 'select openid from patients where nickname is null and headImgUrl is null';
+	var lastMsgId, unreadCount
+	var sql = 'select doctor_patient_id from patients where nickname is null and headImgUrl is null';
 	function onsuccess(tx, rs) {
         var len = rs.rows.length;
-        var patientsId = "";
+        var doctorPatientIds = "";
         for(var i = 0; i < len; i++) {
         	var row = rs.rows.item(i);
-        	patientsId += ",";
-        	patientsId += row.openid;
+        	doctorPatientIds += ",";
+        	doctorPatientIds += row.doctor_patient_id;
         }
-        if(patientsId.length > 0) {
-        	var url = '../doctorPortal/fetchPatientInfo?openids=' + patientsId;
+        if(doctorPatientIds.length > 0) {
+        	var url = '../doctorPortal/fetchPatientInfo/' + doctorPatientIds;
         	$.getJSON(url).done(function( data ) {
         		$.each(data, function(){
         			var nickname = this.nickname;
         			var headUrl = this.headUrl;
-        			var openid = this.openid;
+        			var doctorPatientId = this.doctorPatientId;
         			var name = this.name;
-        			completingPatient(openid, nickname, headUrl, name);
+        			completingPatient(doctorPatientId, nickname, headUrl, name);
         		})
         	  });
         }
@@ -168,15 +195,15 @@ function patientsNeedcompleting() {
     })
 }
 
-function completingPatient(openid, nickname, headUrl, name) {
-	var sql = 'update patients set nickname = ?, headImgUrl = ?, name=? where openid=?;';
+function completingPatient(doctorPatientId, nickname, headUrl, name) {
+	var sql = 'update patients set nickname = ?, headImgUrl = ?, name=? where doctor_patient_id=?;';
 	function onsuccess(tx) {
 	}
 
 	function onerror(tx, error) {
 	}
 	db.transaction(function(tx) {
-		tx.executeSql(sql, [ nickname, headUrl, name, openid ],
+		tx.executeSql(sql, [ nickname, headUrl, name, doctorPatientId ],
 				onsuccess, onerror);
 	})
 }
@@ -188,9 +215,9 @@ function initDb() {
 function detectWebSql() {
 	var result
 	if ('undefined' === typeof window.openDatabase) {
-		result = 'This browser does not support Web SQL.'
+		result = '本功能要求软件必须支持 Web SQL.'
 	} else {
-		result = 'This browser does support Web SQL.'
+		result = '系统不支持 Web SQL.'
 	}
 	alert(result);
 }
