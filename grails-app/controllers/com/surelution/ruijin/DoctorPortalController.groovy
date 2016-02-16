@@ -28,10 +28,14 @@ class DoctorPortalController {
 //			redirect(url:url)
 //			return false
 //		}
-		return true
+//		return true
 	}
 
     def index() {
+		
+	}
+	
+	def chat() {
 		
 	}
 

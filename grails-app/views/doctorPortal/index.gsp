@@ -27,23 +27,17 @@
 		$( document ).ready(function() {
 		    initDb();
 		    fm();
-		    
 		});
 
 		function fm() {
 			fetchMessage();
 			patientsNeedcompleting() ;
 			loadPatients();
-		    if(needResort) {
-		    	initSort();
-			}
 			setTimeout(fm, 2000);
 		}
-
-		var needResort = false;
 		var sql = 'select p.openid,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count, m.content,m.msg_type from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
+
 		function loadPatients() {
-			needResort = true;
 			function onsuccess(tx, rs) {
 		        var len = rs.rows.length;
 		        for(var i = 0; i < len; i++) {
@@ -71,10 +65,10 @@
 						if(messageId != liCotainer.data('messageId')) {
 							liCotainer.data('messageId',messageId);
 							$("#message_content_"+openid).text( row.content );
-							needResort = true;
 						}
 				    }
 		        }
+		        initSort();
 		    }
 
 		    function onerror(tx, error) {
