@@ -4,8 +4,9 @@ import grails.converters.JSON
 import grails.util.Holders
 
 import com.surelution.whistle.core.Auth2Util
+import com.surelution.whistle.core.TextCustomerServiceMessage
 import com.surelution.whistle.core.Auth2Util.AuthScope
-import com.surelution.whistle.push.UserInfo;
+import com.surelution.whistle.push.UserInfo
 
 class DoctorPortalController {
 
@@ -17,17 +18,17 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1)
-//		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
-//		
-//		if(!doctor) {
-//			def requestUrl = request.forwardURI
-//			def baseUrl = Holders.config.grails.serverURL
-//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
-//			response.deleteCookie('doctor-sn')
-//			redirect(url:url)
-//			return false
-//		}
+//		doctor = Doctor.get(1)
+		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+		
+		if(!doctor) {
+			def requestUrl = request.forwardURI
+			def baseUrl = Holders.config.grails.serverURL
+			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
+			response.deleteCookie('doctor-sn')
+			redirect(url:url)
+			return false
+		}
 		return true
 	}
 
@@ -36,10 +37,72 @@ class DoctorPortalController {
 	}
 
 	/**
+	 * 
+	 * @param DoctorPatient id
+	 * @return
+	 */
+	def chat(Long id) {
+		def dp = DoctorPatient.get(id)
+		if(dp?.doctor?.id == doctor.id) {
+			
+			return [dp:dp]
+		}
+		render(view:'error')
+	}
+
+	def sendMessage(Long id) {
+		def dp = DoctorPatient.get(id)
+		if(dp?.doctor?.id == doctor.id) {
+			def content = params.content
+			def interation = new Interaction()
+			interation.dp = dp
+			interation.fromDoctor = true
+			interation.isRead = false
+			interation.message = content
+			interation.save(flush:true)
+			TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
+			csm.content = content
+			csm.touser = dp.patient.subscriber.openId
+			csm.send()
+			render loadMessages() as JSON
+			return
+		}
+	}
+
+	/**
 	 * 获取聊天记录，所有isRead为false的聊天记录
 	 * @return
 	 */
 	def fetchMsg() {
+		render loadMessages() as JSON
+	}
+
+	/**
+	 * 获取患者的信息，如微信昵称、头像、医生备注的其他信息等。为了提升效率，一次可以取一组信息<br/>
+	 * 请求参数如下：
+	 * id=123,345,567……<br/>
+	 * 返回结果为json
+	 * @return
+	 */
+	def fetchPatientInfo(String id) {
+		def ids
+
+		if(id) {
+			ids = id.split(",")
+		}
+		def msg = []
+		ids?.each() {dpId->
+			def dp = DoctorPatient.get(dpId)
+			if(dp?.doctor?.id == doctor.id && dp?.patient?.subscriber) {
+				UserInfo ui = UserInfo.loadUserInfo(dp.patient.subscriber.openId)
+				if(ui)
+					msg.add([doctorPatientId:dp.id, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name])
+			}
+		}
+		render msg as JSON
+	}
+	
+	private List loadMessages() {
 		def interations = Interaction.createCriteria().list {
 			createAlias("dp", "d")
 			eq("d.doctor", doctor)
@@ -47,42 +110,17 @@ class DoctorPortalController {
 		}
 		
 		def msg = interations.collect() {
-			[patientId:it.dp.patient.id, msg:it.message, sn:it.sn, dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss")]
+			[doctorPatientId:it.dp.id,
+				msg:it.message,
+				msgId:it.id,
+				inOrOut:it.fromDoctor?"0":"1", //if message sent by doctor, it's 'out' message, so it's '0'
+				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss")]
 		}
-		
+
 		interations.each {
 			it.isRead = true
 			it.save()
 		}
-
-		render msg as JSON
-	}
-
-	/**
-	 * 获取患者的信息，如微信昵称、头像、医生备注的其他信息等。为了提升效率，一次可以取一组信息<br/>
-	 * 请求参数如下：
-	 * patientIds=123,345,567……<br/>
-	 * 返回结果为json
-	 * @return
-	 */
-	def fetchPatientInfo() {
-		def patientIds = params.patientIds
-		def ids
-		def msg
-		if(patientIds) {
-			ids = patientIds.split(",")
-		}
-		ids?.collect() {
-			Patient p = Patient.get(it)
-			if(p) {
-				DoctorPatient dp = DoctorPatient.findByDoctorAndPatient(doctor, p)
-				def openId = p.subscriber?.openId
-				if(openId) {
-					UserInfo ui = UserInfo.loadUserInfo(openId)
-					return [nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name]
-				}
-			}
-		}
-		render msg as JSON
+		return msg
 	}
 }

@@ -22,10 +22,10 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		if(msgType == Attribute.Msg_Type_TEXT) {
 			patient = Patient.findBySubscriber(subscriber)
 			if(patient)
-				dp = DoctorPatient.findByPatient(patient)
+				dp = DoctorPatient.findByPatientAndPatientPrefered(patient, true)
 			return dp.patientPrefered
 		}
-		return false;
+		return false
 	}
 
 	/* (non-Javadoc)
@@ -37,7 +37,6 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		i.dp = dp
 		i.isRead = false
 		i.message = getParam(Attribute.KEY_Content)
-		i.sn = Counters.getNextValue("interation@doctor-patient=${dp.id}")
 		i.save(flush:true)
 		keepSilence()
 	}
