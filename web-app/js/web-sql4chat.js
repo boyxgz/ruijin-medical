@@ -43,9 +43,7 @@ function fetchMessage(target) {
 		$.each(data, function(){
 			var doctorPatientId = this.doctorPatientId;
 			var msgId = this.msgId;
-			//var openid = this.openid;
 			var msg = this.msg;
-			//var sn = this.sn;
 			var inOrOut = this.inOrOut;
 			var dateCreated = this.dateCreated;
 			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut);
@@ -95,6 +93,16 @@ function sendMessage(target, content) {
 function updatePatients() {
 	var doctorPatientId, lastMsgId, unreadCount
 	var sql = 'select last_message_id, unread_message_count from patients where doctor_patient_id = ?';
+
+	$.each(map, function(key, value){
+		doctorPatientId = key;
+		lastMsgId = value[0];
+		unreadCount = value[1];
+	    db.transaction(function (tx) {
+	        tx.executeSql(sql, [key], onsuccess, onerror);
+	    })
+	})
+
 	function onsuccess(tx, rs) {
         var len = rs.rows.length;
         if(len == 0) {
@@ -111,15 +119,6 @@ function updatePatients() {
 
     function onerror(tx, error) {
     }
-
-	$.each(map, function(key, value){
-		doctorPatientId = key;
-		lastMsgId = value[0];
-		unreadCount = value[1];
-	    db.transaction(function (tx) {
-	        tx.executeSql(sql, [key], onsuccess, onerror);
-	    })
-	})
 }
 
 function updatePatient(doctorPatientId, last_message_id, unread_message_count) {
@@ -165,6 +164,11 @@ function insertMessage(msgId, content, msgType, receivedAt, doctorPatientId, inO
 function patientsNeedcompleting() {
 	var lastMsgId, unreadCount
 	var sql = 'select doctor_patient_id from patients where nickname is null and headImgUrl is null';
+
+    db.transaction(function (tx) {
+        tx.executeSql(sql, [], onsuccess, onerror);
+    })
+
 	function onsuccess(tx, rs) {
         var len = rs.rows.length;
         var doctorPatientIds = "";
@@ -189,10 +193,6 @@ function patientsNeedcompleting() {
 
     function onerror(tx, error) {
     }
-
-    db.transaction(function (tx) {
-        tx.executeSql(sql, [], onsuccess, onerror);
-    })
 }
 
 function completingPatient(doctorPatientId, nickname, headUrl, name) {

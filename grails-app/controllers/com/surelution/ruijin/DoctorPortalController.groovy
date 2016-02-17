@@ -4,8 +4,9 @@ import grails.converters.JSON
 import grails.util.Holders
 
 import com.surelution.whistle.core.Auth2Util
+import com.surelution.whistle.core.TextCustomerServiceMessage
 import com.surelution.whistle.core.Auth2Util.AuthScope
-import com.surelution.whistle.push.UserInfo;
+import com.surelution.whistle.push.UserInfo
 
 class DoctorPortalController {
 
@@ -17,18 +18,18 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1)
-//		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
-//		
-//		if(!doctor) {
-//			def requestUrl = request.forwardURI
-//			def baseUrl = Holders.config.grails.serverURL
-//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
-//			response.deleteCookie('doctor-sn')
-//			redirect(url:url)
-//			return false
-//		}
-//		return true
+//		doctor = Doctor.get(1)
+		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+		
+		if(!doctor) {
+			def requestUrl = request.forwardURI
+			def baseUrl = Holders.config.grails.serverURL
+			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
+			response.deleteCookie('doctor-sn')
+			redirect(url:url)
+			return false
+		}
+		return true
 	}
 
     def index() {
@@ -59,6 +60,10 @@ class DoctorPortalController {
 			interation.isRead = false
 			interation.message = content
 			interation.save(flush:true)
+			TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
+			csm.content = content
+			csm.touser = dp.patient.subscriber.openId
+			csm.send()
 			render loadMessages() as JSON
 			return
 		}

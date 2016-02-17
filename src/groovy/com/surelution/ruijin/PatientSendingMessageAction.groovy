@@ -22,10 +22,10 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		if(msgType == Attribute.Msg_Type_TEXT) {
 			patient = Patient.findBySubscriber(subscriber)
 			if(patient)
-				dp = DoctorPatient.findByPatient(patient)
+				dp = DoctorPatient.findByPatientAndPatientPrefered(patient, true)
 			return dp.patientPrefered
 		}
-		return false;
+		return false
 	}
 
 	/* (non-Javadoc)

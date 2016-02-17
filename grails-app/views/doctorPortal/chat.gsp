@@ -20,6 +20,17 @@
 		$( document ).ready(function() {
 		    initDb();
 		    showNewMessage();
+
+		    var height = 0;
+		    $('#jp-container div').each(function(i, value){
+		        height += parseInt($(this).height());
+		    });
+
+		    height += '';
+
+		    $('#jp-container').animate({scrollTop: height});
+
+		    
 		    fm();
 		});
 
@@ -62,11 +73,6 @@
 				ic += '${doctor.headImgUrl }';
 			}
 			ic += '" width="45" height="45"/>';
-			//if(inOrOut == 1) {
-			//	ic += '${patient.nickname }';
-			//} else {
-			//	ic += '${doctor.nickname }';
-			//}
 			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext"><h3>';
 			ic += content;
 			ic += '</h3><span class="talk_time">';
