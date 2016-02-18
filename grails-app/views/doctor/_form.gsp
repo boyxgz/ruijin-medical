@@ -1,50 +1,5 @@
 <%@ page import="com.surelution.ruijin.Doctor" %>
 
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'address', 'error')} ">
-	<dl class="dl-horizontal">
-		<dt>
-			<label for="address">
-		        <g:message code="doctor.address.label" default="Address" />
-	        </label>
-		</dt>
-		<dd>
-			<div class="col-xs-8">
-				<g:textField name="address" value="${doctorInstance?.address}" class="form-control"/>
-			</div>
-		</dd>
-	</dl>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'description', 'error')} ">
-	<dl class="dl-horizontal">
-		<dt>
-			<label for="description">
-		      <g:message code="doctor.description.label" default="Description" />
-	       </label>
-		</dt>
-		<dd>
-			<div class="col-xs-8">
-				<g:textField name="description" value="${doctorInstance?.description}" class="form-control"/>
-			</div>
-		</dd>
-	</dl>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'inquiries', 'error')} required">
-	<dl class="dl-horizontal">
-		<dt>
-			<label for="inquiries">
-		        <g:message code="doctor.inquiries.label" default="Inquiries" />
-	        </label>
-		</dt>
-		<dd>
-			<div class="col-xs-8">
-			   <g:field name="inquiries" type="number" value="${doctorInstance.inquiries}" class="form-control" required=""/>
-			</div>
-		</dd>
-	</dl>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'name', 'error')} ">
 	<dl class="dl-horizontal">
 		<dt>
@@ -61,17 +16,17 @@
 	</dl>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'reservations', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'title', 'error')} ">
 	<dl class="dl-horizontal">
 		<dt>
-			<label for="reservations">
-		<g:message code="doctor.reservations.label" default="Reservations" />
+			<label for="title">
+		<g:message code="doctor.title.label" default="Title" />
 		
 	</label>
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-			   <g:field name="reservations" type="number" value="${doctorInstance.reservations}" class="form-control" required=""/>
+			<g:textField name="title" value="${doctorInstance?.title}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>
@@ -93,19 +48,66 @@
 	</dl>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'title', 'error')} ">
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'description', 'error')} ">
 	<dl class="dl-horizontal">
 		<dt>
-			<label for="title">
-		<g:message code="doctor.title.label" default="Title" />
+			<label for="description">
+		      <g:message code="doctor.description.label" default="Description" />
+	       </label>
+		</dt>
+		<dd>
+			<div class="col-xs-8">
+				<g:textField name="description" value="${doctorInstance?.description}" class="form-control"/>
+			</div>
+		</dd>
+	</dl>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'address', 'error')} ">
+	<dl class="dl-horizontal">
+		<dt>
+			<label for="address">
+		        <g:message code="doctor.address.label" default="Address" />
+	        </label>
+		</dt>
+		<dd>
+			<div class="col-xs-8">
+				<g:textField name="address" value="${doctorInstance?.address}" class="form-control"/>
+			</div>
+		</dd>
+	</dl>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'inquiries', 'error')} required">
+	<dl class="dl-horizontal">
+		<dt>
+			<label for="inquiries">
+		        <g:message code="doctor.inquiries.label" default="Inquiries" />
+	        </label>
+		</dt>
+		<dd>
+			<div class="col-xs-8">
+			   <g:field name="inquiries" type="number" value="${doctorInstance.inquiries}" class="form-control" required=""/>
+			</div>
+		</dd>
+	</dl>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'reservations', 'error')} required">
+	<dl class="dl-horizontal">
+		<dt>
+			<label for="reservations">
+		<g:message code="doctor.reservations.label" default="Reservations" />
 		
 	</label>
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-			<g:textField name="title" value="${doctorInstance?.title}" class="form-control"/>
+			   <g:field name="reservations" type="number" value="${doctorInstance.reservations}" class="form-control" required=""/>
 			</div>
 		</dd>
 	</dl>
 </div>
+
+
 

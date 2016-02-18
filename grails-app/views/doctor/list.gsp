@@ -50,20 +50,19 @@
 			<table class="table table-bordered table-respose">
 				<thead>
 					<tr>
-						
 						<g:sortableColumn property="name" title="${message(code: 'doctor.name.label', default: 'Name')}" class="alink" />
 					    
+					    <g:sortableColumn property="title" title="${message(code: 'doctor.title.label', default: 'Title')}" class="alink"/>
+					    
+					    <g:sortableColumn property="description" title="${message(code: 'doctor.description.label', default: 'Description')}" class="alink"/>
+						
+					    <g:sortableColumn property="skills" title="${message(code: 'doctor.skills.label', default: 'Skills')}" class="alink"/>
+					    
 						<g:sortableColumn property="address" title="${message(code: 'doctor.address.label', default: 'Address')}" class="alink"/>
-					
-						<g:sortableColumn property="description" title="${message(code: 'doctor.description.label', default: 'Description')}" class="alink"/>
 					
 						<g:sortableColumn property="inquiries" title="${message(code: 'doctor.inquiries.label', default: 'Inquiries')}" class="alink"/>
 					
 						<g:sortableColumn property="reservations" title="${message(code: 'doctor.reservations.label', default: 'Reservations')}" class="alink"/>
-					
-						<g:sortableColumn property="skills" title="${message(code: 'doctor.skills.label', default: 'Skills')}" class="alink"/>
-					   
-					   <g:sortableColumn property="title" title="${message(code: 'doctor.title.label', default: 'Title')}" class="alink"/>
 					</tr>
 				</thead>
 				<tbody>
@@ -71,17 +70,17 @@
 					<tr>
 						<td><g:link action="show" id="${doctorInstance.id}">${fieldValue(bean: doctorInstance, field: "name")}</g:link></td>
 						
-						<td>${fieldValue(bean: doctorInstance, field: "address")}</td>
-					
+						<td>${fieldValue(bean: doctorInstance, field: "title")}</td>
+						
 						<td>${fieldValue(bean: doctorInstance, field: "description")}</td>
-					
+						
+						<td>${fieldValue(bean: doctorInstance, field: "skills")}</td>
+						
+						<td>${fieldValue(bean: doctorInstance, field: "address")}</td>
+						
 						<td>${fieldValue(bean: doctorInstance, field: "inquiries")}</td>
 					
 						<td>${fieldValue(bean: doctorInstance, field: "reservations")}</td>
-					
-						<td>${fieldValue(bean: doctorInstance, field: "skills")}</td>
-					    
-					    <td>${fieldValue(bean: doctorInstance, field: "title")}</td>
 					    <%--<td>
 					        <a href="${createLink(action:'delete',controller:'doctor',id:doctorInstance.id) }" onclick="return confirm('${message(code:'default.button.delete.confirm.message',default:'亲，确认删除嘛？ ')}')" class="glyphicon glyphicon-trash" data-toggle="tooltip" title="删除"></a>
 							&nbsp;&nbsp;&nbsp;&nbsp;

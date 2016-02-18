@@ -17,10 +17,11 @@
 	
 	<script type="text/javascript">
 		var lastMessageId = 0;
+		var unreadMesCount = 0;
 		$( document ).ready(function() {
 		    initDb();
 		    showNewMessage();
-
+		    
 		    var height = 0;
 		    $('#jp-container div').each(function(i, value){
 		        height += parseInt($(this).height());
@@ -31,6 +32,7 @@
 		    $('#jp-container').animate({scrollTop: height});
 
 		    
+			
 		    fm();
 		});
 
@@ -39,8 +41,10 @@
 			setTimeout(fm, 2000);
 		}
 
+		
 		function showNewMessage() {
 			var sql = 'select msg_id, content, msg_type, messaged_at, in_or_out from messages where doctor_patient_id = ? and msg_id > ? order by msg_id';
+			
 			function onsuccess(tx, rs) {
 		        var len = rs.rows.length;
 		        for(var i = 0; i < len; i++) {
@@ -50,15 +54,17 @@
 		        	$("#jp-container").append(c);
 		        }
 		    }
-
+			
 		    function onerror(tx, error) {
 			    console.log(error);
 		    }
-
+			
 		    db.transaction(function (tx) {
 		        tx.executeSql(sql, [${dp.id}, lastMessageId], onsuccess, onerror);
-		    })
+		        
+		    })		   
 		}
+		
 		function buildContent(inOrOut, content, messagedAt) {
 			var ic = '<div class="';
 			if(inOrOut == 1) {
