@@ -55,6 +55,8 @@
 		        	var row = rs.rows.item(i);
 		        	var doctorPatientId = row.doctor_patient_id;
 		        	var messageId = row.last_message_id;
+		        	var messageAt = row.messaged_at;
+		        	messageAt = messageAt.substr(0,16);
 		        	var liCotainer = $("#doctorPatientId-"+doctorPatientId);
 		        	if(liCotainer.length == 0) {	//当没有这个列的时候，将重新创建一个这样的列 
 		                var itemContent = '<li id="doctorPatientId-';
@@ -63,42 +65,56 @@
 		                //然而这个id就是来标记的。 
 		                itemContent += '" data-messageId="';
 		                itemContent += messageId;
-		                itemContent += '" data-unreadMesCount="';
-						itemContent += unreadMesCount;
 			            itemContent += '"><a href="${createLink(controller:'doctorPortal', action:'chat')}/';
 		                itemContent += doctorPatientId;	//传送关联关系的id 
-		                itemContent += '" rel="external"><img src="';
+		                itemContent += '" rel="external" id="';
+			            itemContent += doctorPatientId;
+			            itemContent += '" onclick="changeCount(this.id)"><img id="img_';
+			            itemContent += doctorPatientId;
+			            itemContent += '"src="';
 		                itemContent += row.headImgUrl;
-		                itemContent += '" /><h3>';
+		                itemContent += '" /><h3 id="nickname_';
+		                itemContent += doctorPatientId;
+		                itemContent += '">';
 		                itemContent += row.nickname;
 		                itemContent += '</h3><p id="message_content_';
 		                itemContent += doctorPatientId;
 		                itemContent += '">';
 		                itemContent += row.content;
 		                itemContent += '</p>';
-		                itemContent += '<div id="message_count_"';
+		                itemContent += '<p style="margin-left:60%; margin-bottom:-20px;">';
+		                itemContent += messageAt;
+		                itemContent += '</p>'
+		                itemContent += '';
+		                itemContent += '<p id="message_count_';
 		                itemContent += doctorPatientId;
 		                itemContent += '" style="border:0px solid #000; width:10px; color:red; margin-top:-4px; margin-right:-15px;" class="ui-li-aside">';
 		                itemContent += row.unread_message_count;
-		                itemContent += '</div></a></li>';
+		                itemContent += '</p></a></li>';
 		                $("#listview").append(itemContent);
 		                $("#listview").listview("refresh");
 			        } else {
 						if(messageId != liCotainer.data('messageId')) {
 							liCotainer.data('messageId',messageId);
 							$("#message_content_"+doctorPatientId).text( row.content );
-						}						
+						}
+						
+						var j=1;
+						if(j == 1){
+							$("#img_"+doctorPatientId).attr("src",row.headImgUrl);
+							$("#nickname_"+doctorPatientId).text(row.nickname);
+							j++;
+						}
+						if(row.unread_message_count != 0){
+							$("#message_count_"+doctorPatientId).text( row.unread_message_count );
+						}
+						else{
+							$("#message_count_"+doctorPatientId).text('');
+						}
+								
 				    }
-		        	var unreadMesCount = 0;
-				    $("#doctorPatientId-"+doctorPatientId).click(function(){
-				    	updatePatient(doctorPatientId,messageId,unreadMesCount);
-					});
-		        	
 		        }
-		        
-		        
 		        initSort();
-		        
 		    }
 			
 		    function onerror(tx, error) {
