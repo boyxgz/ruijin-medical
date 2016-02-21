@@ -31,23 +31,22 @@
 		    fm();
 		});
 
+		function changeCount(id){
+			var unread_message_count = 0;
+			updateCount(id, unread_message_count);
+			
+		}
+		
 		function fm() {
 			//将消息从服务器去回本地 
 			//createLink(controller:"doctorPortal", action:"fetchMsg"),这一段就是返回一组数据嘞 ，然后交给fetcheMessage处理 ，插入本地数据库 
 			fetchMessage('${createLink(controller:"doctorPortal", action:"fetchMsg")}');
-			patientsNeedcompleting() ;
+			patientsNeedcompleting();	//拼接 
 			loadPatients();
 			setTimeout(fm, 2000);
 		}
-		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count, m.content,m.msg_type from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
-		function a(){
-			function onsuccess(tx,rs){
-				var len = rs.rows.lenght;
-				for(var i=0; i<len; i++){
-					row = rs.rows.item(i);
-				}
-			}
-		}
+		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count, m.content,m.msg_type,m.messaged_at from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
+
 		function loadPatients() {
 			function onsuccess(tx, rs) {	//rs返回的结果集
 		        var len = rs.rows.length;

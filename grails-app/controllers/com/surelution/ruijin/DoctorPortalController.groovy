@@ -18,8 +18,8 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-//		doctor = Doctor.get(1)
-		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+		doctor = Doctor.get(1)
+		/*doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 		
 		if(!doctor) {
 			def requestUrl = request.forwardURI
@@ -29,7 +29,7 @@ class DoctorPortalController {
 			redirect(url:url)
 			return false
 		}
-		return true
+		return true*/
 	}
 
     def index() {
@@ -75,6 +75,7 @@ class DoctorPortalController {
 	 */
 	def fetchMsg() {
 		render loadMessages() as JSON
+		
 	}
 
 	/**
@@ -114,9 +115,9 @@ class DoctorPortalController {
 				msg:it.message,
 				msgId:it.id,
 				inOrOut:it.fromDoctor?"0":"1", //if message sent by doctor, it's 'out' message, so it's '0'
-				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss")]
+				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss"),
+				isRead: it.isRead?"1":"0"]
 		}
-
 		interations.each {
 			it.isRead = true
 			it.save()

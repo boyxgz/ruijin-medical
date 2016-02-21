@@ -45,7 +45,7 @@ class PatientController {
 		//个人资料
 		def subID = Subscriber.get(subscriber.id);
 		def patient = Patient.findBySubscriber(subID);
-		if(patient != null){
+		if(patient != null && patient.name != null){
 			redirect(action:'showInformation');
 		}
 		else{
@@ -71,9 +71,9 @@ class PatientController {
 		//保存个人资料
 		def patient;
 		def name = params.name;
-		def birthday = params.date('birthday','yyyy-MM-dd')
+		def dateOfBirth = params.date('dateOfBirth','yyyy-MM-dd')
 		def sex = params.sex;
-		def IDcard = params.IDcard;
+		def iDcard = params.iDcard;
 		def phoneNumb = params.phoneNumb;
 		def datecareted = new Date();
 		def subID = Subscriber.get(subscriber.id);
@@ -85,9 +85,9 @@ class PatientController {
 			patient = new Patient();
 		}
 		patient.name = name;
-		patient.birthday = birthday;
+		patient.dateOfBirth = dateOfBirth;
 		patient.sex = sex;
-		patient.IDcard = IDcard;
+		patient.iDcard = iDcard;
 		patient.phoneNumb = phoneNumb;
 		patient.dateCreated = datecareted;
 		patient.subscriber = subscriber;
@@ -135,3 +135,5 @@ class PatientController {
 		redirect(action:'oneselfConcern');
 	}
 }
+
+

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>个人中心</title>
+<title>我的关注</title>
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <style>
 	*{margin:0px; padding:0px;}
@@ -28,7 +28,7 @@
 	<table style="border-radius:1em;">
 	<tr>
 		<td rowspan="5" class="wid-td" align="center">
-			<img src="${resource(dir:'images',file:'hospital.jpg')}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
+			<img src="${createLink(action:'showPic',controller:'doctor',id:dp?.doctor?.image?.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
 		</td>
 		<td class="big-wid-td">
 			<strong class="name">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>

@@ -10,14 +10,18 @@
 
 <!--讨论区滚动条begin-->
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" />
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${resource(file:'css/style.min.css') }" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
-	<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
-	
+<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
+<script type="text/javascript" src="${resource(dir:'js', file:'scrollbar.min.js') }"></script>
+<script type="text/javascript" src="${resource(dir:'js', file:'mousewheel.min.js') }"></script>
+	<style>
+		 #Demo { position:relative; }
+	</style>
 	<script type="text/javascript">
 		var lastMessageId = 0;
-		var unreadMesCount = 0;
 		$( document ).ready(function() {
 		    initDb();
 		    showNewMessage();
@@ -34,24 +38,37 @@
 		    
 			
 		    fm();
+		    changeColor();
 		});
 
+		
 		function fm() {
 			fetchMessage('${createLink(controller:"doctorPortal", action:"fetchMsg")}');
+			showNewMessage();
+			var count = 0;
+			updateCount(${dp.id}, count);
 			setTimeout(fm, 2000);
 		}
 
-		
+		 var lastMsgId = 0;
 		function showNewMessage() {
-			var sql = 'select msg_id, content, msg_type, messaged_at, in_or_out from messages where doctor_patient_id = ? and msg_id > ? order by msg_id';
+			var sql = 'select msg_id, content, msg_type, messaged_at, in_or_out, is_read from messages where doctor_patient_id = ? and msg_id > ? order by msg_id';
 			
 			function onsuccess(tx, rs) {
 		        var len = rs.rows.length;
+		       
 		        for(var i = 0; i < len; i++) {
 		        	var row = rs.rows.item(i);
-		        	var c = buildContent(row.in_or_out, row.content, row.messaged_at);
-		        	console.log($("#jp-container"));
-		        	$("#jp-container").append(c);
+		        	if(row.msg_id > lastMsgId){
+			        	var read = 1;
+			        	var msgId = row.msg_id;
+			        	updateRead(msgId, read);
+			        	lastMsgId = row.msg_id;
+		        		var c = buildContent(row.in_or_out, row.content, row.messaged_at);
+			        	console.log($("#jp-container"));
+			        	$("#jp-container").append(c);
+			        }
+		        	
 		        }
 		    }
 			
@@ -65,8 +82,10 @@
 		    })		   
 		}
 		
+		
 		function buildContent(inOrOut, content, messagedAt) {
 			var ic = '<div class="';
+			var msgAt = messagedAt.substr(0,16);
 			if(inOrOut == 1) {
 				ic += 'talk_recordbox';
 			} else {
@@ -82,20 +101,22 @@
 			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext"><h3>';
 			ic += content;
 			ic += '</h3><span class="talk_time">';
-			ic += messagedAt;
+			ic += msgAt;
 			ic += '</div></div>';
 			return ic;
 		}
+		$("#Demo").perfectScrollbar();
 	</script>
 <!--讨论区滚动条end-->
 </head>
 <body>
 <div class="talk">
-	<div class="talk_title"><span>xxx</span></div>
-	<div class="talk_record">
+	<div class="talk_title"><span id="newMessage">您有新的消息</span></div>
+	<div class="talk_record" id="Demo" style="overflow:auto; width:100%;">
+	<div>
 		<div id="jp-container" class="jp-container">
 		</div>
-	
+	</div>
 	</div>
 	
 	<div class="talk_word">
@@ -103,7 +124,6 @@
 		<input class="talk_send" type="button" title="发送" value="发送" onclick="sendMsg()"/>
 	</div>
 </div>
-
 
 <script type="text/javascript">
 function sendMsg() {

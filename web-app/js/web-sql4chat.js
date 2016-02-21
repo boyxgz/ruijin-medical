@@ -21,8 +21,8 @@ function createTable() {
 	var result, patientSql, msgSql;
 
 	patientSql = 'CREATE TABLE IF NOT EXISTS patients(doctor_patient_id INTEGER UNIQUE, nickname TEXT, name TEXT, headImgUrl TEXT, last_message_id TEXT, unread_message_count INTEGER);';
-	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id TEXT UNIQUE, doctor_patient_id INTEGER, content TEXT, msg_type TEXT, messaged_at TIMESTAMP, in_or_out INTEGER);';
-
+	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id TEXT UNIQUE, doctor_patient_id INTEGER, content TEXT, msg_type TEXT, messaged_at TIMESTAMP, in_or_out INTEGER, is_read INTEGER);';
+	
 	function onsuccess(tx) {
 		
 	}
@@ -37,6 +37,17 @@ function createTable() {
 	})
 }
 
+function newMessage(){
+	
+	$("#newMessage").css("color","red");
+}
+
+function changeColor(){
+	
+	$("#newMessage").css("color","#000");
+	setTimeout(changeColor, 3000);
+}
+
 function fetchMessage(target) {
 	$.getJSON(target).done(function( data ) {
 		map = {};
@@ -46,7 +57,11 @@ function fetchMessage(target) {
 			var msg = this.msg;
 			var inOrOut = this.inOrOut;
 			var dateCreated = this.dateCreated;
-			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut);
+			var isRead = this.isRead;
+			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut,isRead);
+			if(msgId != null){
+				newMessage();
+			}
 			var v = map[doctorPatientId];
 			if(v == null) {
 				v = [msgId, 1];
@@ -59,7 +74,7 @@ function fetchMessage(target) {
 			}
 		})
 	  });
-	  updatePatients();
+		updatePatients();
 }
 
 function sendMessage(target, content) {
@@ -74,13 +89,14 @@ function sendMessage(target, content) {
 			//var sn = this.sn;
 			var inOrOut = this.inOrOut;
 			var dateCreated = this.dateCreated;
-			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut);
+			var isRead = this.isRead;
+			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut, isRead);
 			var v = map[doctorPatientId];
 			if(v == null) {
 				v = [msgId, 1];
 				map[doctorPatientId] = v;
 			} else {
-				v[1] = v[1] + 1;
+				//v[1] = v[1] + 1;	//没有必要记录发送出去，客人有没有读吧。
 				if(msgId > v[0]) {
 					v[0] = msgId;
 				}
@@ -134,6 +150,33 @@ function updatePatient(doctorPatientId, last_message_id, unread_message_count) {
 	})
 }
 
+function updateCount(doctorPatientId,unread_message_count) {
+	var sql = 'update patients set unread_message_count = ? where doctor_patient_id=?;';
+
+	function onsuccess(tx) {
+	}
+
+	function onerror(tx, error) {
+	}
+	db.transaction(function(tx) {
+		tx.executeSql(sql, [unread_message_count, doctorPatientId ],
+				onsuccess, onerror);
+	})
+}
+
+function updateRead(msgId, read){
+	var sql = 'update messages set is_read = ? where msg_id = ?;';
+	function onsuccess(tx) {
+	}
+	
+	function onerror(tx, error) {
+	}
+	db.transaction(function(tx) {
+		tx.executeSql(sql, [read, msgId],
+				onsuccess, onerror);
+	})
+}
+
 function insertPatient(doctorPatientId, last_message_id, unread_message_count) {
 	var sql = 'insert into patients(doctor_patient_id, last_message_id, unread_message_count) values (?,?,?);';
 	function onsuccess(tx) {
@@ -147,16 +190,17 @@ function insertPatient(doctorPatientId, last_message_id, unread_message_count) {
 	})
 }
 
-function insertMessage(msgId, content, msgType, receivedAt, doctorPatientId, inOrOut) {
-	var sql = 'insert into messages(msg_id, doctor_patient_id, content, msg_type, messaged_at,in_or_out) values (?,?,?,?,?,?);';
+function insertMessage(msgId, content, msgType, receivedAt, doctorPatientId, inOrOut, isRead) {
+	var sql = 'insert into messages(msg_id, doctor_patient_id, content, msg_type, messaged_at,in_or_out, is_read) values (?,?,?,?,?,?,?);';
 
 	function onsuccess(tx) {
 	}
-
+	
 	function onerror(tx, error) {
 	}
+	
 	db.transaction(function(tx) {
-		tx.executeSql(sql, [ msgId, doctorPatientId, content, msgType, receivedAt, inOrOut],
+		tx.executeSql(sql, [ msgId, doctorPatientId, content, msgType, receivedAt, inOrOut, isRead],
 				onsuccess, onerror);
 	})
 }

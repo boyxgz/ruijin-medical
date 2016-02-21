@@ -48,7 +48,7 @@
 					</div>
 				</dd>
 			</dl>
-			<p style="margin-left:30%; color:red; font-weight:bold;">温馨提示：星号标记为必填哦！</p>
+			<p style="margin-left:30%; color:red; font-weight:bold;">温馨提示：星号标记为必填！</p>
 		</div>			
         <div class="modal-footer">
           <g:submitButton name="create" id="sub" class="btn btn-primary" value="${message(code: 'default.button.create.label', default: 'Create')}" />
