@@ -1,22 +1,20 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@page import="com.surelution.whistle.push.UserInfo"%>
 <g:set var="doctor" value="${UserInfo.loadUserInfo(dp.doctor.subscriber.openId) }"/>
 <g:set var="patient" value="${UserInfo.loadUserInfo(dp.patient.subscriber.openId) }"/>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<%--<meta name="viewport" content="width=device-width, initial-scale=1"/>
+--%><meta http-equiv="Content-Type" content="text/html; charset=gb2312" ></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" ></meta>
 <title>与${patient.nickname }的互动</title>
-
 <!--讨论区滚动条begin-->
-<link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" />
-<link rel="stylesheet" type="text/css" href="${resource(file:'css/style.min.css') }" />
+<link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" ></link>
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
 <script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
-<script type="text/javascript" src="${resource(dir:'js', file:'scrollbar.min.js') }"></script>
-<script type="text/javascript" src="${resource(dir:'js', file:'mousewheel.min.js') }"></script>
+
 	<style>
 		 #Demo { position:relative; }
 	</style>
@@ -24,8 +22,7 @@
 		var lastMessageId = 0;
 		$( document ).ready(function() {
 		    initDb();
-		    showNewMessage();
-		    
+			
 		    var height = 0;
 		    $('#jp-container div').each(function(i, value){
 		        height += parseInt($(this).height());
@@ -67,6 +64,7 @@
 		        		var c = buildContent(row.in_or_out, row.content, row.messaged_at);
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);
+			        	sorcllIntoView();
 			        }
 		        	
 		        }
@@ -105,31 +103,48 @@
 			ic += '</div></div>';
 			return ic;
 		}
-		$("#Demo").perfectScrollbar();
+
+		function sorcllIntoView(){
+			var talkRecord = document.getElementById("talk_record");
+			talkRecord.scrollTop = talkRecord.scrollHeight;
+		}
 	</script>
 <!--讨论区滚动条end-->
 </head>
 <body>
-<div class="talk">
+<%--<div style="width: 100%; height:3px;"></div>
+--%><div class="talk">
 	<div class="talk_title"><span id="newMessage">您有新的消息</span></div>
-	<div class="talk_record" id="Demo" style="overflow:auto; width:100%;">
+	<div class="talk_record" style="overflow:auto; width:100%;" id="talk_record">
 	<div>
 		<div id="jp-container" class="jp-container">
+		
 		</div>
+		<div id="msg_end" style="height:0px; overflow:hidden;"></div>
 	</div>
 	</div>
 	
 	<div class="talk_word">
-		<input id="txtMessage" class="messages emotion" placeholder="在这里输入文字" />
-		<input class="talk_send" type="button" title="发送" value="发送" onclick="sendMsg()"/>
+		<input id="txtMessage" class="messages emotion" placeholder="在这里输入文字" ></input>
+		<input class="talk_send" id="send" type="button" title="发送" value="发送" onclick="sendMsg()" ></input>
 	</div>
 </div>
 
 <script type="text/javascript">
 function sendMsg() {
-	sendMessage('${createLink(controller:"doctorPortal", action:"sendMessage", id:dp.id)}', $('#txtMessage').val());
-	$('#txtMessage').val("");
+	var msg = $('#txtMessage').val();
+	if(msg.length != 0){
+		for(var i=0; i<msg.length; i++){
+			if(msg[i] != " "){
+				sendMessage('${createLink(controller:"doctorPortal", action:"sendMessage", id:dp.id)}', $('#txtMessage').val());
+				$('#txtMessage').val("");
+				return;
+			}
+		}
+	}
+	alert("请输入消息！");
 }
 </script>
-<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></body>
+<%--<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+--%></body>
 </html>

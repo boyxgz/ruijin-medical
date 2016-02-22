@@ -28,7 +28,7 @@
 	<table style="border-radius:1em;">
 	<tr>
 		<td rowspan="5" class="wid-td" align="center">
-			<img src="${createLink(action:'showPic',controller:'doctor',id:dp?.doctor?.image?.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
+			<img src="${createLink(action:'showPic',controller:'Patient',id:dp?.doctor?.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
 		</td>
 		<td class="big-wid-td">
 			<strong class="name">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>

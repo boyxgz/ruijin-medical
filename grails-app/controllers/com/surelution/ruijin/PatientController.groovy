@@ -118,7 +118,7 @@ class PatientController {
 		}
 		println dp[0] == null
 		if(dp[0] == null){
-			flash.message = "您占时未关注任何一位医生！";
+			flash.message = "您暂时未关注任何一位医生！";
 			println 1;
 		}
 		else{
@@ -133,6 +133,25 @@ class PatientController {
 		def doctorpatient = DoctorPatient.get(dp);
 		doctorpatient.isFocus = false;
 		redirect(action:'oneselfConcern');
+	}
+	
+	def showPic(long id){
+		println id
+		println "id"
+		println id
+		def doctor = Doctor.get(id)
+		def pc = doctor.image
+		println pc
+		println "pc"
+		
+		if(pc.enable){
+			def picUrl = pc.picUrl
+			File file = new File(picUrl)
+			def os = response.outputStream
+			os << file.bytes
+			os.flush()
+			return
+		}
 	}
 }
 

@@ -19,7 +19,7 @@
            <div class="top_left">
              <img src="${createLink(action:'showPic',controller:'introDoctor',id:doctor.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:10px;margin-left:10px;"/>
            </div>
-           <div class="top_right">
+           <div class="top_right" style="margin-left:10px;">
                <div style="height:60%;">
                <div class="r_l">
                   <div class="name">${doctor.name }</div>

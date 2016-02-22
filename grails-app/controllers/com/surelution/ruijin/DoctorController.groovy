@@ -159,6 +159,8 @@ class DoctorController {
 	
 	//显示图片的方法
 	def showPic(long id){
+		println id
+		println "id"
 		def doctor = Doctor.get(id)
 		def pc = doctor.image
 		
