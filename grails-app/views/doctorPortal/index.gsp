@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-	<title>医患互动</title>
+	<title>网上诊室</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
@@ -50,6 +49,7 @@
 		function loadPatients() {
 			function onsuccess(tx, rs) {	//rs返回的结果集
 		        var len = rs.rows.length;
+		        
 		        for(var i = 0; i < len ; i++) {
 		        	var row = rs.rows.item(i);
 		        	var doctorPatientId = row.doctor_patient_id;

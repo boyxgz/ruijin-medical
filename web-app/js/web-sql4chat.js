@@ -50,7 +50,6 @@ function changeColor(){
 
 function fetchMessage(target) {
 	$.getJSON(target).done(function( data ) {
-		//alert(data);
 		map = {};
 		$.each(data, function(){
 			var doctorPatientId = this.doctorPatientId;

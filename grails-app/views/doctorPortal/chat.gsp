@@ -50,10 +50,10 @@
 		 var lastMsgId = 0;
 		function showNewMessage() {
 			var sql = 'select msg_id, content, msg_type, messaged_at, in_or_out, is_read from messages where doctor_patient_id = ? and msg_id > ? order by msg_id';
-			
+		
 			function onsuccess(tx, rs) {
 		        var len = rs.rows.length;
-		       
+		        
 		        for(var i = 0; i < len; i++) {
 		        	var row = rs.rows.item(i);
 		        	if(row.msg_id > lastMsgId){
@@ -61,7 +61,14 @@
 			        	var msgId = row.msg_id;
 			        	updateRead(msgId, read);
 			        	lastMsgId = row.msg_id;
-		        		var c = buildContent(row.in_or_out, row.content, row.messaged_at);
+			        	var content = row.content;
+			        	if(row.in_or_out == 0){
+			        		var dn = "${dp?.doctor?.name}" + "回复：";
+				        	content = content.substr(dn.length,content.length);
+			        		var c = buildContent(row.in_or_out, content, row.messaged_at);
+				        }else{
+				        	var c = buildContent(row.in_or_out, content, row.messaged_at);
+					    }
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);
 			        	sorcllIntoView();
@@ -134,10 +141,19 @@
 function sendMsg() {
 	var msg = $('#txtMessage').val();
 	if(msg.length != 0){
+		var len;
+		for(var i=msg.lenth-1; i<0; i++){
+			if(msg[i] != " "){
+				len = i;
+			}
+		}
+		msg.substr(0,len);
+		$('#txtMessage').val(msg);
 		for(var i=0; i<msg.length; i++){
 			if(msg[i] != " "){
 				sendMessage('${createLink(controller:"doctorPortal", action:"sendMessage", id:dp.id)}', $('#txtMessage').val());
 				$('#txtMessage').val("");
+				alert();
 				return;
 			}
 		}

@@ -18,7 +18,7 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1)
+		doctor = Doctor.get(2);
 		/*doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 		
 		if(!doctor) {
@@ -53,19 +53,31 @@ class DoctorPortalController {
 	def sendMessage(Long id) {
 		def dp = DoctorPatient.get(id)
 		if(dp?.doctor?.id == doctor.id) {
-			def content = params.content
-			def interation = new Interaction()
-			interation.dp = dp
-			interation.fromDoctor = true
-			interation.isRead = false
-			interation.message = content
-			interation.save(flush:true)
-			TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
-			csm.content = content
-			csm.touser = dp.patient.subscriber.openId
-			csm.send()
-			render loadMessages() as JSON
-			return
+			def cont = params.content;
+			println cont;
+			def temp = 0;
+			for(def i=0; i<cont.size(); i++){
+				if(cont[i] == '?'){
+					temp++;
+				}
+			}
+			if(temp < 5){
+				def content = doctor.name;
+				content += "回复：";
+				content += cont;
+				def interation = new Interaction()
+				interation.dp = dp
+				interation.fromDoctor = true
+				interation.isRead = false
+				interation.message = content
+				interation.save(flush:true)
+				TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
+				csm.content = content
+				csm.touser = dp.patient.subscriber.openId
+				csm.send()
+				render loadMessages() as JSON
+				return
+			}
 		}
 	}
 
