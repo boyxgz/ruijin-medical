@@ -10,13 +10,16 @@
 <title>与${patient.nickname }的互动</title>
 <!--讨论区滚动条begin-->
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" ></link>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${resource(file:'css/bootstrap.min.css') }" ></link>
+<script type="text/javascript" src="${resource(file:'js/jquery.min.js') }"></script><!-- http://code.jquery.com/jquery-1.6.4.min.js -->
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
 <script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
-
+<script type="text/javascript" src="${resource(file:'js/bootstrap.min.js') }"></script>
 	<style>
-		 #Demo { position:relative; }
+	div{border-top-width: 0px;}
+	body{line-height:0px;}
+	h3{margin-top:5px;}
 	</style>
 	<script type="text/javascript">
 		var lastMessageId = 0;
@@ -96,18 +99,18 @@
 			} else {
 				ic += 'talk_recordboxme';
 			}
-			ic += '"><div class="user"><img src="';
+			ic += '"><div class="user"><g:link action="patientInformation" id="${dp?.patient?.id}"  data-toggle="modal" data-target="#patientModal"><img src="';
 			if(inOrOut == 1) {
 				ic += '${patient.headImgUrl }';
 			} else {
 				ic += '${doctor.headImgUrl }';
 			}
-			ic += '" width="45" height="45"/>';
+			ic += '" width="45" height="45"/></g:link>';
 			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext"><h3>';
 			ic += content;
 			ic += '</h3><span class="talk_time">';
 			ic += msgAt;
-			ic += '</div></div>';
+			ic += '</span></div></div>';
 			return ic;
 		}
 
@@ -115,6 +118,17 @@
 			var talkRecord = document.getElementById("talk_record");
 			talkRecord.scrollTop = talkRecord.scrollHeight;
 		}
+
+		$(function(){
+			$("a[data-target=#patientModal]").click(function(event) {
+				$(this).data('patientModal',null)
+			    event.preventDefault();
+			    var target = $(this).attr("href"); 
+				    $("#patientModal").load(target, function() { 
+				    	$("#patientModal").addClass("modalstyle")
+		                $("#patientModal").modal('show');  }); 				    	
+				    });
+			});
 	</script>
 <!--讨论区滚动条end-->
 </head>
@@ -122,6 +136,13 @@
 <%--<div style="width: 100%; height:3px;"></div>
 --%><div class="talk">
 	<div class="talk_title"><span id="newMessage">您有新的消息</span></div>
+	<div class="modal modalstyle" id="patientModal" role="dialog">
+	<div class="modal-dialog">
+     	<!-- Modal content-->
+	    <div class="modal-content"> 
+	    </div>
+    </div>
+</div>
 	<div class="talk_record" style="overflow:auto; width:100%;" id="talk_record">
 	<div>
 		<div id="jp-container" class="jp-container">
@@ -160,7 +181,7 @@ function sendMsg() {
 	}
 	alert("请输入消息！");
 }
-</script>
+</script>	
 <%--<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
 --%></body>
 </html>

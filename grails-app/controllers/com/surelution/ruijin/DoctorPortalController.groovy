@@ -18,7 +18,7 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(2);
+		doctor = Doctor.get(1);
 		/*doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 		
 		if(!doctor) {
@@ -41,8 +41,13 @@ class DoctorPortalController {
 	 * @param DoctorPatient id
 	 * @return
 	 */
+
 	def chat(Long id) {
 		def dp = DoctorPatient.get(id)
+		if(id == null){
+			dp = DoctorPatient.get( );
+		}else{
+		}
 		if(dp?.doctor?.id == doctor.id) {
 			
 			return [dp:dp]
@@ -54,7 +59,6 @@ class DoctorPortalController {
 		def dp = DoctorPatient.get(id)
 		if(dp?.doctor?.id == doctor.id) {
 			def cont = params.content;
-			println cont;
 			def temp = 0;
 			for(def i=0; i<cont.size(); i++){
 				if(cont[i] == '?'){
@@ -135,5 +139,21 @@ class DoctorPortalController {
 			it.save()
 		}
 		return msg
+	}
+	
+	//
+	def patientInformation(long id){
+		def patient = Patient.get(id);
+		[patient:patient]
+	}
+	
+	def updateCom(long id){
+		def patient = Patient.get(id);
+		def patientId = id;
+		def com = params.comment;
+		println com
+		patient.comment = com;
+		patient.save();
+		redirect(action:'chat',id:patientId);
 	}
 }

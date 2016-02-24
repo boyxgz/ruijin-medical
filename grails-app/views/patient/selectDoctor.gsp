@@ -16,22 +16,19 @@
 </style>
 <script>
 window.onload = function(){
-	var i = 0;
-	if(i != 0){
-		return;
-	}
-	
-	i++;
 	var dpCheckBox = document.getElementById("dpCheckBox");
 	var dpId = "checkBox_" + dpCheckBox.value;
 	var check = document.getElementsByName(dpId);
- 	check[0].checked = true;
+	if(check[0] != null){
+		check[0].checked = true;
+	}
+ 	var dp = document.getElementById("dp");
+ 	dp.value = dpCheckBox.value;
 }
 
 function changeBox(id){
 	var checkBox = document.getElementById(id);
-	checkBox.checked = false;
-	var cheBox = document.getElementsByName("checkBox");
+	var cheBox = document.getElementsByClassName("checkBox");
 	for(var i=0; i<cheBox.length; i++){
 		if(cheBox[i].id == id){
 			cheBox[i].checked = true;
@@ -44,11 +41,17 @@ function changeBox(id){
 	var dpSend = document.getElementById("dp");
 	dpSend.value = dpIdGet.value;
 }
-</script><%--
 
---%></head>
+function confirm(){
+	var dp = document.getElementById("dp");
+	var	nameId = "docotorName_"+dp.value;
+	var doctorName = document.getElementById(nameId);
+	alert(doctorName);
+	alert("您可以向"+doctorName.innerHTML+"咨询了！");
+}
+</script>
+</head>
 <body>
-<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox">
 <div style="height:90%;">
 <img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;">
 <div style="width:100%; height:20px;"></div>
@@ -56,13 +59,17 @@ function changeBox(id){
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
 	<g:if test="${flash.message }">${flash.message }</g:if>
 </div>
-<div style="width:100%; height:50px; margin-left: 90%; margin-top: 6px;">
+<div style="width:70px; height:50px; margin-left: 80%; margin-top: 6px;">
+	<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox">
 	<g:form action="selectDoc">
 		<input type="hidden" name="dp" value="" id="dp">
-		<input type="submit" class="btn btn-default" value="确认" />
+		<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
+		<input type="submit" class="btn btn-default" value="确认" id="submit" onclick="confirm()"/>
+		</g:if>
 	</g:form>
 </div>
 <g:each in="${doctorpatient }" var="dp">
+<g:link action="showDoctor" controller="introDoctor" id="${dp?.doctor?.id }">
 <div style="background-color:#fff; border-radius:1em; margin-top:5px;">
 	<table style="border-radius:1em;">
 	<tr>
@@ -70,10 +77,10 @@ function changeBox(id){
 			<img src="${createLink(action:'showPic',controller:'Patient',id:dp?.doctor?.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
 		</td>
 		<td class="big-wid-td">
-			<strong class="name">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>
+			<strong class="name" id="docotorName_${dp?.doctor?.id}">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>
 		</td>
 		<td rowspan="3" class="small-wid-td" align="center">
-			<input type="checkbox" name="checkBox_${ dp?.doctor?.id}" onchange ="changeBox(this.id)" id="${dp?.doctor?.id }"/>
+			<input type="checkbox" class="checkBox" name="checkBox_${ dp?.doctor?.id}" onchange ="changeBox(this.id)" id="${dp?.doctor?.id }"/>
 			<input type="hidden" name="dpId" id="dpId_${dp?.doctor?.id }" value="${dp?.id }"/>
 		</td>
 	</tr>
@@ -100,6 +107,7 @@ function changeBox(id){
 	</tr>
 	</table>
 </div>
+</g:link>
 </g:each>
 </div>
 </div>

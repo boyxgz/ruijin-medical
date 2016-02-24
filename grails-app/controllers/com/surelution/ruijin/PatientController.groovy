@@ -90,7 +90,7 @@ class PatientController {
 		patient.iDcard = iDcard;
 		patient.phoneNumb = phoneNumb;
 		patient.dateCreated = datecareted;
-		patient.subscriber = 2;
+		patient.subscriber = 1;
 		patient.save(flush:true);
 		redirect(action:'showInformation');
 		
@@ -102,7 +102,7 @@ class PatientController {
 	
 	def selectDoctor(){
 		//选择医生
-		def num = Subscriber.get(2);//subscriber.id
+		def num = Subscriber.get(1);//subscriber.id
 		def patient = Patient.findBySubscriber(num);
 		def dpCheckBox = new DoctorPatient();
 		def doctorpatient = DoctorPatient.createCriteria().list {
@@ -119,18 +119,20 @@ class PatientController {
 			
 			if(doctorpatient[i].patientPrefered){
 				dpCheckBox = doctorpatient[i];
-				println dpCheckBox
 			}
 		}
 		
+		def isNull;
 		if(dp[0] == null){
 			flash.message = "您暂时未关注任何一位医生！";
+			isNull = null;
 		}
 		else{
 			flash.message ="";
+			isNull = true;
 		}
 		
-		[doctorpatient:dp,dpCheckBox:dpCheckBox]
+		[doctorpatient:dp,dpCheckBox:dpCheckBox,isNull:isNull]
 	}
 	
 	def oneselfConcern(){
@@ -163,6 +165,7 @@ class PatientController {
 		def dp = params.dp;
 		def doctorpatient = DoctorPatient.get(dp);
 		doctorpatient.isFocus = false;
+		doctorpatient.patientPrefered = false;
 		redirect(action:'oneselfConcern');
 	}
 	

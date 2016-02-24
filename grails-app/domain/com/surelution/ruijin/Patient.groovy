@@ -14,6 +14,8 @@ class Patient {
 		dateOfBirth nullable:true
 		iDcard nullable:true
 		phoneNumb nullable:true
+		comment nullable:true
+		commentDat nullable:true
     }
 	
 	 String name //患者姓名
@@ -27,10 +29,13 @@ class Patient {
 	 enum  Sex{
 		 Man,Woman,Unknown
 		 
-	   /*public String toString() {
+	   public String toString() {
 			 KeyedMessage.findByKey("Sex-" + name())?.message
-		 }*/
+		 }
 	 }
+	 
+	 String comment		//备注信息
+	 Date commentDat	//备注时间
 	 
 	 Date dateCreated  
 	 Subscriber subscriber //微信用户
