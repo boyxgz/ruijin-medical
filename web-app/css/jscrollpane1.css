@@ -2,6 +2,8 @@
 body{
 	font-family:verdana, Arial, Helvetica, "宋体", sans-serif;
 	font-size: 12px;
+	height:85%;
+	line-height:0px;
 }
 
 body ,div ,dl ,dt ,dd ,ol ,li ,h1 ,h2 ,h3 ,h4 ,h5 ,h6 ,pre ,form ,fieldset ,input ,P ,blockquote ,th ,td ,img,
@@ -50,7 +52,7 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 	text-indent: 12px;
 	font-size: 16px;
 	font-weight: bold;
-	color: #afafaf;
+	color: #212121;
 	background:#212121;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -65,7 +67,7 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 }
 .talk_record{
 	width: 100%;
-	height:520px;
+	height:100%;
 	overflow: hidden;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
@@ -186,6 +188,8 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 
 /*讨论区*/
 .jp-container .talk_recordbox{
+	height:70px;
+	height:auto;
 	min-height:80px;
 	color: #afafaf;
 	padding-top: 5px;
@@ -239,6 +243,8 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 /*自己发言样式*/
 .jp-container .talk_recordboxme{
 	display:block;
+	height:40px;
+	height:auto;
 	min-height:80px;
 	color: #afafaf;	
 	padding-top: 5px;
@@ -294,4 +300,5 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 	text-align: right;
 	width: 100%;
 	display: block;
+	padding: 0px 0px 5px 0px;
 }

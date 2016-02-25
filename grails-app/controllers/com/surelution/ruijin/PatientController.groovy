@@ -7,11 +7,11 @@ import grails.util.Holders;
 
 class PatientController {
 
-	//private Subscriber subscriber;
+	private Subscriber subscriber;
 	/**
 	 * 自动登录
 	 */
-/*	def beforeInterceptor = {
+	def beforeInterceptor = {
 		def userSn = request.getCookie('user-sn');
 		
 		subscriber = SubscriberCookie.findBySubscriberSn(userSn)?.subscriber;
@@ -25,7 +25,7 @@ class PatientController {
 			return false;
 		}
 		return true;
-	}*/
+	}
 	
     def index() { }
 	
@@ -43,7 +43,7 @@ class PatientController {
 	
 	def information(){
 		//个人资料
-		def subID = Subscriber.get(2);	//subscriber.id
+		def subID = Subscriber.get(subscriber.id);	//subscriber.id
 		def patient = Patient.findBySubscriber(subID);
 		if(patient != null && patient.name != null){
 			redirect(action:'showInformation');
@@ -55,14 +55,14 @@ class PatientController {
 	
 	def registers(){
 		//注册
-		def subID = Subscriber.get(2);	//subscriber.id
+		def subID = Subscriber.get(subscriber.id);	//subscriber.id
 		def patient = Patient.findBySubscriber(subID);
 		[patient:patient];
 	}
 	
 	def showInformation(){
 		//显示个人资料
-		def subID = Subscriber.get(2);	//subscriber.id
+		def subID = Subscriber.get(subscriber.id);	//subscriber.id
 		def patient = Patient.findBySubscriber(subID);
 		[patient:patient];
 	}
@@ -76,7 +76,7 @@ class PatientController {
 		def iDcard = params.iDcard;
 		def phoneNumb = params.phoneNumb;
 		def datecareted = new Date();
-		def subID = Subscriber.get(2);	//subscriber.id
+		def subID = Subscriber.get(subscriber.id);	//subscriber.id
 		def patientSub = Patient.findBySubscriber(subID);
 		if(patientSub != null){
 			patient =patientSub;
@@ -90,7 +90,7 @@ class PatientController {
 		patient.iDcard = iDcard;
 		patient.phoneNumb = phoneNumb;
 		patient.dateCreated = datecareted;
-		patient.subscriber = 1;
+		patient.subscriber = subscriber;
 		patient.save(flush:true);
 		redirect(action:'showInformation');
 		
@@ -102,7 +102,7 @@ class PatientController {
 	
 	def selectDoctor(){
 		//选择医生
-		def num = Subscriber.get(1);//subscriber.id
+		def num = Subscriber.get(subscriber.id);//subscriber.id
 		def patient = Patient.findBySubscriber(num);
 		def dpCheckBox = new DoctorPatient();
 		def doctorpatient = DoctorPatient.createCriteria().list {
@@ -124,7 +124,7 @@ class PatientController {
 		
 		def isNull;
 		if(dp[0] == null){
-			flash.message = "您暂时未关注任何一位医生！";
+			flash.message = "您暂时未关注任何一位医生，无法进行在线咨询。";
 			isNull = null;
 		}
 		else{
@@ -138,7 +138,7 @@ class PatientController {
 	def oneselfConcern(){
 		//我的关注
 		//TODO 获取用户的subscriber 然后再通过这个类找到患者的id
-		def num = Subscriber.get(2);	//subscriber.id
+		def num = Subscriber.get(subscriber.id);	//subscriber.id
 		def patient = Patient.findBySubscriber(num);
 		def doctorpatient = DoctorPatient.createCriteria().list {
 			if(patient){

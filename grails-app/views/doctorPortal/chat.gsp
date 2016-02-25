@@ -17,9 +17,9 @@
 <script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
 <script type="text/javascript" src="${resource(file:'js/bootstrap.min.js') }"></script>
 	<style>
-	div{border-top-width: 0px;}
-	body{line-height:0px;}
-	h3{margin-top:5px;}
+		div{}
+		h3{margin-top:5px;}
+		body{line-height:0px;}
 	</style>
 	<script type="text/javascript">
 		var lastMessageId = 0;
@@ -68,9 +68,9 @@
 			        	if(row.in_or_out == 0){
 			        		var dn = "${dp?.doctor?.name}" + "回复：";
 				        	content = content.substr(dn.length,content.length);
-			        		var c = buildContent(row.in_or_out, content, row.messaged_at);
+			        		var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id);
 				        }else{
-				        	var c = buildContent(row.in_or_out, content, row.messaged_at);
+				        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id);
 					    }
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);
@@ -91,26 +91,37 @@
 		}
 		
 		
-		function buildContent(inOrOut, content, messagedAt) {
-			var ic = '<div class="';
+		function buildContent(inOrOut, content, messagedAt, msgId) {
+			var ic = '<div style=" _height:80px;" class="';
 			var msgAt = messagedAt.substr(0,16);
 			if(inOrOut == 1) {
 				ic += 'talk_recordbox';
 			} else {
 				ic += 'talk_recordboxme';
 			}
-			ic += '"><div class="user"><g:link action="patientInformation" id="${dp?.patient?.id}"  data-toggle="modal" data-target="#patientModal"><img src="';
+			ic += '" id="';
+			ic += msgId;
+			ic += '"><div class="user">';
+			
+			if(inOrOut == 1){
+				ic += '<g:link action="patientInformation" id="${dp?.id}"  data-toggle="modal" data-target="#patientModal"><img src="';
+			}else{
+				ic += '<img src="';
+			}
+			
 			if(inOrOut == 1) {
 				ic += '${patient.headImgUrl }';
 			} else {
 				ic += '${doctor.headImgUrl }';
 			}
 			ic += '" width="45" height="45"/></g:link>';
-			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext"><h3>';
+			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" id="recordtext_';
+			ic += msgId;
+			ic += '"><h3>';
 			ic += content;
 			ic += '</h3><span class="talk_time">';
 			ic += msgAt;
-			ic += '</span></div></div>';
+			ic += '</div>';
 			return ic;
 		}
 
@@ -129,16 +140,20 @@
 		                $("#patientModal").modal('show');  }); 				    	
 				    });
 			});
+		function changeHeight(){
+			var talk_record = document.getElementById("msgId");
+			var recordtextId = "recordtext_" + msgId;
+			var talk_recordtext = document.getElementById(recordtextId);
+		};
 	</script>
 <!--讨论区滚动条end-->
 </head>
 <body>
-<%--<div style="width: 100%; height:3px;"></div>
---%><div class="talk">
-	<div class="talk_title"><span id="newMessage">您有新的消息</span></div>
+<div class="talk">
+	<div class="talk_title"><span id="newMessage"></span></div>
 	<div class="modal modalstyle" id="patientModal" role="dialog">
 	<div class="modal-dialog">
-     	<!-- Modal content-->
+     	<%--Modal content --%>
 	    <div class="modal-content"> 
 	    </div>
     </div>
@@ -160,6 +175,7 @@
 
 <script type="text/javascript">
 function sendMsg() {
+	changeHeight();
 	var msg = $('#txtMessage').val();
 	if(msg.length != 0){
 		var len;
@@ -174,7 +190,6 @@ function sendMsg() {
 			if(msg[i] != " "){
 				sendMessage('${createLink(controller:"doctorPortal", action:"sendMessage", id:dp.id)}', $('#txtMessage').val());
 				$('#txtMessage').val("");
-				alert();
 				return;
 			}
 		}

@@ -44,7 +44,7 @@
 			loadPatients();
 			setTimeout(fm, 2000);
 		}
-		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count, m.content,m.msg_type,m.messaged_at from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
+		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count,p.doctorName, m.content,m.msg_type,m.messaged_at from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
 
 		function loadPatients() {
 			function onsuccess(tx, rs) {	//rs返回的结果集
@@ -55,6 +55,10 @@
 		        	var doctorPatientId = row.doctor_patient_id;
 		        	var messageId = row.last_message_id;
 		        	var messageAt = row.messaged_at;
+		        	var docName = row.doctorName;
+		        	docName += "回复:";
+		        	var content = row.content;
+		        	content = content.substr(docName.length);
 		        	messageAt = messageAt.substr(0,16);
 		        	var liCotainer = $("#doctorPatientId-"+doctorPatientId);
 		        	if(liCotainer.length == 0) {	//当没有这个列的时候，将重新创建一个这样的列 
@@ -81,7 +85,9 @@
 		                itemContent += '">';
 		                itemContent += row.content;
 		                itemContent += '</p>';
-		                itemContent += '<p style="margin-left:60%; margin-bottom:-20px;">';
+		                itemContent += '<p style="margin-left:60%; margin-bottom:-20px;" id="messageAt_';
+						itemContent += doctorPatientId;
+		                itemContent += '">';
 		                itemContent += messageAt;
 		                itemContent += '</p>'
 		                itemContent += '';
@@ -95,7 +101,8 @@
 			        } else {
 						if(messageId != liCotainer.data('messageId')) {
 							liCotainer.data('messageId',messageId);
-							$("#message_content_"+doctorPatientId).text( row.content );
+							$("#message_content_"+doctorPatientId).text( content );
+							$("#messageAt_"+doctorPatientId).text(messageAt);
 						}
 						
 						var j=1;
@@ -134,7 +141,7 @@
 </head>
 
 <body>
-<div data-role="page" style="max-height:940px; min-height:940px;">
+<div data-role="page" style="max-height:940px; min-height:940px; height:100%">
 	<div role="main" class="ui-content">
 		<ul id="listview" data-role="listview">
 			

@@ -65,23 +65,21 @@ class DoctorPortalController {
 					temp++;
 				}
 			}
-			if(temp < 5){
-				def content = doctor.name;
-				content += "回复：";
-				content += cont;
-				def interation = new Interaction()
-				interation.dp = dp
-				interation.fromDoctor = true
-				interation.isRead = false
-				interation.message = content
-				interation.save(flush:true)
-				TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
-				csm.content = content
-				csm.touser = dp.patient.subscriber.openId
-				csm.send()
-				render loadMessages() as JSON
-				return
-			}
+			def content = doctor.name;
+			content += "回复：";
+			content += cont;
+			def interation = new Interaction()
+			interation.dp = dp
+			interation.fromDoctor = true
+			interation.isRead = false
+			interation.message = content
+			interation.save(flush:true)
+			TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
+			csm.content = content
+			csm.touser = dp.patient.subscriber.openId
+			csm.send()
+			render loadMessages() as JSON
+			return
 		}
 	}
 
@@ -132,7 +130,8 @@ class DoctorPortalController {
 				msgId:it.id,
 				inOrOut:it.fromDoctor?"0":"1", //if message sent by doctor, it's 'out' message, so it's '0'
 				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss"),
-				isRead: it.isRead?"1":"0"]
+				isRead: it.isRead?"1":"0",
+				doctorName : it.dp.doctor.name]
 		}
 		interations.each {
 			it.isRead = true
@@ -143,15 +142,14 @@ class DoctorPortalController {
 	
 	//
 	def patientInformation(long id){
-		def patient = Patient.get(id);
-		[patient:patient]
+		def dp = DoctorPatient.get(id);
+		[dp:dp]
 	}
 	
 	def updateCom(long id){
 		def patient = Patient.get(id);
 		def patientId = id;
 		def com = params.comment;
-		println com
 		patient.comment = com;
 		patient.save();
 		redirect(action:'chat',id:patientId);

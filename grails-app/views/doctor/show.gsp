@@ -107,7 +107,9 @@
 			 			<g:set var="ui" value="${UserInfo.loadUserInfo(doctorInstance.subscriber.openId) }"/>
 			 			<img src="${ui.headImgUrl}" class="img-rounded" style="width: 200px; height:200px "/>
 						<br/>${ui.nickname }
+						<g:link action="removeSubscriber" id="${doctorInstance?.id}"><input type="button" class="btn btn-default" value="解除绑定" style="margin-top:6px;" /></g:link>
 			 			</g:else>
+			 			
 			 		</td>
 			 	</tr>
 			 </table>

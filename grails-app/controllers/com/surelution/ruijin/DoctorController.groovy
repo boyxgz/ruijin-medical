@@ -157,6 +157,15 @@ class DoctorController {
         }
     }
 	
+	//移出医生微信
+	def removeSubscriber(long id){
+		def doctor = Doctor.get(id);
+		def doctorId = id;
+		doctor.subscriber = null;
+		doctor.save()
+		redirect(action:"show",id:doctorId)
+	}
+	
 	//显示图片的方法
 	def showPic(long id){
 		println id

@@ -8,7 +8,7 @@ var map = {};
 function createDB() {
 	var result, name, version, display_name, size
 
-	name = 'chat-local-db3'
+	name = 'chat-local-db5'
 	version = 1.0
 	display_name = 'Chat Database'
 	size = 262144 // 256KB
@@ -20,7 +20,7 @@ function createDB() {
 function createTable() {
 	var result, patientSql, msgSql;
 
-	patientSql = 'CREATE TABLE IF NOT EXISTS patients(doctor_patient_id INTEGER UNIQUE, nickname TEXT, name TEXT, headImgUrl TEXT, last_message_id TEXT, unread_message_count INTEGER);';
+	patientSql = 'CREATE TABLE IF NOT EXISTS patients(doctor_patient_id INTEGER UNIQUE, nickname TEXT, name TEXT, headImgUrl TEXT, last_message_id TEXT, unread_message_count INTEGER,doctorName TEXT);';
 	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id TEXT UNIQUE, doctor_patient_id INTEGER, content TEXT, msg_type TEXT, messaged_at TIMESTAMP, in_or_out INTEGER, is_read INTEGER);';
 	
 	function onsuccess(tx) {
@@ -40,11 +40,12 @@ function createTable() {
 function newMessage(){
 	
 	$("#newMessage").css("color","red");
+	$("#newMessage").text("您有新的消息");
 }
 
 function changeColor(){
 	
-	$("#newMessage").css("color","#000");
+	$("#newMessage").text("");
 	setTimeout(changeColor, 3000);
 }
 
@@ -58,13 +59,14 @@ function fetchMessage(target) {
 			var inOrOut = this.inOrOut;
 			var dateCreated = this.dateCreated;
 			var isRead = this.isRead;
+			var doctorName = this.doctorName;
 			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut,isRead);
 			if(msgId != null){
 				newMessage();
 			}
 			var v = map[doctorPatientId];
 			if(v == null) {
-				v = [msgId, 1];
+				v = [msgId, 1,doctorName];
 				map[doctorPatientId] = v;
 			} else {
 				v[1] = v[1] + 1;
@@ -107,13 +109,14 @@ function sendMessage(target, content) {
 }
 
 function updatePatients() {
-	var doctorPatientId, lastMsgId, unreadCount
-	var sql = 'select last_message_id, unread_message_count from patients where doctor_patient_id = ?';
+	var doctorPatientId, lastMsgId, unreadCount, doctorName
+	var sql = 'select last_message_id, unread_message_count, doctorName from patients where doctor_patient_id = ?';
 
 	$.each(map, function(key, value){
 		doctorPatientId = key;
 		lastMsgId = value[0];
 		unreadCount = value[1];
+		doctorName = value[2];
 	    db.transaction(function (tx) {
 	        tx.executeSql(sql, [key], onsuccess, onerror);
 	    })
@@ -122,7 +125,7 @@ function updatePatients() {
 	function onsuccess(tx, rs) {
         var len = rs.rows.length;
         if(len == 0) {
-        	insertPatient(doctorPatientId, lastMsgId, unreadCount);
+        	insertPatient(doctorPatientId, lastMsgId, unreadCount,doctorName);
 	    } else {
 			var row = rs.rows.item(0);
 			var l = row.last_message_id;
@@ -177,15 +180,15 @@ function updateRead(msgId, read){
 	})
 }
 
-function insertPatient(doctorPatientId, last_message_id, unread_message_count) {
-	var sql = 'insert into patients(doctor_patient_id, last_message_id, unread_message_count) values (?,?,?);';
+function insertPatient(doctorPatientId, last_message_id, unread_message_count,doctorName) {
+	var sql = 'insert into patients(doctor_patient_id, last_message_id, unread_message_count,doctorName) values (?,?,?,?);';
 	function onsuccess(tx) {
 	}
 
 	function onerror(tx, error) {
 	}
 	db.transaction(function(tx) {
-		tx.executeSql(sql, [ doctorPatientId, last_message_id, unread_message_count ],
+		tx.executeSql(sql, [ doctorPatientId, last_message_id, unread_message_count, doctorName ],
 				onsuccess, onerror);
 	})
 }
