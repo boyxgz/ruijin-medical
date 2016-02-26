@@ -92,3 +92,19 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.surelution.ruijin.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.surelution.ruijin.UserRole'
+grails.plugin.springsecurity.authority.className = 'com.surelution.ruijin.Role'
+grails.plugin.springsecurity.requestMap.className = 'com.surelution.ruijin.Requerst'
+grails.plugin.springsecurity.securityConfigType = 'Requestmap'
+grails.plugin.springsecurity.logout.postOnly = false
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+'/':                              ['permitAll'],
+'/index':                         ['permitAll'],
+'/index.gsp':                     ['permitAll'],
+'/**/js/**':                      ['permitAll'],
+'/**/css/**':                     ['permitAll'],
+'/**/images/**':                  ['permitAll'],
+'/**/favicon.ico':                ['permitAll']
+]
