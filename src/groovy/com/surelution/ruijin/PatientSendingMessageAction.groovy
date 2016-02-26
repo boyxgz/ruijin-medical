@@ -19,7 +19,7 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 	 */
 	public boolean accept() {
 		def msgType = getParam(Attribute.KEY_MsgType)
-		if(msgType == Attribute.Msg_Type_TEXT) {
+		if(msgType == Attribute.Msg_Type_TEXT || msgType == "image") {
 			patient = Patient.findBySubscriber(subscriber)
 			if(patient)
 				dp = DoctorPatient.findByPatientAndPatientPrefered(patient, true)
@@ -37,6 +37,9 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		i.dp = dp
 		i.isRead = false
 		i.message = getParam(Attribute.KEY_Content)
+		if(getParam(Attribute.KEY_MsgType) == "image") {
+			i.msgType = "image"
+		}
 		i.save(flush:true)
 		keepSilence()
 	}

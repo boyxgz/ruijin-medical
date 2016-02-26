@@ -15,5 +15,6 @@ class Interaction {
 	Date dateCreated   //发送时间
 	Boolean isRead    //是否已读
 	String message    //消息
+	String msgType = "text"
 	Boolean fromDoctor = true //来自医生的消息还是来自患者的消息
 }
