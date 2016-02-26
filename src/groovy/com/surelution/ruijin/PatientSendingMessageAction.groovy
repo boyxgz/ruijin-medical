@@ -39,8 +39,13 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		i.message = getParam(Attribute.KEY_Content)
 		if(getParam(Attribute.KEY_MsgType) == "image") {
 			i.msgType = "image"
+			i.message = getParam("PicUrl")
+		} else if(getParam(Attribute.KEY_MsgType) == Attribute.Msg_Type_TEXT) {
+			i.msgType = "text"
+			i.message = getParam(Attribute.KEY_Content)
 		}
 		i.save(flush:true)
+		
 		keepSilence()
 	}
 

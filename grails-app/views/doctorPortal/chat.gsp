@@ -1,7 +1,8 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@page contentType="text/html;charset=UTF-8" %>
 <%@page import="com.surelution.whistle.push.UserInfo"%>
 <g:set var="doctor" value="${UserInfo.loadUserInfo(dp.doctor.subscriber.openId) }"/>
 <g:set var="patient" value="${UserInfo.loadUserInfo(dp.patient.subscriber.openId) }"/>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%--<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -11,7 +12,9 @@
 <!--讨论区滚动条begin-->
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" ></link>
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/bootstrap.min.css') }" ></link>
-<script type="text/javascript" src="${resource(file:'js/jquery.min.js') }"></script><!-- http://code.jquery.com/jquery-1.6.4.min.js -->
+<link rel="stylesheet" type="text/css" href="${resource(file:'css/jquery-ui.css') }" ></link>
+<script type="text/javascript" src="${resource(file:'js/jquery.min.js') }"></script>
+<script type="text/javascript" src="${resource(file:'js/jquery-ui.js') }"></script>
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
 <script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
@@ -20,6 +23,7 @@
 		div{}
 		h3{margin-top:5px;}
 		body{line-height:0px;}
+		div.myImage{display: none; width:100%; height:100%;}
 	</style>
 	<script type="text/javascript">
 		var lastMessageId = 0;
@@ -35,8 +39,6 @@
 
 		    $('#jp-container').animate({scrollTop: height});
 
-		    
-			
 		    fm();
 		    changeColor();
 		});
@@ -65,12 +67,12 @@
 			        	updateRead(msgId, read);
 			        	lastMsgId = row.msg_id;
 			        	var content = row.content;
-			        	if(row.in_or_out == 0){
+			        	if(row.in_or_out == 0 ){
 			        		var dn = "${dp?.doctor?.name}" + "回复：";
 				        	content = content.substr(dn.length,content.length);
-			        		var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id);
+			        		var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
 				        }else{
-				        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id);
+				        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
 					    }
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);
@@ -91,7 +93,7 @@
 		}
 		
 		
-		function buildContent(inOrOut, content, messagedAt, msgId) {
+		function buildContent(inOrOut, content, messagedAt, msgId, msgType) {
 			var ic = '<div style=" _height:80px;" class="';
 			var msgAt = messagedAt.substr(0,16);
 			if(inOrOut == 1) {
@@ -117,14 +119,35 @@
 			ic += '" width="45" height="45"/></g:link>';
 			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" id="recordtext_';
 			ic += msgId;
-			ic += '"><h3>';
-			ic += content;
-			ic += '</h3><span class="talk_time">';
+			ic += '">'; 
+			if(msgType == "text") {
+				ic += '<h3>';
+				ic += content;
+				ic += '</h3>'; 
+			}else if(msgType == "image"){
+				ic += '<img class="preview" id="previe_';
+				ic += msgId;
+				ic += '" src="';
+				ic += content;
+				ic += '" width="30%" height="30%" onclick="showPic(\'';
+				ic += content
+				ic += '\')"/>';
+			}
+			ic += '<span class="talk_time">';
 			ic += msgAt;
 			ic += '</div>';
 			return ic;
 		}
-
+		
+		function preview(id){
+			alert(1);
+			alert(id);
+		}
+		
+		$("img.preview").click(function() {
+	        $('div.myImage').dialog();
+	    });
+	    
 		function sorcllIntoView(){
 			var talkRecord = document.getElementById("talk_record");
 			talkRecord.scrollTop = talkRecord.scrollHeight;
@@ -163,6 +186,10 @@
 		<div id="jp-container" class="jp-container">
 		
 		</div>
+		<img class="preview" src="1.jpg" />
+					<div class="myImage">
+						<img id="chatImage" src="" />
+					</div>
 		<div id="msg_end" style="height:0px; overflow:hidden;"></div>
 	</div>
 	</div>
@@ -174,6 +201,17 @@
 </div>
 
 <script type="text/javascript">
+$(".preview").click(function() {
+	var imgSrc = $(this).attr('src');
+	console.log(imgSrc);
+	$('#chatImage').attr('src', imgSrc);
+    $('.myImage').dialog();
+});
+
+function showPic(imgUrl) {
+	$('#chatImage').attr('src', imgUrl);
+    $('.myImage').dialog();
+}
 function sendMsg() {
 	
 	var msg = $('#txtMessage').val();

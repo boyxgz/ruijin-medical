@@ -14,18 +14,19 @@ class PatientPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('patient-sn')
 		
-		patient = PatientCookie.findByCookieSn(userSn)?.patient
-		//patient = Patient.get(1)
-		
-		if(!patient) {
-			def requestUrl = request.forwardURI
-			def baseUrl = Holders.config.grails.serverURL
-			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/patient", requestUrl, AuthScope.BASE)
-			response.deleteCookie('patient-sn')
-			redirect(url:url)
-			return false
-		}
-		return true
+		patient = Patient.get(1)
+//		
+//		patient = PatientCookie.findByCookieSn(userSn)?.patient
+//		
+//		if(!patient) {
+//			def requestUrl = request.forwardURI
+//			def baseUrl = Holders.config.grails.serverURL
+//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/patient", requestUrl, AuthScope.BASE)
+//			response.deleteCookie('patient-sn')
+//			redirect(url:url)
+//			return false
+//		}
+//		return true
 	}
 	
     def index() { }

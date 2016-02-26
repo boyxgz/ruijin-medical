@@ -18,18 +18,18 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		//doctor = Doctor.get(1);
-		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
-		
-		if(!doctor) {
-			def requestUrl = request.forwardURI
-			def baseUrl = Holders.config.grails.serverURL
-			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
-			response.deleteCookie('doctor-sn')
-			redirect(url:url)
-			return false
-		}
-		return true
+		doctor = Doctor.get(1);
+//		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+//		
+//		if(!doctor) {
+//			def requestUrl = request.forwardURI
+//			def baseUrl = Holders.config.grails.serverURL
+//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
+//			response.deleteCookie('doctor-sn')
+//			redirect(url:url)
+//			return false
+//		}
+//		return true
 	}
 
     def index() {
@@ -131,7 +131,8 @@ class DoctorPortalController {
 				inOrOut:it.fromDoctor?"0":"1", //if message sent by doctor, it's 'out' message, so it's '0'
 				dateCreated:it.dateCreated.format("yyyy-MM-dd HH:mm:ss"),
 				isRead: it.isRead?"1":"0",
-				doctorName : it.dp.doctor.name]
+				doctorName : it.dp.doctor.name,
+				msgType : it.msgType]
 		}
 		interations.each {
 			it.isRead = true
@@ -153,5 +154,10 @@ class DoctorPortalController {
 		patient.comment = com;
 		patient.save();
 		redirect(action:'chat',id:patientId);
+	}
+	
+	def showImg(id){
+		println id
+		println "id"
 	}
 }
