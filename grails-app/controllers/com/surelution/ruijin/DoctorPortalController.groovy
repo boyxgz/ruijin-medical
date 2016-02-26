@@ -18,8 +18,8 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1);
-		/*doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+		//doctor = Doctor.get(1);
+		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 		
 		if(!doctor) {
 			def requestUrl = request.forwardURI
@@ -29,7 +29,7 @@ class DoctorPortalController {
 			redirect(url:url)
 			return false
 		}
-		return true*/
+		return true
 	}
 
     def index() {

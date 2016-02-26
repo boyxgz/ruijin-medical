@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+al<!DOCTYPE html>
 <html>
 <head>
 	<title>网上诊室</title>
@@ -44,7 +44,7 @@
 			loadPatients();
 			setTimeout(fm, 2000);
 		}
-		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count,p.doctorName, m.content,m.msg_type,m.messaged_at from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
+		var sql = 'select p.doctor_patient_id,p.nickname,p.headImgUrl,p.last_message_id,p.unread_message_count,p.doctorName, m.content,m.msg_type,m.messaged_at,m.in_or_out from patients p left join messages m on p.last_message_id=m.msg_id order by last_message_id desc';
 
 		function loadPatients() {
 			function onsuccess(tx, rs) {	//rs返回的结果集
@@ -58,7 +58,9 @@
 		        	var docName = row.doctorName;
 		        	docName += "回复:";
 		        	var content = row.content;
-		        	content = content.substr(docName.length);
+		        	if(row.in_or_out == 0){
+		        		content = content.substr(docName.length);
+			        }
 		        	messageAt = messageAt.substr(0,16);
 		        	var liCotainer = $("#doctorPatientId-"+doctorPatientId);
 		        	if(liCotainer.length == 0) {	//当没有这个列的时候，将重新创建一个这样的列 
@@ -83,7 +85,7 @@
 		                itemContent += '</h3><p id="message_content_';
 		                itemContent += doctorPatientId;
 		                itemContent += '">';
-		                itemContent += row.content;
+		                itemContent += content;
 		                itemContent += '</p>';
 		                itemContent += '<p style="margin-left:60%; margin-bottom:-20px;" id="messageAt_';
 						itemContent += doctorPatientId;

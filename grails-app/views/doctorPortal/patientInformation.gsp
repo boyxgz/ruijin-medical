@@ -10,7 +10,14 @@
 	</style>
 </head>
 <body>
-<div class="modal-header" ><h3>患者：${dp?.patient?.name }</h3></div>
+<div class="modal-header" >
+	<table>
+		<tr>
+			<td><h3>患者：${dp?.patient?.name }</h3></td>
+			<td><g:link><input type="button" class="btn btn-default" value="阻止来消息"/></g:link></td>
+		</tr>
+	</table>
+</div>
 <div class="modal-body">
 <table style="width:100%">
 	<tbody>

@@ -14,7 +14,7 @@ class PatientCookie {
 	Date dateCreated
 	Date lastUpdated
 
-	public static PatientCookie populate(Doctor patient) {
+	public static PatientCookie populate(Patient patient) {
 		def sc = PatientCookie.findOrCreateByPatient(patient)
 		sc.cookieSn = UUID.randomUUID().toString()
 		sc.save(flush:true)

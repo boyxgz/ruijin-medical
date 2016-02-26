@@ -18,8 +18,8 @@
 <body>
 <div>
 	<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;">
-	<div style="width:100%; height:20px; border:1px solid red;"></div>
-	<div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
+	<div style="width:100%; height:20px;"></div>
+	<div class="center"style=" width:98%; height:100%; margin-left:1%;">
 		<div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
 			<g:if test="${flash.message }">${flash.message }</g:if>
 		</div>

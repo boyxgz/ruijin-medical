@@ -175,7 +175,7 @@
 
 <script type="text/javascript">
 function sendMsg() {
-	changeHeight();
+	
 	var msg = $('#txtMessage').val();
 	if(msg.length != 0){
 		var len;

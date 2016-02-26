@@ -5,26 +5,27 @@ import com.surelution.whistle.core.Auth2Util.AuthScope;
 
 import grails.util.Holders;
 
-class PatientController {
+class PatientPortalController {
 
-	private Subscriber subscriber;
+	private Patient patient;
 	/**
-	 * 自动登录
+	 ** 自动登录
 	 */
 	def beforeInterceptor = {
-		def userSn = request.getCookie('user-sn');
+		def userSn = request.getCookie('patient-sn')
 		
-		subscriber = SubscriberCookie.findBySubscriberSn(userSn)?.subscriber;
+		patient = PatientCookie.findByCookieSn(userSn)?.patient
+		//patient = Patient.get(1)
 		
-		if(!subscriber) {
-			def requestUrl = request.forwardURI;
-			def baseUrl = Holders.config.grails.serverURL;
-			def url = Auth2Util.buildRedirectUrl("${baseUrl}/subscriberPortal/autoLogin", requestUrl, AuthScope.BASE);
-			response.deleteCookie('user-sn');
-			redirect(url:url);
-			return false;
+		if(!patient) {
+			def requestUrl = request.forwardURI
+			def baseUrl = Holders.config.grails.serverURL
+			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/patient", requestUrl, AuthScope.BASE)
+			response.deleteCookie('patient-sn')
+			redirect(url:url)
+			return false
 		}
-		return true;
+		return true
 	}
 	
     def index() { }
@@ -43,8 +44,6 @@ class PatientController {
 	
 	def information(){
 		//个人资料
-		def subID = Subscriber.get(subscriber.id);	//subscriber.id
-		def patient = Patient.findBySubscriber(subID);
 		if(patient != null && patient.name != null){
 			redirect(action:'showInformation');
 		}
@@ -55,34 +54,27 @@ class PatientController {
 	
 	def registers(){
 		//注册
-		def subID = Subscriber.get(subscriber.id);	//subscriber.id
-		def patient = Patient.findBySubscriber(subID);
 		[patient:patient];
 	}
 	
 	def showInformation(){
 		//显示个人资料
-		def subID = Subscriber.get(subscriber.id);	//subscriber.id
-		def patient = Patient.findBySubscriber(subID);
 		[patient:patient];
 	}
 	
 	def saveInformation(){
 		//保存个人资料
-		def patient;
+		def newPatient;
 		def name = params.name;
-		def dateOfBirth = params.date('dateOfBirth','yyyy-MM-dd')
+		def dateOfBirth = params.date('dateOfBirth','yyyy-MM-dd');
 		def sex = params.sex;
 		def iDcard = params.iDcard;
 		def phoneNumb = params.phoneNumb;
 		def datecareted = new Date();
-		def subID = Subscriber.get(subscriber.id);	//subscriber.id
-		def patientSub = Patient.findBySubscriber(subID);
-		if(patientSub != null){
-			patient =patientSub;
-		}
-		else{
-			patient = new Patient();
+		println patient.id
+		def patientSub = Patient.findBySubscriber(patient.subscriber);
+		if(patientSub == null){
+			newPatient = new Patient();
 		}
 		patient.name = name;
 		patient.dateOfBirth = dateOfBirth;
@@ -90,7 +82,7 @@ class PatientController {
 		patient.iDcard = iDcard;
 		patient.phoneNumb = phoneNumb;
 		patient.dateCreated = datecareted;
-		patient.subscriber = subscriber;
+		patient.subscriber = patient.subscriber;
 		patient.save(flush:true);
 		redirect(action:'showInformation');
 		
@@ -102,8 +94,6 @@ class PatientController {
 	
 	def selectDoctor(){
 		//选择医生
-		def num = Subscriber.get(subscriber.id);//subscriber.id
-		def patient = Patient.findBySubscriber(num);
 		def dpCheckBox = new DoctorPatient();
 		def doctorpatient = DoctorPatient.createCriteria().list {
 			if(patient){
@@ -138,8 +128,6 @@ class PatientController {
 	def oneselfConcern(){
 		//我的关注
 		//TODO 获取用户的subscriber 然后再通过这个类找到患者的id
-		def num = Subscriber.get(subscriber.id);	//subscriber.id
-		def patient = Patient.findBySubscriber(num);
 		def doctorpatient = DoctorPatient.createCriteria().list {
 			if(patient){
 				eq('patient',patient);
@@ -172,7 +160,7 @@ class PatientController {
 	def selectDoc(){
 		def dp = DoctorPatient.get(params.dp);
 		def p = DoctorPatient.createCriteria().list {
-			eq("patient",dp.patient);
+			eq("patient",patient);
 		}
 		
 		p.each {

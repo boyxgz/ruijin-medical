@@ -7,7 +7,7 @@
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <style>
 	*{margin:0px; padding:0px;}
-	body{background-color:#F0F0F0;}
+	body{background-color:#F0F0F0;height:70%; margin-bottom:200px;}
 	.small-wid-td{width:90px;}
 	.wid-td{width:110px;}
 	.big-wid-td{width:190px;}
@@ -46,7 +46,6 @@ function confirm(){
 	var dp = document.getElementById("dp");
 	var	nameId = "docotorName_"+dp.value;
 	var doctorName = document.getElementById(nameId);
-	alert(doctorName);
 	alert("您可以向"+doctorName.innerHTML+"咨询了！");
 }
 </script>
