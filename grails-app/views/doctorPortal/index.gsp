@@ -1,4 +1,4 @@
-al<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>网上诊室</title>
@@ -56,11 +56,17 @@ al<!DOCTYPE html>
 		        	var messageId = row.last_message_id;
 		        	var messageAt = row.messaged_at;
 		        	var docName = row.doctorName;
+		        	var msgType = row.msg_type;
 		        	docName += "回复:";
 		        	var content = row.content;
-		        	if(row.in_or_out == 0){
-		        		content = content.substr(docName.length);
-			        }
+		        	if(msgType == "text"){
+		        		if(row.in_or_out == 0){
+			        		content = content.substr(docName.length);
+				        }
+			       	}else if(msgType == "image"){
+				       	content = "[ 图片]";
+				    }
+		        	
 		        	messageAt = messageAt.substr(0,16);
 		        	var liCotainer = $("#doctorPatientId-"+doctorPatientId);
 		        	if(liCotainer.length == 0) {	//当没有这个列的时候，将重新创建一个这样的列 
