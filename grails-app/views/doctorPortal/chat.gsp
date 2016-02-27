@@ -186,10 +186,9 @@
 		<div id="jp-container" class="jp-container">
 		
 		</div>
-		<img class="preview" src="1.jpg" />
-					<div class="myImage">
-						<img id="chatImage" src="" />
-					</div>
+		<div class="myImage" style="position:absolute; top:10%;">
+			<img id="chatImage" src="" />
+		</div>
 		<div id="msg_end" style="height:0px; overflow:hidden;"></div>
 	</div>
 	</div>

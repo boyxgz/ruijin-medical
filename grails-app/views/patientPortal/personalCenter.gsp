@@ -47,7 +47,7 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container">
   <div style="widht:100%; height:10px;"></div>
-  <table style="width:100%; height:15px;">
+  <%--<table style="width:100%; height:15px;">
   <tr>
   	<td class="text-center">
   		<g:link action="personalCenter">关注此微信</g:link><!-- 如何关注微信 -->
@@ -57,7 +57,7 @@
   	</td>
   </tr>
   </table>
-  </div>
+  --%></div>
 </nav>
 </body>
 </html>
