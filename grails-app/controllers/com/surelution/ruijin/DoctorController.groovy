@@ -17,7 +17,7 @@ class DoctorController {
         redirect(action: "list", params: params)
     }
 
-    def list(Integer max) {
+    def list(Integer max) {   
         params.max = Math.min(max ?: 10, 100)
         [doctorInstanceList: Doctor.list(params), doctorInstanceTotal: Doctor.count()]
     }
