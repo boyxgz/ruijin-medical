@@ -1,4 +1,5 @@
 
+<%@page import="com.surelution.whistle.push.UserInfo"%>
 <%@ page import="com.surelution.ruijin.Doctor" %>
 <!DOCTYPE html>
 <html>
@@ -63,6 +64,9 @@
 						<g:sortableColumn property="inquiries" title="${message(code: 'doctor.inquiries.label', default: 'Inquiries')}" class="alink"/>
 					
 						<g:sortableColumn property="reservations" title="${message(code: 'doctor.reservations.label', default: 'Reservations')}" class="alink"/>
+						
+						<th>微信信息</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -81,6 +85,16 @@
 						<td>${fieldValue(bean: doctorInstance, field: "inquiries")}</td>
 					
 						<td>${fieldValue(bean: doctorInstance, field: "reservations")}</td>
+						<g:set var="userInfo"/>
+						<g:if test="${doctorInstance.subscriber }">
+							<g:set var="userInfo" value="${UserInfo.loadUserInfo(doctorInstance.subscriber.openId) }"/>
+						</g:if>
+						<td>${userInfo?.nickname }</td>
+						<td>
+							<%
+								//groupinfo
+							 %>
+						</td>
 					    <%--<td>
 					        <a href="${createLink(action:'delete',controller:'doctor',id:doctorInstance.id) }" onclick="return confirm('${message(code:'default.button.delete.confirm.message',default:'亲，确认删除嘛？ ')}')" class="glyphicon glyphicon-trash" data-toggle="tooltip" title="删除"></a>
 							&nbsp;&nbsp;&nbsp;&nbsp;

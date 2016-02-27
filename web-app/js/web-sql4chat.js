@@ -8,7 +8,7 @@ var map = {};
 function createDB() {
 	var result, name, version, display_name, size
 
-	name = 'chat-local-db5'
+	name = 'chat-local-db9'
 	version = 1.0
 	display_name = 'Chat Database'
 	size = 262144 // 256KB
@@ -60,7 +60,8 @@ function fetchMessage(target) {
 			var dateCreated = this.dateCreated;
 			var isRead = this.isRead;
 			var doctorName = this.doctorName;
-			insertMessage(msgId, msg, 'text', dateCreated, doctorPatientId, inOrOut,isRead);
+			var msgType = this.msgType;
+			insertMessage(msgId, msg, msgType, dateCreated, doctorPatientId, inOrOut,isRead);
 			if(msgId != null){
 				newMessage();
 			}
