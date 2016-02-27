@@ -107,7 +107,7 @@
 		</div><!-- middle结束 -->
 		
 		<div class="foot navbar navbar-fixed-bottom">
-		    <div class="home">
+		    <%--<div class="home">
 		         <dl>
 		            <dt class="dt2"><img src="${resource(dir:'images',file:'home.png')}" style="height: 35px;width: 35px;"/></dt>
 		            <dd class="dt2">首页</dd>
@@ -119,7 +119,7 @@
 		            <dd class="dt2">个人中心</dd>
 		         </dl>
 		    </div>
-		</div>
+		--%></div>
 	</div>
 </body>
 </html>
