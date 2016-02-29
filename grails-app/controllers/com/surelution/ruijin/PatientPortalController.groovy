@@ -14,7 +14,7 @@ class PatientPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('patient-sn')
 		
-		//patient = Patient.get(1)
+//		patient = Patient.get(1)
 		
 		patient = PatientCookie.findByCookieSn(userSn)?.patient
 		
@@ -163,9 +163,11 @@ class PatientPortalController {
 		def p = DoctorPatient.createCriteria().list {
 			eq("patient",patient);
 		}
+		println p
 		
 		p.each {
 			it.patientPrefered = false;
+			it.save()
 		}
 		
 		

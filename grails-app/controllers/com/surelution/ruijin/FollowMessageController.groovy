@@ -103,8 +103,17 @@ class FollowMessageController {
     }
 	
 	def updates(long id){
-		def fm = FollowMessage.get(id);
-		fm.message = params.message;
+		def fm;
+		println params.message
+		println id
+		println "id"
+		if(id != 0){
+			fm = FollowMessage.get(id);
+			fm.message = params.message;
+		}else{
+			fm = new FollowMessage();
+			fm.message = params.message;
+		}
 		fm.save()
 		redirect(action:'list')
 	}

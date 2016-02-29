@@ -20,7 +20,6 @@
 <script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
 <script type="text/javascript" src="${resource(file:'js/bootstrap.min.js') }"></script>
 	<style>
-		div{}
 		h3{margin-top:5px;}
 		body{line-height:0px;}
 		div.myImage{display: none; width:100%; height:100%;}
@@ -74,6 +73,7 @@
 				        }else{
 				        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
 					    }
+					    
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);
 			        	sorcllIntoView();
@@ -94,7 +94,7 @@
 		
 		
 		function buildContent(inOrOut, content, messagedAt, msgId, msgType) {
-			var ic = '<div style=" _height:80px;" class="';
+			var ic = '<div style=" height:auto; overflow:auto;" class="';
 			var msgAt = messagedAt.substr(0,16);
 			if(inOrOut == 1) {
 				ic += 'talk_recordbox';
@@ -117,7 +117,7 @@
 				ic += '${doctor.headImgUrl }';
 			}
 			ic += '" width="45" height="45"/></g:link>';
-			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" id="recordtext_';
+			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" style="height:;" id="recordtext_';
 			ic += msgId;
 			ic += '">'; 
 			if(msgType == "text") {
@@ -125,23 +125,19 @@
 				ic += content;
 				ic += '</h3>'; 
 			}else if(msgType == "image"){
-				ic += '<img class="preview" id="previe_';
+				ic += '<g:link action="showImg" data-toggle="modal" data-target="#showimg"><img class="preview" id="previe_';
 				ic += msgId;
 				ic += '" src="';
 				ic += content;
 				ic += '" width="30%" height="30%" onclick="showPic(\'';
 				ic += content
-				ic += '\')"/>';
+				ic += '\')"/></g:link>';
 			}
 			ic += '<span class="talk_time">';
 			ic += msgAt;
-			ic += '</div>';
+			ic += '</span></div></div><div style="width:100%; height:30px;"></div>';
 			return ic;
 		}
-		
-		$("img.preview").click(function() {
-	        $('div.myImage').dialog();
-	    });
 	    
 		function sorcllIntoView(){
 			var talkRecord = document.getElementById("talk_record");
@@ -158,11 +154,6 @@
 		                $("#patientModal").modal('show');  }); 				    	
 				    });
 			});
-		function changeHeight(){
-			var talk_record = document.getElementById("msgId");
-			var recordtextId = "recordtext_" + msgId;
-			var talk_recordtext = document.getElementById(recordtextId);
-		};
 	</script>
 <!--讨论区滚动条end-->
 </head>
@@ -181,29 +172,25 @@
 		<div id="jp-container" class="jp-container">
 		
 		</div>
-		<div class="myImage" style="height:90%; width:90%; top:5%; left:5%;">
-			<img id="chatImage" src="" />
-		</div>
+		<div class="modal fade" id="showimg" role="dialog">
+            <div class="modal-dialog">
+	            <div class="modal-content"> 
+	            </div>
+            </div>
+        </div>
 	</div>
 	</div>
 	
 	<div class="talk_word">
-		<input id="txtMessage" class="messages emotion" placeholder="在这里输入文字" ></input>
-		<input class="talk_send" id="send" type="button" title="发送" value="发送" onclick="sendMsg()" ></input>
+		<div style="width:100%; height:8px;"></div>
+		<input id="txtMessage" class="messages emotion" placeholder="在这里输入文字" style="float:left;"></input>
+		<input class="talk_send" id="send" type="button" title="发送" value="发送" onclick="sendMsg()" style="float:right;" ></input>
 	</div>
 </div>
 
 <script type="text/javascript">
-$(".preview").click(function() {
-	var imgSrc = $(this).attr('src');
-	console.log(imgSrc);
-	$('#chatImage').attr('src', imgSrc);
-    $('.myImage').dialog();
-});
-
 function showPic(imgUrl) {
 	$('#chatImage').attr('src', imgUrl);
-    $('.myImage').dialog();
 }
 function sendMsg() {
 	

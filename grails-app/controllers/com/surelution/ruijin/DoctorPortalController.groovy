@@ -18,7 +18,7 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-//		doctor = Doctor.get(4);
+//		doctor = Doctor.get(2);
 		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 		
 		if(!doctor) {
@@ -168,4 +168,12 @@ class DoctorPortalController {
 		redirect(action:'chat',id:dpId)
 	}
 	
+	def showImg(){
+		
+	}
+	
+	def doctorPrefered(long id){
+		def dp = DoctorPatient.get(id);
+		[dp:dp]
+	}
 }

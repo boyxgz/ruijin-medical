@@ -93,7 +93,7 @@
 		                itemContent += '">';
 		                itemContent += content;
 		                itemContent += '</p>';
-		                itemContent += '<p style="margin-left:60%; margin-bottom:-20px;" id="messageAt_';
+		                itemContent += '<p style="margin-bottom:-20px;" align="right" id="messageAt_';
 						itemContent += doctorPatientId;
 		                itemContent += '">';
 		                itemContent += messageAt;

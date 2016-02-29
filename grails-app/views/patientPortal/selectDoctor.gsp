@@ -52,7 +52,7 @@ function confirm(){
 </head>
 <body>
 <div style="height:90%;">
-<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;">
+<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:40%;">
 <div style="width:100%; height:20px;"></div>
 <div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
@@ -68,7 +68,7 @@ function confirm(){
 			</g:if>
 		</td>
 		<td>
-		<g:form action="selectDoc">
+		<g:form action="selectDoc" id="${dp?.id }">
 			<input type="hidden" name="dp" value="" id="dp">
 			<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
 				<input type="submit" class="btn btn-default" value="确认" id="submit" onclick="confirm()"/>

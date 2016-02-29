@@ -16,8 +16,8 @@
 <body>
 <div style="height:90%;">
 <div>
-	<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;">
-	<ul style="margin-top:10px; margin-left:6%;">
+	<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:40%;">
+	<ul style="margin-top:10px; margin-left:8%;">
 		<li class="wh">
 			<div>
 			<g:link action="information" id="">
@@ -44,7 +44,7 @@
 </div>
 <div style="width:100%; height:120px;"></div>
 </div>
-<nav class="navbar navbar-default navbar-fixed-bottom">
+<nav class="navbar navbar-default navbar-fixed-bottom" style="height:8%;">
   <div class="container">
   <div style="widht:100%; height:10px;"></div>
   <%--<table style="width:100%; height:15px;">

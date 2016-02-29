@@ -54,7 +54,7 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		def tm = new TemplateMessage()
 		tm.templateId = "A4ozynjfXMHOSiXsWXnlUI0gZJ1_XBmxNbdtk_tdsQM"
 		tm.toUser = dp.doctor.subscriber.openId
-		tm.url = "http://www.sohu.como/"
+		tm.url = "qiushengming.sh-hansi.com/doctorPortal/chat/" + dp.id
 		tm.addEntry("first", "你收到一条新留言，请查看","#000")
 		tm.addEntry("keyword1", dp.patient.name,"#000")
 		tm.addEntry("keyword2", new Date().format("yyyy-MM-dd HH:mm:ss"),"#000")

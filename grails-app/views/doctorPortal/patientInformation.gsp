@@ -45,7 +45,7 @@
 			<td></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="right"><textarea id="textarea" rows="5" style="width:300px;" onchange="changeTexArea()">${dp?.patient?.comment }</textarea></td>
+			<td colspan="2" align="right"><textarea id="textarea" rows="5" style="width:90%;" onchange="changeTexArea()">${dp?.patient?.comment }</textarea></td>
 		</tr>
 	</tbody>
 </table>
@@ -54,6 +54,7 @@
 <g:form action="updateCom" id="${dp?.id }">
 <input type="hidden" value="" id="hidden" name="comment"/>
 <input type="submit" id="btn" class="btn btn-default" value="提交"/>
+ <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 </g:form>
 </div>
 <script>

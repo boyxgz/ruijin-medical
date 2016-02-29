@@ -32,7 +32,6 @@ class FollowDoctorAction extends RuijinBaseAction {
 			docId = getParam("EventKey")
 		}
 		doctor = Doctor.get(docId)
-		doctor != null
 	}
 
 	/* (non-Javadoc)
@@ -46,11 +45,12 @@ class FollowDoctorAction extends RuijinBaseAction {
 		}
 		
 		def dp = DoctorPatient.findOrCreateByDoctorAndPatient(doctor, patiend)
+		println dp
 		dp.patientPrefered = true
 		dp.isFocus = true
 		dp.doctorPrefered = true
 		dp.save(flush:true)
-		
+		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}"))
 		def name = patiend.name
 		if(name == null){
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)
@@ -59,7 +59,7 @@ class FollowDoctorAction extends RuijinBaseAction {
 		
 		def tm = new TemplateMessage()
 		tm.templateId = "9LT4Pl_kG0JAEjEF4bbUMfPEd4KJI2lBMxjh2fg_nVM"
-		tm.url = "http://qiushengming.sh-hansi.com"
+		tm.url = "http://qiushengming.sh-hansi.com/doctorPortal/doctorPrefered/" + dp.id
 		tm.toUser = dp.doctor.subscriber.openId
 		tm.addEntry("first", "患者关注提醒", "#000")
 		tm.addEntry("keyword1",name,"#000")
@@ -68,8 +68,6 @@ class FollowDoctorAction extends RuijinBaseAction {
 		tm.addEntry("remark","点击查看详情,并为患者进行备注","#000")
 		tm.send()
 		
-		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}"))
-		keepSilence()
 	}
 
 }
