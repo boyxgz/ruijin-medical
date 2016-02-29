@@ -1,4 +1,4 @@
- {
+{
     "button": [
         
         {
@@ -7,25 +7,25 @@
                 {
                     "type": "view",
                     "name": "在线挂号",
-                    "url": "http://yijuan.sh-hansi.com/ruijin/introDoctor/introDoctor"
+                    "url": "http://qiushengming.sh-hansi.com/introDoctor/introDoctor"
                 },
                 {
                     "type": "view",
                     "name": "个人中心",
-                    "url": "http://yijuan.sh-hansi.com/ruijin/patient/personalCenter"
+                    "url": "http://qiushengming.sh-hansi.com/patientPortal/personalCenter"
                 },
                 {
                     "type": "view",
                     "name": "预约指南",
-                    "url": "http://yijuan.sh-hansi.com/ruijin/customerServer/customerServer"
+                    "url": "http://yijuan.sh-hansi.com/patientPortal/handbook"
                 }
             ]
         },
         
         {
-            "name": "在线咨询",
+            "name": "医生选择",
             "type":"view",
-            "url":"http://www.baidu.com"
+            "url":"http://qiushengming.sh-hansi.com/patientPortal/selectDoctor"
           },
           
           {
@@ -34,12 +34,12 @@
                 {
                     "type": "view",
                     "name": "科室简介",
-                    "url": "http://yijuan.sh-hansi.com/ruijin/introDepartment/introdeDartment"
+                    "url": "http://qiushengming.sh-hansi.com/introDepartment/introdeDartment"
                 },
                 {
                     "type": "view",
                     "name": "联系我们",
-                    "url": "http://yijuan.sh-hansi.com/ruijin/contact/contact"
+                    "url": "http://qiushengming.sh-hansi.com/contact/contact"
                 }
             ]
         }      

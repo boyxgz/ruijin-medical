@@ -18,18 +18,18 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1);
-//		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
-//		
-//		if(!doctor) {
-//			def requestUrl = request.forwardURI
-//			def baseUrl = Holders.config.grails.serverURL
-//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
-//			response.deleteCookie('doctor-sn')
-//			redirect(url:url)
-//			return false
-//		}
-//		return true
+//		doctor = Doctor.get(4);
+		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+		
+		if(!doctor) {
+			def requestUrl = request.forwardURI
+			def baseUrl = Holders.config.grails.serverURL
+			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
+			response.deleteCookie('doctor-sn')
+			redirect(url:url)
+			return false
+		}
+		return true
 	}
 
     def index() {
@@ -148,16 +148,24 @@ class DoctorPortalController {
 	}
 	
 	def updateCom(long id){
-		def patient = Patient.get(id);
-		def patientId = id;
-		def com = params.comment;
-		patient.comment = com;
-		patient.save();
-		redirect(action:'chat',id:patientId);
+		def dp = DoctorPatient.get(id);
+		def dpId = id;
+		dp.patient.comment = params.comment;
+		dp.save();
+		redirect(action:'chat',id:dpId);
 	}
 	
-	def showImg(id){
-		println id
-		println "id"
+	def chatOnOff(long id){
+		def dpId = id;
+		def dp = DoctorPatient.get(id);
+		if(dp.doctorPrefered == true){
+			dp.doctorPrefered = false;
+		}else{
+			dp.doctorPrefered = true;
+		}
+		
+		dp.save()
+		redirect(action:'chat',id:dpId)
 	}
+	
 }

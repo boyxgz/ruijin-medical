@@ -11,10 +11,17 @@
 </head>
 <body>
 <div class="modal-header" >
-	<table>
+	<table style="width:100%">
 		<tr>
 			<td><h3>患者：${dp?.patient?.name }</h3></td>
-			<td><g:link><input type="button" class="btn btn-default" value="阻止来消息"/></g:link></td>
+			<td align="right">
+				<g:if test="${dp.doctorPrefered }">
+				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default">阻止接收消息</g:link>
+				</g:if>
+				<g:else>
+				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default">接收消息</g:link>
+				</g:else>
+			</td>
 		</tr>
 	</table>
 </div>
@@ -24,6 +31,10 @@
 		<tr>
 			<td class="lefttd" align="right"><label>性别：</label></td>
 			<td><label><input type="text" value="${dp?.patient?.sex }" readonly/></label></td>
+		</tr>
+		<tr>
+			<td class="lefttd" align="right"><label>电话：</label></td>
+			<td><label><a href="tel://${dp?.patient?.phoneNumb }">${dp?.patient?.phoneNumb }</a></label></td>
 		</tr>
 		<tr>
 			<td class="lefttd" align="right"><label>关注时间：</label></td>
@@ -40,7 +51,7 @@
 </table>
 </div>
 <div class="modal-footer">
-<g:form action="updateCom" id="${dp?.patient?.id }">
+<g:form action="updateCom" id="${dp?.id }">
 <input type="hidden" value="" id="hidden" name="comment"/>
 <input type="submit" id="btn" class="btn btn-default" value="提交"/>
 </g:form>

@@ -139,11 +139,6 @@
 			return ic;
 		}
 		
-		function preview(id){
-			alert(1);
-			alert(id);
-		}
-		
 		$("img.preview").click(function() {
 	        $('div.myImage').dialog();
 	    });
@@ -186,10 +181,9 @@
 		<div id="jp-container" class="jp-container">
 		
 		</div>
-		<div class="myImage" style="position:absolute; top:10%;">
+		<div class="myImage" style="height:90%; width:90%; top:5%; left:5%;">
 			<img id="chatImage" src="" />
 		</div>
-		<div id="msg_end" style="height:0px; overflow:hidden;"></div>
 	</div>
 	</div>
 	

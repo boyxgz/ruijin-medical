@@ -7,6 +7,8 @@
 	<processor-chain>
 		<processor>com.surelution.ruijin.PatientSendingMessageAction</processor>
 		<processor>com.surelution.ruijin.FollowDoctorAction</processor>
+		<processor>com.surelution.ruijin.FollowWxAction</processor>
+		<processor>com.surelution.ruijin.errorMessageAction</processor>
 	    <processor>com.surelution.ruijin.TempQrScannedAction</processor>
 		<processor>com.surelution.whistle.core.SampleAction</processor>
 		

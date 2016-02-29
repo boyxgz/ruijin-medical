@@ -57,16 +57,27 @@ function confirm(){
 <div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
 	<g:if test="${flash.message }">${flash.message }</g:if>
+	
 </div>
-<div style="width:70px; height:50px; margin-left: 80%; margin-top: 6px;">
-	<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox">
-	<g:form action="selectDoc">
-		<input type="hidden" name="dp" value="" id="dp">
-		<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
-		<input type="submit" class="btn btn-default" value="确认" id="submit" onclick="confirm()"/>
-		</g:if>
-	</g:form>
-</div>
+<table style="width:100%; height:50px; ">
+	<tr>
+		<td align="right" >
+			<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox" />
+			<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
+				<p style="margin-top:3px;">请选择其中一名专家进行咨询。</p>
+			</g:if>
+		</td>
+		<td>
+		<g:form action="selectDoc">
+			<input type="hidden" name="dp" value="" id="dp">
+			<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
+				<input type="submit" class="btn btn-default" value="确认" id="submit" onclick="confirm()"/>
+			</g:if>
+		</g:form>
+		</td>
+	</tr>
+	
+</table>
 <g:each in="${doctorpatient }" var="dp">
 <g:link action="showDoctor" controller="introDoctor" id="${dp?.doctor?.id }">
 <div style="background-color:#fff; border-radius:1em; margin-top:5px;">

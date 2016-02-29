@@ -27,7 +27,7 @@ class AppVarController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'appVar.label', default: 'AppVar'), appVarInstance.id])
-        redirect(action: "show", id: appVarInstance.id)
+        redirect(action: "list")
     }
 
     def show(Long id) {
