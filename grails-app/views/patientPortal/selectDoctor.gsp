@@ -51,16 +51,14 @@ function confirm(){
 </script>
 </head>
 <body>
-<div style="height:90%;">
 <img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:40%;">
 <div style="width:100%; height:20px;"></div>
 <div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
 	<g:if test="${flash.message }">${flash.message }</g:if>
-	
 </div>
 <table style="width:100%; height:50px; ">
-	<tr>
+		<tr>
 		<td align="right" >
 			<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox" />
 			<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
@@ -113,13 +111,20 @@ function confirm(){
 		<td  class="hei-td">
 			<small><small>关注时间：<g:formatDate date="${dp?.dateCreated }" format="yyyy.MM.dd HH:mm"/></small></small>
 		</td>
-		<td align="right"></td>
+		<td align="center">
+			<g:if test="${dp?.doctorPrefered }">
+				可咨询
+			</g:if>
+			<g:else>
+				待确认
+			</g:else>
+		</td>
 	</tr>
 	</table>
 </div>
 </g:link>
 </g:each>
 </div>
-</div>
+<div style="position:fixed; left:0; bottom:20px; width:100%; height:auto; z-index:100;"><g:link action="explain">使用说明</g:link></div>
 </body>
 </html>

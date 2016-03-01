@@ -13,7 +13,6 @@
 	.winput{width:100%;}
 	.wtd{width:120px;}
 	tr{line-height:50px;}
-	td{border:1px solid red;}
 </style>
 <script type="text/javascript">
 function check(form){

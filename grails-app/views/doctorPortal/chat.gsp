@@ -1,5 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8" %>
-<%@page import="com.surelution.whistle.push.UserInfo"%>
+<%@page import="com.surelution.whistle.push.UserInfo" %>
 <g:set var="doctor" value="${UserInfo.loadUserInfo(dp.doctor.subscriber.openId) }"/>
 <g:set var="patient" value="${UserInfo.loadUserInfo(dp.patient.subscriber.openId) }"/>
 
@@ -9,7 +9,6 @@
 --%><meta http-equiv="Content-Type" content="text/html; charset=gb2312" ></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" ></meta>
 <title>与${patient.nickname }的互动</title>
-<!--讨论区滚动条begin-->
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" ></link>
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/bootstrap.min.css') }" ></link>
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jquery-ui.css') }" ></link>
@@ -116,7 +115,7 @@
 			} else {
 				ic += '${doctor.headImgUrl }';
 			}
-			ic += '" width="45" height="45"/></g:link>';
+			ic += '" width="45" height="45"  class="img-circle"/></g:link>';
 			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" style="height:;" id="recordtext_';
 			ic += msgId;
 			ic += '">'; 
@@ -155,11 +154,19 @@
 				    });
 			});
 	</script>
-<!--讨论区滚动条end-->
 </head>
 <body>
 <div class="talk">
-	<div class="talk_title"><span id="newMessage"></span></div>
+	<div class="talk_title">
+		<table style="width:100%; height:auto; height:40px; ">
+			<tr>
+				<td align="left" style=""><g:link action="index" style="color:#fff; width:50%;">
+					<img src="${resource(file:'images/arrowhead.png') }" style="width:40px; height:40px; margin-left:-10px;"></img>返回
+				</g:link></td>
+				<td ><p id="newMessage" align="right" style="margin-top:8px;"></p></td>
+			</tr>
+		</table>
+	</div>
 	<div class="modal modalstyle" id="patientModal" role="dialog">
 	<div class="modal-dialog">
      	<%--Modal content --%>

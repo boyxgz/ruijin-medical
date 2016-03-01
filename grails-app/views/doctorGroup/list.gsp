@@ -30,9 +30,9 @@
 				</g:if>
 				<table class="table table-bordered table-respose">
 					<thead><tr>
-							<th>ID</th>
-							<th>Name</th>
-							<th>Count</th>
+							<th>群组ID</th>
+							<th>群组名称</th>
+							<th>人数</th>
 					</tr></thead>
 					<tbody>
 					<g:each in="${groups}" status="i" var="group">

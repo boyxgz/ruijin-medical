@@ -111,7 +111,7 @@ class DoctorPortalController {
 			if(dp?.doctor?.id == doctor.id && dp?.patient?.subscriber) {
 				UserInfo ui = UserInfo.loadUserInfo(dp.patient.subscriber.openId)
 				if(ui)
-					msg.add([doctorPatientId:dp.id, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name])
+					msg.add([doctorPatientId:dp.id, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.patientName])
 			}
 		}
 		render msg as JSON
@@ -148,13 +148,38 @@ class DoctorPortalController {
 	}
 	
 	def updateCom(long id){
-		def dp = DoctorPatient.get(id);
 		def dpId = id;
-		dp.patient.comment = params.comment;
+		
+		def dp = DoctorPatient.get(id);
+		dp.dTopComment = params.comment;
 		dp.save();
+		
 		redirect(action:'chat',id:dpId);
 	}
 	
+	//医生备注页面
+	def doctorPrefered(long id){
+		def dp = DoctorPatient.get(id);
+		[dp:dp]
+	}
+	
+	//医生备注页面表单提交 
+	def firstCom(long id){
+		def dpId = id;
+		
+		def dp = DoctorPatient.get(id);
+		dp.doctorPrefered = true;
+		dp.dTopComment = params.comment;
+		dp.patientName = params.patientName;
+		dp.patient.sex = params.sex;
+		dp.patient.phoneNumb = params.phoneNumb;
+		dp.commentDate = new Date();
+		dp.save();
+		
+		redirect(action:'doctorPrefered',id:dpId);
+	}
+	
+	//医生控制患者来消息
 	def chatOnOff(long id){
 		def dpId = id;
 		def dp = DoctorPatient.get(id);
@@ -168,12 +193,8 @@ class DoctorPortalController {
 		redirect(action:'chat',id:dpId)
 	}
 	
+	//点击图片放大的modal页面
 	def showImg(){
 		
-	}
-	
-	def doctorPrefered(long id){
-		def dp = DoctorPatient.get(id);
-		[dp:dp]
 	}
 }

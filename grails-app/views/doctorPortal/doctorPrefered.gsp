@@ -10,30 +10,30 @@
 	<script type="text/javascript">
 	</script>
 	<style>
-		.lefttd{align:left; width:25%; height:40px;}
-		tr{line-height:50px;}
+		.lefttd{align:left; width:30%; height:40px;}
+		tr{line-height:40px;}
 	</style>
 </head>
 <body>
 <div>
-<table style="width:90%; margin-left:5%;">
+<g:form action="firstCom" id="${dp?.id }">
+<table style="width:90%; margin-left:5%; ">
 	<tbody>
-		<tr>
-			<td colspan="2"><h3>患者：${dp?.patient?.name }</h3></td>
+		<tr style="line-height:50px;">
+			<td class="lefttd" align="right"><label>姓名：</label></td>
+			<td><label><input type="text" name="patientName" value="${dp?.patientName }" class="form-control"/></label></td>
 		</tr>
-		<tr>
+		<tr style="line-height:50px;">
 			<td class="lefttd" align="right"><label>性别：</label></td>
-			<td><label><input type="text" value="${dp?.patient?.sex }" class="form-control"/></label></td>
-		</tr>
-		<tr>
-			<td class="lefttd" align="right"><label>电话：</label></td>
 			<td>
-				<g:if test="${false }">
-					<label><a href="tel://${dp?.patient?.phoneNumb }">${dp?.patient?.phoneNumb }</a></label>
+				<g:if test="${dp?.patient?.sex == "Unknown" }">
+				<label><g:select name="sex" from="${com.surelution.ruijin.Patient?.Sex?.values()}" 
+					keys="${com.surelution.ruijin.Patient?.Sex?.values()*.name()}" class="form-control" style="width:185px;"/></label>
 				</g:if>
-				<g:else><label>
-					<input type="text" name="phoneNumb" class="form-control" />
-				</label></g:else>
+				<g:else>
+				<label><g:select name="sex" value="${dp?.patient?.sex.name() }" from="${com.surelution.ruijin.Patient.Sex.values()}" 
+					keys="${com.surelution.ruijin.Patient.Sex.values()*.name()}" class="form-control" style="width:185px;;"/></label>
+				</g:else>
 			</td>
 		</tr>
 		<tr>
@@ -45,18 +45,19 @@
 			<td></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="right"><textarea id="textarea" rows="5" style="width:90%;"  class="form-control" onchange="changeTexArea()">${dp?.patient?.comment }</textarea></td>
+			<td colspan="2" align="right">
+				<textarea id="textarea" rows="5" style="width:90%;"  class="form-control" onchange="changeTexArea()">${dp?.dTopComment }</textarea>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="right">
-				<g:form action="updateCom" id="${dp?.id }">
-					<input type="hidden" value="" id="hidden" name="comment"/>
-					<input type="submit" id="btn" class="btn btn-default" value="提交"/>
-				</g:form>
+				<input type="hidden" value="" id="hidden" name="comment"/>
+				<input type="submit" id="btn" class="btn btn-default" value="提交" onclick="notarize()"/>
 			</td>
 		</tr>
 	</tbody>
 </table>
+</g:form>
 </div>
 <div>
 
@@ -65,6 +66,14 @@
 function changeTexArea(){
 	document.getElementById("hidden").value = document.getElementById("textarea").value;
 	
+}
+
+function notarize(){
+	alert("确认提交");
+}
+
+window.onload = function(){
+	changeTexArea();
 }
 </script>
 </body>

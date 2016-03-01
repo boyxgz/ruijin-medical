@@ -13,7 +13,7 @@
 		<dl class="dl-horizontal">
 			<dt>
 				<label for="name">
-				<g:message code="doctorGroup.name.label" default="Name" />
+				<g:message code="doctorGroup.name.label" default="群组名" />
 		        	<span class="required-indicator">*</span>
 		        </label>
 			</dt>

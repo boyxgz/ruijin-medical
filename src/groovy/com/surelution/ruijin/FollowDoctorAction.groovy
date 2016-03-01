@@ -48,9 +48,9 @@ class FollowDoctorAction extends RuijinBaseAction {
 		println dp
 		dp.patientPrefered = true
 		dp.isFocus = true
-		dp.doctorPrefered = true
+		dp.doctorPrefered = false
 		dp.save(flush:true)
-		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}"))
+		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}，待医生确认后，可以与医生聊天"))
 		def name = patiend.name
 		if(name == null){
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)

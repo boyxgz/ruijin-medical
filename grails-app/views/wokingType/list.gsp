@@ -44,18 +44,14 @@
 				</section>
 	<section class="content">
 		<div id="list-wokingType" class="content scaffold-list" role="main">
-			<h4><g:message code="default.list.label" args="[entityName]" /></h4>
 			<g:if test="${flash.message}">
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<table class="table table-bordered table-respose">
 				<thead>
 					<tr>
-					
-						<g:sortableColumn property="description" title="${message(code: 'wokingType.description.label', default: 'Description')}" class="alink"/>
-					
-						<g:sortableColumn property="name" title="${message(code: 'wokingType.name.label', default: 'Name')}" class="alink"/>
-					    
+						<g:sortableColumn property="description" title="${message(code: 'wokingType.description.label', default: '描述')}" class="alink"/>
+						<g:sortableColumn property="name" title="${message(code: 'wokingType.name.label', default: '班种')}" class="alink"/>
 					    <th>操作</th>
 					</tr>
 				</thead>

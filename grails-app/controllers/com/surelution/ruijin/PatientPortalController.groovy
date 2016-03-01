@@ -115,7 +115,7 @@ class PatientPortalController {
 		
 		def isNull;
 		if(dp[0] == null){
-			flash.message = "您暂时未关注任何一位医生，无法进行在线咨询。";
+			flash.message = "您暂未关注任何专家，无法与专家进行在线咨询。";
 			isNull = null;
 		}
 		else{
@@ -187,6 +187,10 @@ class PatientPortalController {
 			os.flush()
 			return
 		}
+	}
+	
+	def explain(){
+		
 	}
 }
 

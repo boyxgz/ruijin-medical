@@ -13,13 +13,16 @@
 <div class="modal-header" >
 	<table style="width:100%">
 		<tr>
-			<td><h3>患者：${dp?.patient?.name }</h3></td>
+			<td>
+				<h3>患者：${dp?.patientName }</h3>
+				<input type="hidden" value="${dp?.patientName }" id="patientName"/>
+			</td>
 			<td align="right">
 				<g:if test="${dp.doctorPrefered }">
-				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default">阻止接收消息</g:link>
+				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default" onclick="off()" >阻止接收消息</g:link>
 				</g:if>
 				<g:else>
-				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default">接收消息</g:link>
+				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default" onclick="on()">接收消息</g:link>
 				</g:else>
 			</td>
 		</tr>
@@ -41,11 +44,15 @@
 			<td><label><g:formatDate date="${dp?.dateCreated }" format="yyyy-MM-dd HH:mm"/></label></td>
 		</tr>
 		<tr>
+			<td align="right" class="lefttd"><label>备注时间：</label></td>
+			<td><label><g:formatDate date="${dp?.commentDate }" format="yyyy-MM-dd HH:mm"/></label></td>
+		</tr>
+		<tr>
 			<td align="right" class="lefttd"><label>备注内容：</label></td>
 			<td></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="right"><textarea id="textarea" rows="5" style="width:90%;" onchange="changeTexArea()">${dp?.patient?.comment }</textarea></td>
+			<td colspan="2" align="right"><textarea id="textarea" rows="5" style="width:90%;" onchange="changeTexArea()">${dp?.dTopComment }</textarea></td>
 		</tr>
 	</tbody>
 </table>
@@ -61,6 +68,20 @@
 function changeTexArea(){
 	document.getElementById("hidden").value = document.getElementById("textarea").value;
 	
+}
+
+function off(){
+	var patientName = document.getElementById("patientName");
+	alert("您已屏蔽了"+patientName.value+"的消息！");
+}
+
+function on(){
+	var patientName = document.getElementById("patientName");
+	alert("您可以接收"+patientName.value+"的消息！");	
+}
+
+window.onload = function(){
+	changeTexArea();
 }
 </script>
 </body>

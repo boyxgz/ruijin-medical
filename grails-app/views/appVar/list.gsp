@@ -32,11 +32,11 @@
 				<table class="table table-bordered table-respose">
 					<thead>
 						<tr>
-							<g:sortableColumn property="key" title="${message(code: 'appVar.key.label', default: 'Key')}" class="alink"/>
+							<g:sortableColumn property="key" title="${message(code: 'appVar.key.label', default: '关键字')}" class="alink"/>
 						
-							<g:sortableColumn property="description" title="${message(code: 'appVar.description.label', default: 'Description')}" class="alink"/>
+							<g:sortableColumn property="description" title="${message(code: 'appVar.description.label', default: '描述')}" class="alink"/>
 						
-							<g:sortableColumn property="value" title="${message(code: 'appVar.value.label', default: 'Value')}" class="alink"/>
+							<g:sortableColumn property="value" title="${message(code: 'appVar.value.label', default: '群组ID')}" class="alink"/>
 						</tr>
 					</thead>
 					<tbody>

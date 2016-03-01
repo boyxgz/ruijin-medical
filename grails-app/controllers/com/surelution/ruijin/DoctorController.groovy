@@ -7,6 +7,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.surelution.ruijin.Subscriber;
 import com.surelution.whistle.core.Auth2Util;
+import com.surelution.whistle.push.GroupInfo;
 import com.surelution.whistle.push.qrcode.QrCode;
 
 class DoctorController {
@@ -160,6 +161,7 @@ class DoctorController {
 	//移出医生微信
 	def removeSubscriber(long id){
 		def doctor = Doctor.get(id);
+		GroupInfo.moveUserToGroup(doctor.subscriber.openId, AppVar.findByKey("default-group-id")?.value);
 		def doctorId = id;
 		doctor.subscriber = null;
 		doctor.save()

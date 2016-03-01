@@ -12,7 +12,7 @@
 	<body>
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>关注回复</h1>
+				<h1>微信公众平台关注，平台自动给用户回复的消息。</h1>
 			</section>
 			<section class="content">
 				<g:if test="${flash.message}">
@@ -21,7 +21,7 @@
 				<g:form action="updates" id="${followMessageInstanceList?.id }">
 				<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
 					<tr>
-						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: 'Message')}" />
+						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
 						<td>
 							<input type="submit" value="提交" class="btn btn-default">
 						</td>
