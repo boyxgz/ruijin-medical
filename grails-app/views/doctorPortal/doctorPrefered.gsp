@@ -1,4 +1,5 @@
 <%@ page import="com.surelution.ruijin.Doctor" %>
+<%@page import="com.surelution.whistle.push.UserInfo"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,21 +11,27 @@
 	<script type="text/javascript">
 	</script>
 	<style>
-		.lefttd{align:left; width:30%; height:40px;}
-		tr{line-height:40px;}
+		.lefttd{align:left; width:32%; height:40px;}
+		.font{font-weight:bold; font-size:18px;}
+		tr{line-height:50px;}
+		td{border-bottom: 1px solid #d7d7d7;}
 	</style>
 </head>
-<body>
-<div>
+<body style="background-color:#d4d4d4;">
 <g:form action="firstCom" id="${dp?.id }">
-<table style="width:90%; margin-left:3%; ">
+<div style="background-color:#fff; margin-top:20px;">
+<table style="width:100%;">
 	<tbody>
-		<tr style="line-height:50px;">
-			<td class="lefttd" align="right"><label>姓名：</label></td>
+		<tr>
+			<td class="lefttd font" align="right">微信昵称：</td>
+			<td class="font">${UserInfo.loadUserInfo(dp?.patient?.subscriber?.openId).nickname }</td>
+		</tr>
+		<tr>
+			<td class="lefttd font" align="right">姓名：</td>
 			<td><label><input type="text" name="patientName" value="${dp?.patientName }" class="form-control"/></label></td>
 		</tr>
-		<tr style="line-height:50px;">
-			<td class="lefttd" align="right"><label>性别：</label></td>
+		<tr>
+			<td class="lefttd font" align="right">性别：</td>
 			<td>
 				<g:if test="${dp?.patient?.sex == "Unknown" }">
 				<label><g:select name="sex" from="${com.surelution.ruijin.Patient?.Sex?.values()}" 
@@ -37,31 +44,29 @@
 			</td>
 		</tr>
 		<tr>
-			<td class="lefttd" align="right"><label>关注时间：</label></td>
-			<td><label><g:formatDate date="${dp?.dateCreated }" format="yyyy-MM-dd HH:mm"/></label></td>
+			<td class="lefttd font" align="right" style="font-weight:bold; font-size:18px;">关注时间：</td>
+			<td style="font-size:18px;">&nbsp;&nbsp;<g:formatDate date="${dp?.dateCreated }" format="yyyy-MM-dd HH:mm"/></td>
 		</tr>
 		<tr>
-			<td align="right" class="lefttd"><label>备注内容：</label></td>
-			<td></td>
+			<td colspan="2" style="background-color:#d7d7d7; height:20px;"></td>
 		</tr>
 		<tr>
-			<td colspan="2" align="right">
+			<td align="right" class="lefttd font" style=" border-bottom: 0px solid #d7d7d7;">备注内容：</td>
+			<td style="border-bottom: 0px solid #d7d7d7;"></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center" style="border-bottom: 0px solid #d7d7d7;">
 				<textarea id="textarea" rows="5" style="width:90%;"  class="form-control" onchange="changeTexArea()">${dp?.dTopComment }</textarea>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2" align="right">
-				<input type="hidden" value="" id="hidden" name="comment"/>
-				<input type="submit" id="btn" class="btn btn-info" value="提交" onclick="notarize()"/>
 			</td>
 		</tr>
 	</tbody>
 </table>
+<div style="height:10px;"></div>
+</div>
+<input type="submit" id="btn" class="btn btn-info" value="提交" onclick="notarize()" style="width:90%; margin-left:5%; margin-top:15px; "/>
+<input type="hidden" value="" id="hidden" name="comment"/>
 </g:form>
-</div>
-<div>
-
-</div>
+<div style="height:20px;"></div>
 <script>
 function changeTexArea(){
 	document.getElementById("hidden").value = document.getElementById("textarea").value;

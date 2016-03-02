@@ -67,9 +67,8 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 			tp[0].newMessageId = i
 		}
 		
-		println (isSend && dp.doctor.isChat == false)
 		//留言姓名以医生备注姓名为准，若无备注姓名则返回微信昵称
-		if(isSend && dp.doctor.isChat == false){
+		if(isSend && dp.doctor.msgRemind == false){
 			def name = dp.patient.name
 			if(name == null){
 				name = UserInfo.loadUserInfo(dp.patient.subscriber.openId).nickname

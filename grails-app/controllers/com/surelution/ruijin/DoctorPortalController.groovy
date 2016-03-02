@@ -33,7 +33,6 @@ class DoctorPortalController {
 	}
 
     def index() {
-		doctor.isChat = false;	//测试点
 		
 	}
 
@@ -50,7 +49,6 @@ class DoctorPortalController {
 		}else{
 		}
 		if(dp?.doctor?.id == doctor.id) {
-			doctor.isChat = true	//测试点
 			return [dp:dp]
 		}
 		render(view:'error')
@@ -197,5 +195,21 @@ class DoctorPortalController {
 	//点击图片放大的modal页面
 	def showImg(){
 		
+	}
+	
+	def doctorPreferedList(){
+		def dp = DoctorPatient.createCriteria().list {
+			eq("doctor",doctor);
+			eq("doctorPrefered",false);
+		}
+		
+		[dp:dp]
+	}
+	
+	def perfered(Long id){
+		println id
+		def dp = DoctorPatient.get(id);
+		dp.doctorPrefered = true;
+		dp.save(flush:true)
 	}
 }

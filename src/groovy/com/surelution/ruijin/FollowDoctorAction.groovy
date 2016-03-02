@@ -56,18 +56,18 @@ class FollowDoctorAction extends RuijinBaseAction {
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)
 			name = ui.nickname
 		}
-		
-		def tm = new TemplateMessage()
-		tm.templateId = "9LT4Pl_kG0JAEjEF4bbUMfPEd4KJI2lBMxjh2fg_nVM"
-		tm.url = "http://qiushengming.sh-hansi.com/doctorPortal/doctorPrefered/" + dp.id
-		tm.toUser = dp.doctor.subscriber.openId
-		tm.addEntry("first", "患者关注提醒", "#000")
-		tm.addEntry("keyword1",name,"#000")
-		tm.addEntry("keyword2",new Date().format("yyyy-MM-dd HH:mm:ss"),"#000")
-		tm.addEntry("keyword3","系统推荐人","#000")
-		tm.addEntry("remark","点击查看详情,并为患者进行备注","#000")
-		tm.send()
-		
+		if(dp.doctor.attRemind == false ){
+			def tm = new TemplateMessage()
+			tm.templateId = "9LT4Pl_kG0JAEjEF4bbUMfPEd4KJI2lBMxjh2fg_nVM"
+			tm.url = "http://qiushengming.sh-hansi.com/doctorPortal/doctorPrefered/" + dp.id
+			tm.toUser = dp.doctor.subscriber.openId
+			tm.addEntry("first", "患者关注提醒", "#000")
+			tm.addEntry("keyword1",name,"#000")
+			tm.addEntry("keyword2",new Date().format("yyyy-MM-dd HH:mm:ss"),"#000")
+			tm.addEntry("keyword3","系统推荐人","#000")
+			tm.addEntry("remark","点击查看详情,并为患者进行备注","#000")
+			tm.send()
+		}
 	}
 
 }

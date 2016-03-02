@@ -8,7 +8,7 @@ var map = {};
 function createDB() {
 	var result, name, version, display_name, size
 
-	name = 'chat-local-db91'
+	name = 'chat-local-db911'
 	version = 1.0
 	display_name = 'Chat Database'
 	size = 262144 // 256KB

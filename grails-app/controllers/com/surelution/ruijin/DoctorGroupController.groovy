@@ -4,8 +4,6 @@ import com.surelution.whistle.push.GroupInfo;
 
 class DoctorGroupController {
 	
-	def static doctorGroup = "100";
-	def static restsGruop = "0";
 	
     def list() {
 		def groups = GroupInfo.listAll()
