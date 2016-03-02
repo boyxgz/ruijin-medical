@@ -17,7 +17,7 @@
 <body>
 <div>
 <g:form action="firstCom" id="${dp?.id }">
-<table style="width:90%; margin-left:5%; ">
+<table style="width:90%; margin-left:3%; ">
 	<tbody>
 		<tr style="line-height:50px;">
 			<td class="lefttd" align="right"><label>姓名：</label></td>
@@ -52,7 +52,7 @@
 		<tr>
 			<td colspan="2" align="right">
 				<input type="hidden" value="" id="hidden" name="comment"/>
-				<input type="submit" id="btn" class="btn btn-default" value="提交" onclick="notarize()"/>
+				<input type="submit" id="btn" class="btn btn-info" value="提交" onclick="notarize()"/>
 			</td>
 		</tr>
 	</tbody>
@@ -69,7 +69,7 @@ function changeTexArea(){
 }
 
 function notarize(){
-	alert("确认提交");
+	alert("提交成功");
 }
 
 window.onload = function(){

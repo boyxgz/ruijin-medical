@@ -7,16 +7,21 @@ class Doctor {
 		image nullable:true
 	}
 	
-	String name   //姓名
-	String description  //医生简介
-	String skills   //医生擅长
-	String title    //医生职称
-	int    inquiries //在线咨询量
-	int    reservations //挂号预约量
-	String address    //医生执业点
+	/**
+	 * 字段依次为：医生姓名、医生简介、医生特长、医生职称、在线咨询量、
+	 * 			挂号预约量、医生执业点、医生头像、医生是否在聊天室内、医生的微信账户
+	 */
+	String name
+	String description
+	String skills
+	String title
+	int    inquiries
+	int    reservations
+	String address
 	
-	DynImage image   //医生头像
+	DynImage image
+	Boolean isChat = false
 	
-	Subscriber subscriber //微信用户
+	Subscriber subscriber
     
 }

@@ -60,8 +60,8 @@
 <div class="modal-footer">
 <g:form action="updateCom" id="${dp?.id }">
 <input type="hidden" value="" id="hidden" name="comment"/>
-<input type="submit" id="btn" class="btn btn-default" value="提交"/>
- <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+<input type="submit" id="btn" class="btn btn-info" value="提交" onclick="notarize()"/>
+ <button type="button" class="btn btn-info" data-dismiss="modal">取消</button>
 </g:form>
 </div>
 <script>
@@ -78,6 +78,10 @@ function off(){
 function on(){
 	var patientName = document.getElementById("patientName");
 	alert("您可以接收"+patientName.value+"的消息！");	
+}
+
+function notarize(){
+	alert("提交成功");
 }
 
 window.onload = function(){
