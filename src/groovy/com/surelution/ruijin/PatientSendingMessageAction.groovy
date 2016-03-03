@@ -6,7 +6,6 @@ package com.surelution.ruijin
 import com.surelution.whistle.core.Attribute
 import com.surelution.whistle.core.TemplateMessage
 import com.surelution.whistle.push.UserInfo;
-
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guagnzong</a>
  *
@@ -21,10 +20,13 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 	 */
 	public boolean accept() {
 		def msgType = getParam(Attribute.KEY_MsgType)
+		println (msgType == Attribute.Msg_Type_TEXT || msgType == "image")
 		if(msgType == Attribute.Msg_Type_TEXT || msgType == "image") {
 			patient = Patient.findBySubscriber(subscriber)
+			println patient
 			if(patient)
 				dp = DoctorPatient.findByPatientAndPatientPrefered(patient, true)
+			println dp
 			return dp.patientPrefered
 		}
 		return false
@@ -52,23 +54,23 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		}
 		i.save(flush:true)
 		
-		def tp = TempData.createCriteria().list {
-			eq("dp",dp)
-		}
-		def isSend ;
-		def newTemp = new TempData()
-		if(tp[0] == null){
-			isSend = 1;
-			newTemp.newMessageId = i
-			newTemp.dp = i.dp
-			newTemp.save(flush:true)
+		def df = DoctorLastFetche.findByDoctor(dp.doctor);
+		println df
+		def isDate;
+		if(df == null){
+			isDate = 1000;
 		}else{
-			isSend = tp[0].newMessageId.isRead
-			tp[0].newMessageId = i
+			isDate = (System.currentTimeMillis() - df.lastFetchAt)/1000;
+			println isDate
 		}
 		
-		//留言姓名以医生备注姓名为准，若无备注姓名则返回微信昵称
-		if(isSend && dp.doctor.msgRemind == false){
+		def d = RecordTemplate.findByDoctor(dp.doctor);
+			println (dp.doctor.msgRemind == false)
+			println isDate > 5
+			println d.isReadMsg
+		if(dp.doctor.msgRemind && isDate > 5 && d.isReadMsg){
+			d.isReadMsg = false
+			d.save(flush:true)
 			def name = dp.patient.name
 			if(name == null){
 				name = UserInfo.loadUserInfo(dp.patient.subscriber.openId).nickname
@@ -83,6 +85,8 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 			tm.addEntry("remark","如需回复，点击查看","#000")
 			tm.send()
 		}
+		
+		
 		keepSilence()
 	}
 

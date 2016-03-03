@@ -11,7 +11,6 @@ class FollowWxAction extends RuijinBaseAction{
 	
 	public void execute(){
 		def message = FollowMessage.get(1);
-		println message
 		put(new Attribute(Attribute.KEY_Content,message.message));
 	}
 }

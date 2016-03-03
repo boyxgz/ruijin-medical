@@ -6,4 +6,5 @@ class FollowMessage {
     }
 	
 	String message = "";
+	int index ;
 }

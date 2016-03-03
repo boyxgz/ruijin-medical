@@ -45,18 +45,30 @@ class FollowDoctorAction extends RuijinBaseAction {
 		}
 		
 		def dp = DoctorPatient.findOrCreateByDoctorAndPatient(doctor, patiend)
-		println dp
 		dp.patientPrefered = true
 		dp.isFocus = true
 		dp.doctorPrefered = false
 		dp.save(flush:true)
 		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}，待医生确认后，可以与医生聊天"))
+		
+		def d = RecordTemplate.findByDoctor(doctor);
+		def rt;
+		if(d == null){
+			rt = new RecordTemplate()
+			rt.doctor = doctor;
+			rt.save();
+		}
+		
+		d = RecordTemplate.findByDoctor(doctor);
 		def name = patiend.name
 		if(name == null){
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)
 			name = ui.nickname
 		}
-		if(dp.doctor.attRemind == false ){
+		
+		if(dp.doctor.attRemind && d.isReadFollow){
+			d.isReadFollow = false;
+			d.save();
 			def tm = new TemplateMessage()
 			tm.templateId = "9LT4Pl_kG0JAEjEF4bbUMfPEd4KJI2lBMxjh2fg_nVM"
 			tm.url = "http://qiushengming.sh-hansi.com/doctorPortal/doctorPrefered/" + dp.id

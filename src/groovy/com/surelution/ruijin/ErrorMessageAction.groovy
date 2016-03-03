@@ -2,7 +2,7 @@ package com.surelution.ruijin
 
 import com.surelution.whistle.core.Attribute
 
-class errorMessageAction extends RuijinBaseAction{
+class ErrorMessageAction extends RuijinBaseAction{
 	
 	public boolean accept(){
 		def msgType = getParam(Attribute.KEY_MsgType)

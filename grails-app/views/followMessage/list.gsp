@@ -18,7 +18,7 @@
 				<g:if test="${flash.message}">
 					<div class="message" role="status">${flash.message}</div>
 				</g:if>
-				<g:form action="updates" id="${followMessageInstanceList?.id }">
+				<g:form action="updates" id="${fmOne?.id }">
 				<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
 					<tr>
 						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
@@ -27,10 +27,36 @@
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${followMessageInstanceList?.message}</textarea></td>
+						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${fmOne?.message}</textarea></td>
 					</tr>
-			</table>
-			</g:form>
+				</table>
+				</g:form>
+				<g:form action="updates" id="${fmTwo?.id }">
+					<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
+					<tr>
+						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
+						<td>
+							<input type="submit" value="提交" class="btn btn-default">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${fmTwo?.message}</textarea></td>
+					</tr>
+				</table>
+				</g:form>
+				<g:form action="updates" id="${fmThere?.id }">
+					<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
+					<tr>
+						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
+						<td>
+							<input type="submit" value="提交" class="btn btn-default">
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${fmThere?.message}</textarea></td>
+					</tr>
+				</table>
+				</g:form>
 			</section>
 		</div>
 	</body>

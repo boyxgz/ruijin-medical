@@ -18,8 +18,8 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1);
-//		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+//		doctor = Doctor.get(1);
+		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 		
 		if(!doctor) {
 			def requestUrl = request.forwardURI
@@ -43,6 +43,13 @@ class DoctorPortalController {
 	 */
 
 	def chat(Long id) {
+		def rt = RecordTemplate.findByDoctor(doctor);
+		println rt
+		if(rt != null){
+			rt.isReadMsg = true;
+			rt.save()
+		}
+		
 		def dp = DoctorPatient.get(id)
 		if(id == null){
 			dp = DoctorPatient.get( );
@@ -51,6 +58,7 @@ class DoctorPortalController {
 		if(dp?.doctor?.id == doctor.id) {
 			return [dp:dp]
 		}
+		
 		render(view:'error')
 	}
 
@@ -117,6 +125,11 @@ class DoctorPortalController {
 	}
 	
 	private List loadMessages() {
+		
+		def d = DoctorLastFetche.findOrCreateByDoctor(doctor);
+		d.lastFetchAt = System.currentTimeMillis();
+		d.save(flush:true);
+		
 		def interations = Interaction.createCriteria().list {
 			createAlias("dp", "d")
 			eq("d.doctor", doctor)
@@ -133,6 +146,7 @@ class DoctorPortalController {
 				doctorName : it.dp.doctor.name,
 				msgType : it.msgType]
 		}
+		
 		interations.each {
 			it.isRead = true
 			it.save()
@@ -158,6 +172,12 @@ class DoctorPortalController {
 	
 	//医生备注页面
 	def doctorPrefered(long id){
+		def rt = RecordTemplate.findByDoctor(doctor);
+		if(rt != null){
+			rt.isReadFollow = true;
+			rt.save();
+		}
+		
 		def dp = DoctorPatient.get(id);
 		[dp:dp]
 	}
@@ -200,7 +220,8 @@ class DoctorPortalController {
 	def doctorPreferedList(){
 		def dp = DoctorPatient.createCriteria().list {
 			eq("doctor",doctor);
-			eq("doctorPrefered",false);
+//			eq("doctorPrefered",false);
+			order('doctorPrefered')
 		}
 		
 		[dp:dp]

@@ -95,35 +95,20 @@ class PatientPortalController {
 	
 	def selectDoctor(){
 		//选择医生
-		def dpCheckBox = new DoctorPatient();
 		def doctorpatient = DoctorPatient.createCriteria().list {
 			if(patient){
 				eq('patient',patient);
+				eq('isFocus', true)
 			}
 		}
-		
-		def dp = [];
-		for(def i=0; i<doctorpatient.size(); i++){
-			if(doctorpatient[i].isFocus){
-				dp.add(doctorpatient[i]);
-			}
-			
-			if(doctorpatient[i].patientPrefered){
-				dpCheckBox = doctorpatient[i];
-			}
+		println doctorpatient
+		def isNull = (doctorpatient == null) || doctorpatient.size() == 0
+		if(isNull == false){
+			flash.message=""
+		}else{
+			flash.message="您暂时未关注任何一位专家，无法进行在线咨询！！！"
 		}
-		
-		def isNull;
-		if(dp[0] == null){
-			flash.message = "您暂未关注任何专家，无法与专家进行在线咨询。";
-			isNull = null;
-		}
-		else{
-			flash.message ="";
-			isNull = true;
-		}
-		
-		[doctorpatient:dp,dpCheckBox:dpCheckBox,isNull:isNull]
+		[doctorpatient:doctorpatient ,isNull:isNull]
 	}
 	
 	def oneselfConcern(){
@@ -169,7 +154,6 @@ class PatientPortalController {
 			it.patientPrefered = false;
 			it.save()
 		}
-		
 		
 		dp.patientPrefered = true;
 		redirect(action:'selectDoctor');

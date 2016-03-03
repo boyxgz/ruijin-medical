@@ -16,7 +16,7 @@
 <script type="text/javascript" src="${resource(file:'js/jquery-ui.js') }"></script>
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
-<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
+<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js??v=123') }"></script>
 <script type="text/javascript" src="${resource(file:'js/bootstrap.min.js') }"></script>
 	<style>
 		h3{margin-top:5px;}

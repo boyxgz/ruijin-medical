@@ -77,7 +77,7 @@ function attOnOff(trage){
 	<div>
 		<table style="width:60%; margin-left:20%;">
 			<tr>
-				<td>开启免打扰模式：</td>
+				<td>免打扰模式：</td>
 				<td align="left">
 				<g:if test="${doctor.remind == false}">
 					<input class="btn btn-Info" id="remind" type="button" value="开启" onclick="remindOnOff('${createLink(controller:"setChatRoom",action:"remindOnOff")}')" />
@@ -110,6 +110,10 @@ function attOnOff(trage){
 				</td>
 			</tr>
 		</table>
+		<div style="width:80%; margin-left:10%; margin-top:50px;">
+			<p>说明：您目前的身份是瑞金医院的${doctor?.name }，可以点击菜单网上诊室跟用户进行聊天。</p>
+			<p>上方三个按钮用于控制是否接收微信消息通知提醒。</p>
+		</div>
 		
 	</div>
 </body>

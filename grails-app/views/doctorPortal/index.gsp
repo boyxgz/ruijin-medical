@@ -4,7 +4,7 @@
 	<title>网上诊室</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.mobile-1.4.5.min.css  ') }" /><!-- jquery.mobile-1.0.min.css -->
-	<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js') }"></script>
+	<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js') }?v=123"></script>
 	<script type="text/javascript" src="${resource(dir:'js', file:'jquery.min.js') }"></script><!--jquery-1.6.4.min.js  -->
 	<script type="text/javascript" src="${resource(dir:'js', file:'jquery.mobile-1.4.5.min.js') }"></script><!--jquery.mobile-1.0.min.js  -->
 <style>

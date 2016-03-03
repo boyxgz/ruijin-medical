@@ -23,7 +23,7 @@ class Doctor {
 	Subscriber subscriber
 	
 	Boolean remind = false
-	Boolean attRemind = false
-	Boolean msgRemind = false
+	Boolean attRemind = true	//true为接收消息
+	Boolean msgRemind = true	//true 为真开启能接收
     
 }

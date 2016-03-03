@@ -11,10 +11,11 @@ class FollowMessageController {
     }
 
     def list() {
-		def fm = FollowMessage.get(1);
-		println fm
-		println "xiaoming"
-        [followMessageInstanceList: fm, followMessageInstanceTotal: FollowMessage.count()]
+		def fmOne = FollowMessage.findByIndex(1);
+		def fmTwo = FollowMessage.findByIndex(2);
+		def fmThere = FollowMessage.findByIndex(3);
+		
+        [fmOne: fmOne,fmTwo:fmTwo, fmThere:fmThere]
     }
 
     def create() {
@@ -104,17 +105,16 @@ class FollowMessageController {
 	
 	def updates(long id){
 		def fm;
-		println params.message
-		println id
-		println "id"
 		if(id != 0){
 			fm = FollowMessage.get(id);
 			fm.message = params.message;
 		}else{
 			fm = new FollowMessage();
 			fm.message = params.message;
+			fm.index = fm.id;
 		}
 		fm.save()
 		redirect(action:'list')
 	}
+	
 }

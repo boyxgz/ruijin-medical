@@ -11,16 +11,15 @@
 <style>
 	*{margin:0; padding:0;}
 	.img{height:60px; width:60px;}
-	tr{height:50px;}
-	table{width:100%;}
-	td{border:1px solid red;}
+	tr{height:50px;color:#000; background-color:#E0FFFF;}
+	table{width:100%; margin-top:5px;}
 	.font{font-size:16px; line-heght:20px; margin-top:10px;}
 </style>
 <body>
 	<div>
-		<table><g:each in="${dp }" var="pd"><g:link action="doctorPrefered" id="${pd.id }">
+		<g:each in="${dp }" var="pd"><g:link action="doctorPrefered" id="${pd.id }"><table>
 			<g:set var="ui" value="${UserInfo.loadUserInfo(pd?.patient?.subscriber?.openId) }"/>
-			<tr><td style="border:1px solid red;">
+			<tr><td style="">
 				<div style="float:left;">
 					<img src="${ui.headImgUrl }" class="img"/>
 				</div>
@@ -29,10 +28,13 @@
 					<p class="font"><g:formatDate date="${pd?.dateCreated }" format="yyyy-MM-dd HH:mm:ss"/></p>
 				</div>
 				<div style="float:left; margin-left:8%; margin-top:20px;">
-					<input type="button" id="${pd.id }" value="确认" class="btn btn-default" onclick="perfered('${createLink(controller:"doctorPortal",action:"perfered",id:pd.id)}',this)"/>
+				<g:if test="${!(pd.doctorPrefered) }">
+					<input type="button" id="${pd.id }" value="确认并备注" class="btn btn-default" onclick="perfered('${createLink(controller:"doctorPortal",action:"perfered",id:pd.id)}',this)"/>
+					</g:if>
+					<g:else>&nbsp;</g:else>
 				</div>
 			</td></tr>
-		</g:link></g:each></table>
+		</table></g:link></g:each>
 	</div>
 	<script type="text/javascript">
 	function perfered(t,id){
@@ -40,6 +42,6 @@
 		var th = document.getElementById(id);
 		th.value = "成功";
 	}
-	</script>]
+	</script>
 </body>
 </html>
