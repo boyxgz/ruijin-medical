@@ -20,10 +20,8 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 	 */
 	public boolean accept() {
 		def msgType = getParam(Attribute.KEY_MsgType)
-		println (msgType == Attribute.Msg_Type_TEXT || msgType == "image")
 		if(msgType == Attribute.Msg_Type_TEXT || msgType == "image") {
 			patient = Patient.findBySubscriber(subscriber)
-			println patient
 			if(patient)
 				dp = DoctorPatient.findByPatientAndPatientPrefered(patient, true)
 			return dp.patientPrefered
@@ -69,7 +67,6 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		}
 		
 		def d = RecordTemplate.findByDoctor(dp.doctor);
-		println (dp.doctor.msgRemind && isDate > 5 && d.isReadMsg)
 		if(dp.doctor.msgRemind && isDate > 5 && d.isReadMsg){
 			d.isReadMsg = false
 			d.save(flush:true)

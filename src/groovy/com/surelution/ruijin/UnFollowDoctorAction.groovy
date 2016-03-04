@@ -9,16 +9,17 @@ import com.surelution.whistle.core.Attribute
 class UnFollowDoctorAction extends RuijinBaseAction{
 	public boolean accept() {
 		def p = Patient.findBySubscriber(subscriber);
-		def dp = DoctorPatient.findByPatient(p);
-		println dp
-		if(p == null || dp == null){
+		def dp = DoctorPatient.createCriteria().list {
+			eq("patientPrefered",true)
+			eq("patient",p)
+		}
+		if(dp[0] == null || p == null){
 			return true
 		}
 	};
 	
 	public void execute() {
 		def msg = FollowMessage.findByIndexId(50);
-		println msg
 		put(new Attribute(Attribute.KEY_Content,msg.message));
 	};
 }

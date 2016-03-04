@@ -7,8 +7,6 @@ class ErrorMessageAction extends RuijinBaseAction{
 	
 	public boolean accept(){
 		def msgType = getParam(Attribute.KEY_MsgType)
-		println msgType
-		println "hehehe"
 		if(msgType != Attribute.Msg_Type_TEXT && msgType != "image") {
 			return true
 		}
@@ -18,7 +16,6 @@ class ErrorMessageAction extends RuijinBaseAction{
 	
 	public void execute(){
 		def fm = FollowMessage.findByIndexId(51);
-		
 		put(new Attribute(Attribute.KEY_Content,fm.message))
 	}
 

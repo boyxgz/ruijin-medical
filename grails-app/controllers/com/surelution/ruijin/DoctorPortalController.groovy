@@ -44,7 +44,6 @@ class DoctorPortalController {
 
 	def chat(Long id) {
 		def rt = RecordTemplate.findByDoctor(doctor);
-		println rt
 		if(rt != null){
 			rt.isReadMsg = true;
 			rt.save()
@@ -192,7 +191,6 @@ class DoctorPortalController {
 		dp.dTopComment = params.comment;
 		dp.patientName = params.patientName;
 		dp.patient.sex = params.sex;
-		dp.patient.phoneNumb = params.phoneNumb;
 		dp.commentDate = new Date();
 		dp.save();
 		
@@ -229,7 +227,6 @@ class DoctorPortalController {
 	}
 	
 	def perfered(Long id){
-		println id
 		def dp = DoctorPatient.get(id);
 		dp.doctorPrefered = true;
 		dp.save(flush:true)

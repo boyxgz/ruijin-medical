@@ -15,7 +15,6 @@ class IntroDoctorController {
 	def showDoctor(long id){
 		def doctor = Doctor.get(id)
 		
-		println doctor
 		[doctor:doctor]
 	}
 	

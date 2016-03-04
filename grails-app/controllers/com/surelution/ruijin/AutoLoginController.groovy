@@ -24,7 +24,6 @@ class AutoLoginController {
 	def patient() {
 		def subscriber = getSubscriber(params.code)
 		def p = Patient.findOrSaveBySubscriber(subscriber)
-		println p
 		def sc = PatientCookie.populate(p)
 		
 		response.setCookie('patient-sn', sc.cookieSn)

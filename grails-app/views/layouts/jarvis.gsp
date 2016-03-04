@@ -70,7 +70,7 @@
 				<!-- Navbar Right Menu -->
 				<div class="pull-right" style="margin-top:8px;">
 					<span class="hidden-xs" style="font-size:16px; color:#fff;">当前用户：<sec:username /></span>&nbsp;&nbsp;&nbsp;&nbsp;
-					<g:link controller="user" action="updatepassword" class="btn btn-default" style="height:30px;; width:65px;"><p style="margin-left:-4px; font-size:12px;">修改密码</p></g:link>&nbsp;&nbsp;
+					<g:link controller="user" action="showChangePW" class="btn btn-default" style="height:30px;; width:65px;"><p style="margin-left:-4px; font-size:12px;">修改密码</p></g:link>&nbsp;&nbsp;
 					<g:link controller="logout" class="btn btn-default" style="height:30px; width:65px;"><p style="font-size:12px; margin-left:-4px;">退出登录</p></g:link>&nbsp;&nbsp;&nbsp;
 				</div>
 			</nav>

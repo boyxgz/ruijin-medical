@@ -72,7 +72,6 @@ class PatientPortalController {
 		def iDcard = params.iDcard;
 		def phoneNumb = params.phoneNumb;
 		def datecareted = new Date();
-		println patient.id
 		def patientSub = Patient.findBySubscriber(patient.subscriber);
 		if(patientSub == null){
 			newPatient = new Patient();
@@ -117,7 +116,6 @@ class PatientPortalController {
 			}
 		}
 		
-		println dpCheckBox
 		[doctorpatient:doctorpatient ,isNull:isNull,dpCheckBox:dpCheckBox]
 	}
 	
@@ -158,7 +156,6 @@ class PatientPortalController {
 		def p = DoctorPatient.createCriteria().list {
 			eq("patient",patient);
 		}
-		println p
 		
 		p.each {
 			it.patientPrefered = false;

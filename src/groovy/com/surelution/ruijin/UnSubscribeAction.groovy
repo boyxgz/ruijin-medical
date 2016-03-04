@@ -10,7 +10,6 @@ class UnSubscribeAction extends RuijinBaseAction{
 		if(getParam("Event") == "unsubscribe"){
 			doctor = Doctor.findOrSaveBySubscriber(subscriber);
 			patient = Patient.findBySubscriber(subscriber);
-			println doctor
 			if(doctor != null){
 				return true;
 			}
@@ -22,7 +21,6 @@ class UnSubscribeAction extends RuijinBaseAction{
 		GroupInfo.moveUserToGroup(doctor.subscriber.openId, AppVar.findByKey("defalut-group-id").value);
 		doctor.subscriber = null;
 		doctor.save();
-		
 		keepSilence();
 	}
 }
