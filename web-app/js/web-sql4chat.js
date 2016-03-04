@@ -8,10 +8,10 @@ var map = {};
 function createDB() {
 	var result, name, version, display_name, size
 
-	name = 'chat-local-db9111'
+	name = 'chat-local-db921122'
 	version = 1.0
 	display_name = 'Chat Database'
-	size = 262144 // 256KB
+	size = 26214400 // 256KB
 
 	// parameters: name, version, display name, size (in bytes)
 	db = window.openDatabase(name, version, display_name, size)
@@ -21,7 +21,7 @@ function createTable() {
 	var result, patientSql, msgSql;
 
 	patientSql = 'CREATE TABLE IF NOT EXISTS patients(doctor_patient_id INTEGER UNIQUE, nickname TEXT, name TEXT, headImgUrl TEXT, last_message_id TEXT, unread_message_count INTEGER,doctorName TEXT);';
-	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id TEXT UNIQUE, doctor_patient_id INTEGER, content TEXT, msg_type TEXT, messaged_at TIMESTAMP, in_or_out INTEGER, is_read INTEGER);';
+	msgSql = 'CREATE TABLE IF NOT EXISTS messages(msg_id INTEGER UNIQUE, doctor_patient_id INTEGER, content TEXT, msg_type TEXT, messaged_at TIMESTAMP, in_or_out INTEGER, is_read INTEGER);';
 	
 	function onsuccess(tx) {
 		

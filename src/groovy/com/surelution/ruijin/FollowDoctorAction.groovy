@@ -45,9 +45,9 @@ class FollowDoctorAction extends RuijinBaseAction {
 		}
 		
 		def dp = DoctorPatient.findOrCreateByDoctorAndPatient(doctor, patiend)
+		
 		dp.patientPrefered = true
 		dp.isFocus = true
-		dp.doctorPrefered = false
 		dp.save(flush:true)
 		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}，待医生确认后，可以与医生聊天"))
 		
@@ -66,7 +66,7 @@ class FollowDoctorAction extends RuijinBaseAction {
 			name = ui.nickname
 		}
 		
-		if(dp.doctor.attRemind && d.isReadFollow){
+		if(dp.doctor.attRemind && d.isReadFollow ){
 			d.isReadFollow = false;
 			d.save();
 			def tm = new TemplateMessage()

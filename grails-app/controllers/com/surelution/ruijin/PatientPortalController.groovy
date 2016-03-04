@@ -101,14 +101,24 @@ class PatientPortalController {
 				eq('isFocus', true)
 			}
 		}
-		println doctorpatient
+		
 		def isNull = (doctorpatient == null) || doctorpatient.size() == 0
+		
 		if(isNull == false){
 			flash.message=""
 		}else{
 			flash.message="您暂时未关注任何一位专家，无法进行在线咨询！！！"
 		}
-		[doctorpatient:doctorpatient ,isNull:isNull]
+		
+		def dpCheckBox;
+		doctorpatient.each {
+			if(it.patientPrefered && it.doctorPrefered){
+				dpCheckBox = it;
+			}
+		}
+		
+		println dpCheckBox
+		[doctorpatient:doctorpatient ,isNull:isNull,dpCheckBox:dpCheckBox]
 	}
 	
 	def oneselfConcern(){

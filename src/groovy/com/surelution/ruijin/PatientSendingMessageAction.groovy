@@ -26,7 +26,6 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 			println patient
 			if(patient)
 				dp = DoctorPatient.findByPatientAndPatientPrefered(patient, true)
-			println dp
 			return dp.patientPrefered
 		}
 		return false
@@ -36,10 +35,16 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 	 * @see com.surelution.whistle.core.BaseAction#execute()
 	 */
 	public void execute() {
-		if(dp.doctorPrefered == false){
+		if(dp.isDPrefered == false){
+			put(new Attribute(Attribute.KEY_Content,"待${dp.doctor.name}确认后，您就可以向医生进行咨询。"))
+			return 
+		}
+		
+		if(dp.doctorPrefered == false && dp.isDPrefered){
 			put(new Attribute(Attribute.KEY_Content, "${dp.doctor.name}忙碌中。"))
 			return
 		}
+		
 		Interaction i = new Interaction()
 		i.fromDoctor = false
 		i.dp = dp
@@ -52,22 +57,19 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 			i.msgType = "text"
 			i.message = getParam(Attribute.KEY_Content)
 		}
+		
 		i.save(flush:true)
 		
 		def df = DoctorLastFetche.findByDoctor(dp.doctor);
-		println df
 		def isDate;
 		if(df == null){
 			isDate = 1000;
 		}else{
 			isDate = (System.currentTimeMillis() - df.lastFetchAt)/1000;
-			println isDate
 		}
 		
 		def d = RecordTemplate.findByDoctor(dp.doctor);
-			println (dp.doctor.msgRemind == false)
-			println isDate > 5
-			println d.isReadMsg
+		println (dp.doctor.msgRemind && isDate > 5 && d.isReadMsg)
 		if(dp.doctor.msgRemind && isDate > 5 && d.isReadMsg){
 			d.isReadMsg = false
 			d.save(flush:true)

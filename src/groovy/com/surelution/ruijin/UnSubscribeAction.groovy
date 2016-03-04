@@ -5,9 +5,11 @@ import com.surelution.whistle.push.UserInfo;
 
 class UnSubscribeAction extends RuijinBaseAction{
 	private Doctor doctor
+	private Patient patient
 	public boolean accept(){
 		if(getParam("Event") == "unsubscribe"){
 			doctor = Doctor.findOrSaveBySubscriber(subscriber);
+			patient = Patient.findBySubscriber(subscriber);
 			println doctor
 			if(doctor != null){
 				return true;
@@ -20,6 +22,7 @@ class UnSubscribeAction extends RuijinBaseAction{
 		GroupInfo.moveUserToGroup(doctor.subscriber.openId, AppVar.findByKey("defalut-group-id").value);
 		doctor.subscriber = null;
 		doctor.save();
+		
 		keepSilence();
 	}
 }

@@ -63,7 +63,7 @@
 	</g:form>
 </div>
 </div>
-<nav class="navbar navbar-default navbar-fixed-bottom">
+<%--<nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container">
   <div style="widht:100%; height:5px;"></div>
   <table style="width:100%; height:15px;">
@@ -79,7 +79,7 @@
   <div style="widht:100%; height:5px;"></div>
   </div>
 </nav>
-</body>
+--%></body>
 </html>
 
 <!-- 

@@ -7,12 +7,13 @@
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
 		<style>
 			th{color:#fff;}
+			.textarea{width:300px; height:100px;};
 		</style>
 	</head>
 	<body>
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>微信公众平台关注，平台自动给用户回复的消息。</h1>
+				<h1>自动回复内容设置</h1>
 			</section>
 			<section class="content">
 				<g:if test="${flash.message}">
@@ -21,39 +22,42 @@
 				<g:form action="updates" id="${fmOne?.id }">
 				<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
 					<tr>
-						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
+						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '首次关注回复内容 ')}" />
 						<td>
+							<input type="hidden" value="1" name="indexId">
 							<input type="submit" value="提交" class="btn btn-default">
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${fmOne?.message}</textarea></td>
+						<td colspan="2"><textarea class="textarea" name="message">${fmOne?.message}</textarea></td>
 					</tr>
 				</table>
 				</g:form>
 				<g:form action="updates" id="${fmTwo?.id }">
 					<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
 					<tr>
-						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
+						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '未关注医生时回复')}" />
 						<td>
+							<input type="hidden" value="2" name="indexId">
 							<input type="submit" value="提交" class="btn btn-default">
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${fmTwo?.message}</textarea></td>
+						<td colspan="2"><textarea class="textarea" name="message">${fmTwo?.message}</textarea></td>
 					</tr>
 				</table>
 				</g:form>
 				<g:form action="updates" id="${fmThere?.id }">
 					<table  class="table table-bordered table-respose" style="width:50%; margin-left:10%;">
 					<tr>
-						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '消息')}" />
+						<g:sortableColumn property="message" title="${message(code: 'followMessage.message.label', default: '不支持消息类型回复 ')}" />
 						<td>
+							<input type="hidden" value="3" name="indexId">
 							<input type="submit" value="提交" class="btn btn-default">
 						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><textarea style="width:300px; height:200px;" name="message">${fmThere?.message}</textarea></td>
+						<td colspan="2"><textarea class="textarea" name="message">${fmThere?.message}</textarea></td>
 					</tr>
 				</table>
 				</g:form>

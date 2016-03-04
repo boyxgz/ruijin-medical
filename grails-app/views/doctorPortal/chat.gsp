@@ -16,7 +16,7 @@
 <script type="text/javascript" src="${resource(file:'js/jquery-ui.js') }"></script>
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
-<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js??v=123') }"></script>
+<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js??v=1234545') }"></script>
 <script type="text/javascript" src="${resource(file:'js/bootstrap.min.js') }"></script>
 	<style>
 		h3{margin-top:5px;}
@@ -68,10 +68,8 @@
 			        	if(row.in_or_out == 0 ){
 			        		var dn = "${dp?.doctor?.name}" + "回复：";
 				        	content = content.substr(dn.length,content.length);
-			        		var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
-				        }else{
-				        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
-					    }
+				        }
+			        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
 					    
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);

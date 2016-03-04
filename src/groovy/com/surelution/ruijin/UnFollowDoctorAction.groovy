@@ -10,13 +10,15 @@ class UnFollowDoctorAction extends RuijinBaseAction{
 	public boolean accept() {
 		def p = Patient.findBySubscriber(subscriber);
 		def dp = DoctorPatient.findByPatient(p);
+		println dp
 		if(p == null || dp == null){
 			return true
 		}
 	};
 	
 	public void execute() {
-		def msg = FollowMessage.get(2);
-		put(new Attribute(Attribute.KEY_Content,"你暂时未关注任何一个医生！"));
+		def msg = FollowMessage.findByIndexId(50);
+		println msg
+		put(new Attribute(Attribute.KEY_Content,msg.message));
 	};
 }

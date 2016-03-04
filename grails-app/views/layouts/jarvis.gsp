@@ -105,7 +105,7 @@
 						<ul class="treeview-menu">
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="appVar" action="list">全局变量</g:link></li>
 						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="doctorGroup" action="list">群组</g:link></li>
-						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="FollowMessage" action="list">关注回复</g:link></li>
+						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="FollowMessage" action="list">回复内容设置</g:link></li>
 						</ul></li>
 					<!-- 一个导航链接结束 -->
 					

@@ -18,9 +18,9 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-//		doctor = Doctor.get(1);
+		doctor = Doctor.get(1);
 		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
-		
+//		
 		if(!doctor) {
 			def requestUrl = request.forwardURI
 			def baseUrl = Holders.config.grails.serverURL
@@ -187,6 +187,7 @@ class DoctorPortalController {
 		def dpId = id;
 		
 		def dp = DoctorPatient.get(id);
+		dp.isDPrefered = true;
 		dp.doctorPrefered = true;
 		dp.dTopComment = params.comment;
 		dp.patientName = params.patientName;

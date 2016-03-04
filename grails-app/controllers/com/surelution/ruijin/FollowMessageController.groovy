@@ -11,9 +11,9 @@ class FollowMessageController {
     }
 
     def list() {
-		def fmOne = FollowMessage.findByIndex(1);
-		def fmTwo = FollowMessage.findByIndex(2);
-		def fmThere = FollowMessage.findByIndex(3);
+		def fmOne = FollowMessage.findByIndexId(49);
+		def fmTwo = FollowMessage.findByIndexId(50);
+		def fmThere = FollowMessage.findByIndexId(51);
 		
         [fmOne: fmOne,fmTwo:fmTwo, fmThere:fmThere]
     }
@@ -111,9 +111,12 @@ class FollowMessageController {
 		}else{
 			fm = new FollowMessage();
 			fm.message = params.message;
-			fm.index = fm.id;
+			fm.indexId = params.indexId;
+			fm.save()
+			
 		}
-		fm.save()
+		
+		
 		redirect(action:'list')
 	}
 	

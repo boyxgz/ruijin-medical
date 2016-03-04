@@ -5,6 +5,6 @@ class FollowMessage {
     static constraints = {
     }
 	
-	String message = "";
-	int index ;
+	String message = ""
+	int indexId 
 }

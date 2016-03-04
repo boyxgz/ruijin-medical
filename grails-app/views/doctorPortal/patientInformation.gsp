@@ -31,14 +31,18 @@
 <div class="modal-body">
 <table style="width:100%">
 	<tbody>
+		<g:if test="${dp?.patient?.sex  }">
 		<tr>
 			<td class="lefttd" align="right"><label>性别：</label></td>
 			<td><label><input type="text" value="${dp?.patient?.sex }" readonly/></label></td>
 		</tr>
+		</g:if>
+		<g:if test="${dp?.patient?.phoneNumb }">
 		<tr>
 			<td class="lefttd" align="right"><label>电话：</label></td>
 			<td><label><a href="tel://${dp?.patient?.phoneNumb }">${dp?.patient?.phoneNumb }</a></label></td>
 		</tr>
+		</g:if>
 		<tr>
 			<td class="lefttd" align="right"><label>关注时间：</label></td>
 			<td><label><g:formatDate date="${dp?.dateCreated }" format="yyyy-MM-dd HH:mm"/></label></td>

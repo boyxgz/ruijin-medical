@@ -15,6 +15,17 @@
 	.hei-td{height:20px; color:#b2b2b2;}
 </style>
 <script>
+window.onload = function(){
+	//此处是为了将name="dp"的标签值的value设置为当前选中医生的
+	var dpCheckBox = document.getElementById("dpCheckBox");
+	var dpId = "checkBox_" + dpCheckBox.value;
+	var check = document.getElementsByName(dpId);
+	if(check[0] != null){
+		check[0].checked = true;
+	}
+ 	var dp = document.getElementById("dp");
+ 	dp.value = dpCheckBox.value;
+}
 
 function changeBox(id){
 	var checkBox = document.getElementById(id);
@@ -34,10 +45,15 @@ function changeBox(id){
 
 function confirm(){
 	var dp = document.getElementById("dp");
-	var	nameId = "docotorName_"+dp.value;
-	var doctorName = document.getElementById(nameId);
-	alert("您可以向"+doctorName.innerHTML+"咨询了！");
-	return true;
+	if(dp.value == ""){
+		alert("您没有选中任何医生！！");
+		return false
+	}else{
+		var	nameId = "docotorName_"+dp.value;
+		var doctorName = document.getElementById(nameId);
+		alert("您可以向"+doctorName.innerHTML+"咨询了！");
+		return true;
+	}
 }
 </script>
 </head>
@@ -58,9 +74,9 @@ function confirm(){
 			
 		</td>
 		<td>
-		<g:form action="selectDoc" id="${dp?.id }"  onsubmit="confirm();">
+		<g:form action="selectDoc" id="${dp?.id }"  onsubmit="return confirm();">
 			<input type="hidden" name="dp" value="" id="dp">
-			<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
+			<g:if test="${ isNull != null}">
 				<input type="submit" class="btn btn-default" value="确认" id="submit"/>
 			</g:if>
 		</g:form>
