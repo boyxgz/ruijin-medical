@@ -17,7 +17,7 @@
 		</div>
 	</dd>
 </dl>
-</div>
+</div> 
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} required"  style="line-height:50px;">
 <dl class="dl-horizontal">
@@ -29,7 +29,7 @@
 	</dt>
 	<dd>
 		<div class="col-xs-8">
-		<g:textField name="password" required="" value="${}"/>
+		<g:textField name="password" required="" value=""/>
 		</div>
 	</dd>
 </dl>
@@ -64,8 +64,3 @@
 		<g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
 	</div>
 </div>
-
-
-
-
-
