@@ -63,7 +63,7 @@ grails.hibernate.cache.queries = false
 environments {
     development {
         grails.logging.jul.usebridge = true
-		grails.dynImage.rootPath="/Users/johnny/temp/"
+		grails.dynImage.rootPath="F:/ruijinPic"
 		grails.serverURL = "http://qiushengming.sh-hansi.com"
     }
     production {

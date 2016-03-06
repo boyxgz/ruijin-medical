@@ -23,17 +23,12 @@ class AutoLoginController {
 	
 	def patient() {
 		def subscriber = getSubscriber(params.code)
-		def p = Patient.findBySubscriber(subscriber)
-		println p
-		if(!p) {
-			render(view:'personalCentent')
-			return
-		}
-		
+		def p = Patient.findOrSaveBySubscriber(subscriber)
 		def sc = PatientCookie.populate(p)
 		
 		response.setCookie('patient-sn', sc.cookieSn)
 		redirect(url:"${Holders.config.grails.serverURL}${params.state}")
+		
 	}
 	
 	private Subscriber getSubscriber(String code) {

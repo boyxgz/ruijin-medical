@@ -17,7 +17,7 @@
 </head>
 <body>
 <div>
-<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;;">
+<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:30%;">
 <div style="width:100%; height:20px;"></div>
 <div style="border:0px solid #000; width:84%; margin-left:0%;">
 	<g:form action="">
@@ -63,7 +63,7 @@
 	</g:form>
 </div>
 </div>
-<nav class="navbar navbar-default navbar-fixed-bottom">
+<%--<nav class="navbar navbar-default navbar-fixed-bottom">
   <div class="container">
   <div style="widht:100%; height:5px;"></div>
   <table style="width:100%; height:15px;">
@@ -79,7 +79,7 @@
   <div style="widht:100%; height:5px;"></div>
   </div>
 </nav>
-</body>
+--%></body>
 </html>
 
 <!-- 

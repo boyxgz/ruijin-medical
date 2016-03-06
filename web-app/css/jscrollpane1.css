@@ -190,7 +190,7 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 .jp-container .talk_recordbox{
 	height:70px;
 	height:auto;
-	min-height:80px;
+	min-height:50px;
 	color: #afafaf;
 	padding-top: 5px;
 	padding-right: 5px;
@@ -221,12 +221,12 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 	color:#333333;
 }
 .jp-container .talk_recordbox h3{
-	font-size:14px;
+	font-size:12px;
 	padding:2px 0 5px 0;
-	text-transform:uppercase;
 	font-weight: 100;
 	
 }
+/* <!--text-transform:uppercase;--> */
 .jp-container .talk_recordbox .user {
 	float:left;
 	display:inline;
@@ -245,7 +245,7 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 	display:block;
 	height:40px;
 	height:auto;
-	min-height:80px;
+	min-height:50px;
 	color: #afafaf;	
 	padding-top: 5px;
 	padding-right: 10px;
@@ -275,13 +275,14 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 	
 }
 .jp-container .talk_recordboxme h3{
-	font-size:14px;
+	font-size:12px;
 	padding:2px 0 5px 0;
-	text-transform:uppercase;
+	
 	font-weight: 100;
 	color:#333333;
 	
 }
+/* <!--text-transform:uppercase;--> */
 .jp-container .talk_recordboxme .user{
 	float:right;
 	height: 45px;
@@ -302,3 +303,5 @@ a{blr:expression(this.onFocus=this.blur())}/*去掉a标签的虚线框，避免�
 	display: block;
 	padding: 0px 0px 5px 0px;
 }
+
+/* .user属性可能要加左右浮动 */

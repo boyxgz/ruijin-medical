@@ -70,7 +70,7 @@
 				<!-- Navbar Right Menu -->
 				<div class="pull-right" style="margin-top:8px;">
 					<span class="hidden-xs" style="font-size:16px; color:#fff;">当前用户：<sec:username /></span>&nbsp;&nbsp;&nbsp;&nbsp;
-					<g:link controller="user" action="updatepassword" class="btn btn-default" style="height:30px;; width:65px;"><p style="margin-left:-4px; font-size:12px;">修改密码</p></g:link>&nbsp;&nbsp;
+					<g:link controller="user" action="showChangePW" class="btn btn-default" style="height:30px;; width:65px;"><p style="margin-left:-4px; font-size:12px;">修改密码</p></g:link>&nbsp;&nbsp;
 					<g:link controller="logout" class="btn btn-default" style="height:30px; width:65px;"><p style="font-size:12px; margin-left:-4px;">退出登录</p></g:link>&nbsp;&nbsp;&nbsp;
 				</div>
 			</nav>
@@ -96,6 +96,16 @@
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="WokingType" action="list">班次种类管理</g:link></li>
 						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="Schedule" action="list">排班管理</g:link></li>
 						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="Reservation" action="list">预约时间管理</g:link></li>
+						</ul></li>
+					<!-- 一个导航链接结束 -->
+					
+					<!-- 一个导航链接开始 -->
+					<li class="treeview"><a href="#"><i class="fa  fa-map"></i>
+							<span>管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="appVar" action="list">全局变量</g:link></li>
+						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="doctorGroup" action="list">群组</g:link></li>
+						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="FollowMessage" action="list">回复内容设置</g:link></li>
 						</ul></li>
 					<!-- 一个导航链接结束 -->
 					

@@ -16,6 +16,7 @@
 </style>
 <script>
 window.onload = function(){
+	//此处是为了将name="dp"的标签值的value设置为当前选中医生的
 	var dpCheckBox = document.getElementById("dpCheckBox");
 	var dpId = "checkBox_" + dpCheckBox.value;
 	var check = document.getElementsByName(dpId);
@@ -44,29 +45,45 @@ function changeBox(id){
 
 function confirm(){
 	var dp = document.getElementById("dp");
-	var	nameId = "docotorName_"+dp.value;
-	var doctorName = document.getElementById(nameId);
-	alert("您可以向"+doctorName.innerHTML+"咨询了！");
+	if(dp.value == ""){
+		alert("您没有选中任何医生！！");
+		return false
+	}else{
+		var	nameId = "docotorName_"+dp.value;
+		var doctorName = document.getElementById(nameId);
+		alert("您可以向"+doctorName.innerHTML+"咨询了！");
+		return true;
+	}
 }
 </script>
 </head>
 <body>
-<div style="height:90%;">
-<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:190px;">
+<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:40%;">
 <div style="width:100%; height:20px;"></div>
 <div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
-	<g:if test="${flash.message }">${flash.message }</g:if>
+	<g:if test="${flash.message }">${flash.message }如有疑问请点击<g:link action="explain">使用说明</g:link></g:if>
 </div>
-<div style="width:70px; height:50px; margin-left: 80%; margin-top: 6px;">
-	<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox">
-	<g:form action="selectDoc">
-		<input type="hidden" name="dp" value="" id="dp">
-		<g:if test="${dpCheckBox?.doctor?.id != null || isNull != null}">
-		<input type="submit" class="btn btn-default" value="确认" id="submit" onclick="confirm()"/>
-		</g:if>
-	</g:form>
-</div>
+<g:if test="${isNull == false}">
+<table style="width:100%; height:50px; ">
+		<tr>
+		<td align="center" >
+			<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox" />
+			
+				<p style="margin-top:5px; width:160px; font-size:12px;">请选择其中一名专家进行咨询，如有疑问请点击<g:link action="explain">使用说明</g:link></p>
+			
+		</td>
+		<td>
+		<g:form action="selectDoc" id="${dp?.id }"  onsubmit="return confirm();">
+			<input type="hidden" name="dp" value="" id="dp">
+			<g:if test="${ isNull != null}">
+				<input type="submit" class="btn btn-default" value="确认" id="submit"/>
+			</g:if>
+		</g:form>
+		</td>
+	</tr>
+</table>
+</g:if>
 <g:each in="${doctorpatient }" var="dp">
 <g:link action="showDoctor" controller="introDoctor" id="${dp?.doctor?.id }">
 <div style="background-color:#fff; border-radius:1em; margin-top:5px;">
@@ -79,8 +96,10 @@ function confirm(){
 			<strong class="name" id="docotorName_${dp?.doctor?.id}">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>
 		</td>
 		<td rowspan="3" class="small-wid-td" align="center">
-			<input type="checkbox" class="checkBox" name="checkBox_${ dp?.doctor?.id}" onchange ="changeBox(this.id)" id="${dp?.doctor?.id }"/>
+		<g:if test="${dp?.doctorPrefered }">
+			<input type="checkbox" class="checkBox" name="checkBox_${ dp?.doctor?.id}" ${dp?.patientPrefered?'checked':'' } onchange ="changeBox(this.id)" id="${dp?.doctor?.id }"/>
 			<input type="hidden" name="dpId" id="dpId_${dp?.doctor?.id }" value="${dp?.id }"/>
+		</g:if>
 		</td>
 	</tr>
 	<tr>
@@ -102,13 +121,20 @@ function confirm(){
 		<td  class="hei-td">
 			<small><small>关注时间：<g:formatDate date="${dp?.dateCreated }" format="yyyy.MM.dd HH:mm"/></small></small>
 		</td>
-		<td align="right"></td>
+		<td align="center">
+			<g:if test="${dp?.doctorPrefered}">
+				可咨询
+			</g:if>
+			<g:else>
+				待确认
+			</g:else>
+		</td>
 	</tr>
 	</table>
 </div>
 </g:link>
 </g:each>
 </div>
-</div>
+<div style="position:fixed; left:0; bottom:20px; width:100%; height:auto; z-index:100;"></div>
 </body>
 </html>

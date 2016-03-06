@@ -1,5 +1,5 @@
 <%@page contentType="text/html;charset=UTF-8" %>
-<%@page import="com.surelution.whistle.push.UserInfo"%>
+<%@page import="com.surelution.whistle.push.UserInfo" %>
 <g:set var="doctor" value="${UserInfo.loadUserInfo(dp.doctor.subscriber.openId) }"/>
 <g:set var="patient" value="${UserInfo.loadUserInfo(dp.patient.subscriber.openId) }"/>
 
@@ -9,7 +9,6 @@
 --%><meta http-equiv="Content-Type" content="text/html; charset=gb2312" ></meta>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" ></meta>
 <title>与${patient.nickname }的互动</title>
-<!--讨论区滚动条begin-->
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jscrollpane1.css') }" ></link>
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/bootstrap.min.css') }" ></link>
 <link rel="stylesheet" type="text/css" href="${resource(file:'css/jquery-ui.css') }" ></link>
@@ -17,10 +16,9 @@
 <script type="text/javascript" src="${resource(file:'js/jquery-ui.js') }"></script>
 <script type="text/javascript" src="${resource(file:'js/jquery.jscrollpane.min.js')}"></script>
 <script type="text/javascript" src="${resource(file:'js/scroll-startstop.events.jquery.js')}"></script>
-<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js?v=2') }"></script>
+<script type="text/javascript" src="${resource(dir:'js', file:'web-sql4chat.js??v=1234545') }"></script>
 <script type="text/javascript" src="${resource(file:'js/bootstrap.min.js') }"></script>
 	<style>
-		div{}
 		h3{margin-top:5px;}
 		body{line-height:0px;}
 		div.myImage{display: none; width:100%; height:100%;}
@@ -70,10 +68,9 @@
 			        	if(row.in_or_out == 0 ){
 			        		var dn = "${dp?.doctor?.name}" + "回复：";
 				        	content = content.substr(dn.length,content.length);
-			        		var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
-				        }else{
-				        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
-					    }
+				        }
+			        	var c = buildContent(row.in_or_out, content, row.messaged_at, row.msg_id, row.msg_type);
+					    
 			        	console.log($("#jp-container"));
 			        	$("#jp-container").append(c);
 			        	sorcllIntoView();
@@ -94,7 +91,7 @@
 		
 		
 		function buildContent(inOrOut, content, messagedAt, msgId, msgType) {
-			var ic = '<div style=" _height:80px;" class="';
+			var ic = '<div style=" height:auto; overflow:auto;" class="';
 			var msgAt = messagedAt.substr(0,16);
 			if(inOrOut == 1) {
 				ic += 'talk_recordbox';
@@ -116,8 +113,8 @@
 			} else {
 				ic += '${doctor.headImgUrl }';
 			}
-			ic += '" width="45" height="45"/></g:link>';
-			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" id="recordtext_';
+			ic += '" width="45" height="45"  class="img-circle"/></g:link>';
+			ic += '</div><div class="talk_recordtextbg">&nbsp;</div><div class="talk_recordtext" style="height:;" id="recordtext_';
 			ic += msgId;
 			ic += '">'; 
 			if(msgType == "text") {
@@ -125,28 +122,19 @@
 				ic += content;
 				ic += '</h3>'; 
 			}else if(msgType == "image"){
-				ic += '<img class="preview" id="previe_';
+				ic += '<g:link action="showImg" data-toggle="modal" data-target="#showimg"><img class="preview" id="previe_';
 				ic += msgId;
 				ic += '" src="';
 				ic += content;
 				ic += '" width="30%" height="30%" onclick="showPic(\'';
 				ic += content
-				ic += '\')"/>';
+				ic += '\')"/></g:link>';
 			}
 			ic += '<span class="talk_time">';
 			ic += msgAt;
-			ic += '</div>';
+			ic += '</span></div></div><div style="width:100%; height:30px;"></div>';
 			return ic;
 		}
-		
-		function preview(id){
-			alert(1);
-			alert(id);
-		}
-		
-		$("img.preview").click(function() {
-	        $('div.myImage').dialog();
-	    });
 	    
 		function sorcllIntoView(){
 			var talkRecord = document.getElementById("talk_record");
@@ -163,17 +151,20 @@
 		                $("#patientModal").modal('show');  }); 				    	
 				    });
 			});
-		function changeHeight(){
-			var talk_record = document.getElementById("msgId");
-			var recordtextId = "recordtext_" + msgId;
-			var talk_recordtext = document.getElementById(recordtextId);
-		};
 	</script>
-<!--讨论区滚动条end-->
 </head>
 <body>
 <div class="talk">
-	<div class="talk_title"><span id="newMessage"></span></div>
+	<div class="talk_title">
+		<table style="width:100%; height:auto; height:40px; ">
+			<tr>
+				<td align="left" style=""><g:link action="index" style="color:#fff; width:50%;">
+					<img src="${resource(file:'images/arrowhead.png') }" style="width:40px; height:40px; margin-left:-10px;"></img>返回
+				</g:link></td>
+				<td ><p id="newMessage" align="right" style="margin-top:8px;"></p></td>
+			</tr>
+		</table>
+	</div>
 	<div class="modal modalstyle" id="patientModal" role="dialog">
 	<div class="modal-dialog">
      	<%--Modal content --%>
@@ -186,30 +177,25 @@
 		<div id="jp-container" class="jp-container">
 		
 		</div>
-		<div class="myImage" style="position:absolute; top:10%;">
-			<img id="chatImage" src="" />
-		</div>
-		<div id="msg_end" style="height:0px; overflow:hidden;"></div>
+		<div class="modal fade" id="showimg" role="dialog">
+            <div class="modal-dialog">
+	            <div class="modal-content"> 
+	            </div>
+            </div>
+        </div>
 	</div>
 	</div>
 	
 	<div class="talk_word">
-		<input id="txtMessage" class="messages emotion" placeholder="在这里输入文字" ></input>
-		<input class="talk_send" id="send" type="button" title="发送" value="发送" onclick="sendMsg()" ></input>
+		<div style="width:100%; height:8px;"></div>
+		<input id="txtMessage" class="messages emotion" placeholder="在这里输入文字" style="float:left;"></input>
+		<input class="talk_send" id="send" type="button" title="发送" value="发送" onclick="sendMsg()" style="float:right;" ></input>
 	</div>
 </div>
 
 <script type="text/javascript">
-$(".preview").click(function() {
-	var imgSrc = $(this).attr('src');
-	console.log(imgSrc);
-	$('#chatImage').attr('src', imgSrc);
-    $('.myImage').dialog();
-});
-
 function showPic(imgUrl) {
 	$('#chatImage').attr('src', imgUrl);
-    $('.myImage').dialog();
 }
 function sendMsg() {
 	

@@ -19,17 +19,17 @@ class DoctorPortalController {
 		def userSn = request.getCookie('doctor-sn')
 		
 		doctor = Doctor.get(1);
-//		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
+		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 //		
-//		if(!doctor) {
-//			def requestUrl = request.forwardURI
-//			def baseUrl = Holders.config.grails.serverURL
-//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
-//			response.deleteCookie('doctor-sn')
-//			redirect(url:url)
-//			return false
-//		}
-//		return true
+		if(!doctor) {
+			def requestUrl = request.forwardURI
+			def baseUrl = Holders.config.grails.serverURL
+			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/doctor", requestUrl, AuthScope.BASE)
+			response.deleteCookie('doctor-sn')
+			redirect(url:url)
+			return false
+		}
+		return true
 	}
 
     def index() {
@@ -43,15 +43,21 @@ class DoctorPortalController {
 	 */
 
 	def chat(Long id) {
+		def rt = RecordTemplate.findByDoctor(doctor);
+		if(rt != null){
+			rt.isReadMsg = true;
+			rt.save()
+		}
+		
 		def dp = DoctorPatient.get(id)
 		if(id == null){
 			dp = DoctorPatient.get( );
 		}else{
 		}
 		if(dp?.doctor?.id == doctor.id) {
-			
 			return [dp:dp]
 		}
+		
 		render(view:'error')
 	}
 
@@ -111,13 +117,18 @@ class DoctorPortalController {
 			if(dp?.doctor?.id == doctor.id && dp?.patient?.subscriber) {
 				UserInfo ui = UserInfo.loadUserInfo(dp.patient.subscriber.openId)
 				if(ui)
-					msg.add([doctorPatientId:dp.id, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.name])
+					msg.add([doctorPatientId:dp.id, nickname:ui.nickname, headUrl:ui.headImgUrl, name:dp.patientName])
 			}
 		}
 		render msg as JSON
 	}
 	
 	private List loadMessages() {
+		
+		def d = DoctorLastFetche.findOrCreateByDoctor(doctor);
+		d.lastFetchAt = System.currentTimeMillis();
+		d.save(flush:true);
+		
 		def interations = Interaction.createCriteria().list {
 			createAlias("dp", "d")
 			eq("d.doctor", doctor)
@@ -134,6 +145,7 @@ class DoctorPortalController {
 				doctorName : it.dp.doctor.name,
 				msgType : it.msgType]
 		}
+		
 		interations.each {
 			it.isRead = true
 			it.save()
@@ -148,16 +160,75 @@ class DoctorPortalController {
 	}
 	
 	def updateCom(long id){
-		def patient = Patient.get(id);
-		def patientId = id;
-		def com = params.comment;
-		patient.comment = com;
-		patient.save();
-		redirect(action:'chat',id:patientId);
+		def dpId = id;
+		
+		def dp = DoctorPatient.get(id);
+		dp.dTopComment = params.comment;
+		dp.save();
+		
+		redirect(action:'chat',id:dpId);
 	}
 	
-	def showImg(id){
-		println id
-		println "id"
+	//医生备注页面
+	def doctorPrefered(long id){
+		def rt = RecordTemplate.findByDoctor(doctor);
+		if(rt != null){
+			rt.isReadFollow = true;
+			rt.save();
+		}
+		
+		def dp = DoctorPatient.get(id);
+		[dp:dp]
+	}
+	
+	//医生备注页面表单提交 
+	def firstCom(long id){
+		def dpId = id;
+		
+		def dp = DoctorPatient.get(id);
+		dp.isDPrefered = true;
+		dp.doctorPrefered = true;
+		dp.dTopComment = params.comment;
+		dp.patientName = params.patientName;
+		dp.patient.sex = params.sex;
+		dp.commentDate = new Date();
+		dp.save();
+		
+		redirect(action:'doctorPrefered',id:dpId);
+	}
+	
+	//医生控制患者来消息
+	def chatOnOff(long id){
+		def dpId = id;
+		def dp = DoctorPatient.get(id);
+		if(dp.doctorPrefered == true){
+			dp.doctorPrefered = false;
+		}else{
+			dp.doctorPrefered = true;
+		}
+		
+		dp.save()
+		redirect(action:'chat',id:dpId)
+	}
+	
+	//点击图片放大的modal页面
+	def showImg(){
+		
+	}
+	
+	def doctorPreferedList(){
+		def dp = DoctorPatient.createCriteria().list {
+			eq("doctor",doctor);
+//			eq("doctorPrefered",false);
+			order('doctorPrefered')
+		}
+		
+		[dp:dp]
+	}
+	
+	def perfered(Long id){
+		def dp = DoctorPatient.get(id);
+		dp.doctorPrefered = true;
+		dp.save(flush:true)
 	}
 }

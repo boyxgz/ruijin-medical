@@ -7,6 +7,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.surelution.ruijin.Subscriber;
 import com.surelution.whistle.core.Auth2Util;
+import com.surelution.whistle.push.GroupInfo;
 import com.surelution.whistle.push.qrcode.QrCode;
 
 class DoctorController {
@@ -34,7 +35,6 @@ class DoctorController {
 		def location = Holders.config.grails.dynImage.rootPath
 		def uuid = UUID.randomUUID().toString()
 		def picUrl = "${location}${uuid}"
-		println picUrl
 		
 		if(photo && !photo.empty){
 			def name = photo.getOriginalFilename()
@@ -113,7 +113,6 @@ class DoctorController {
 			def location = Holders.config.grails.dynImage.rootPath
 			def uuid = UUID.randomUUID().toString()
 			def picUrl = "${location}${uuid}"
-			println picUrl
 			
 			if(photo && !photo.empty){
 				def name = photo.getOriginalFilename()
@@ -138,7 +137,6 @@ class DoctorController {
     def delete(Long id) {
         def doctorInstance = Doctor.get(id)
         if (!doctorInstance) {
-			println 3
             flash.message = message(code: 'default.not.found.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "list")
             return
@@ -146,12 +144,10 @@ class DoctorController {
 
         try{
             doctorInstance.delete(flush: true)
-			println 1
             flash.message = message(code: 'default.deleted.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-			println 2
             flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'doctor.label', default: 'Doctor'), id])
             redirect(action: "show", id: id)
         }
@@ -160,6 +156,7 @@ class DoctorController {
 	//移出医生微信
 	def removeSubscriber(long id){
 		def doctor = Doctor.get(id);
+		GroupInfo.moveUserToGroup(doctor.subscriber.openId, AppVar.findByKey("default-group-id")?.value);
 		def doctorId = id;
 		doctor.subscriber = null;
 		doctor.save()
@@ -168,8 +165,6 @@ class DoctorController {
 	
 	//显示图片的方法
 	def showPic(long id){
-		println id
-		println "id"
 		def doctor = Doctor.get(id)
 		def pc = doctor.image
 		

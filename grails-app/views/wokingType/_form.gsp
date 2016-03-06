@@ -4,7 +4,7 @@
 	<dl class="dl-horizontal">
 		<dt>
 			<label for="description">
-		       <g:message code="wokingType.description.label" default="Description" />
+		       <g:message code="wokingType.description.label" default="描述" />
         	</label>
 		</dt>
 		<dd>
@@ -19,7 +19,7 @@
 		<dl class="dl-horizontal">
 				<dt>
 				   <label for="name">
-		               <g:message code="wokingType.name.label" default="Name" />
+		               <g:message code="wokingType.name.label" default="班种" />
 	               </label>
 				</dt>
 				<dd>

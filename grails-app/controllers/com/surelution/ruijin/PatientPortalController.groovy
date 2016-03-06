@@ -14,19 +14,19 @@ class PatientPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('patient-sn')
 		
-		patient = Patient.get(1)
-//		
-//		patient = PatientCookie.findByCookieSn(userSn)?.patient
-//		
-//		if(!patient) {
-//			def requestUrl = request.forwardURI
-//			def baseUrl = Holders.config.grails.serverURL
-//			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/patient", requestUrl, AuthScope.BASE)
-//			response.deleteCookie('patient-sn')
-//			redirect(url:url)
-//			return false
-//		}
-//		return true
+//		patient = Patient.get(1)
+		
+		patient = PatientCookie.findByCookieSn(userSn)?.patient
+		
+		if(!patient) {
+			def requestUrl = request.forwardURI
+			def baseUrl = Holders.config.grails.serverURL
+			def url = Auth2Util.buildRedirectUrl("${baseUrl}/autoLogin/patient", requestUrl, AuthScope.BASE)
+			response.deleteCookie('patient-sn')
+			redirect(url:url)
+			return false
+		}
+		return true
 	}
 	
     def index() { }
@@ -72,7 +72,6 @@ class PatientPortalController {
 		def iDcard = params.iDcard;
 		def phoneNumb = params.phoneNumb;
 		def datecareted = new Date();
-		println patient.id
 		def patientSub = Patient.findBySubscriber(patient.subscriber);
 		if(patientSub == null){
 			newPatient = new Patient();
@@ -95,35 +94,29 @@ class PatientPortalController {
 	
 	def selectDoctor(){
 		//选择医生
-		def dpCheckBox = new DoctorPatient();
 		def doctorpatient = DoctorPatient.createCriteria().list {
 			if(patient){
 				eq('patient',patient);
+				eq('isFocus', true)
 			}
 		}
 		
-		def dp = [];
-		for(def i=0; i<doctorpatient.size(); i++){
-			if(doctorpatient[i].isFocus){
-				dp.add(doctorpatient[i]);
-			}
-			
-			if(doctorpatient[i].patientPrefered){
-				dpCheckBox = doctorpatient[i];
+		def isNull = (doctorpatient == null) || doctorpatient.size() == 0
+		
+		if(isNull == false){
+			flash.message=""
+		}else{
+			flash.message="您暂时未关注任何一位专家，无法进行在线咨询！！！"
+		}
+		
+		def dpCheckBox;
+		doctorpatient.each {
+			if(it.patientPrefered && it.doctorPrefered){
+				dpCheckBox = it;
 			}
 		}
 		
-		def isNull;
-		if(dp[0] == null){
-			flash.message = "您暂时未关注任何一位医生，无法进行在线咨询。";
-			isNull = null;
-		}
-		else{
-			flash.message ="";
-			isNull = true;
-		}
-		
-		[doctorpatient:dp,dpCheckBox:dpCheckBox,isNull:isNull]
+		[doctorpatient:doctorpatient ,isNull:isNull,dpCheckBox:dpCheckBox]
 	}
 	
 	def oneselfConcern(){
@@ -166,8 +159,8 @@ class PatientPortalController {
 		
 		p.each {
 			it.patientPrefered = false;
+			it.save()
 		}
-		
 		
 		dp.patientPrefered = true;
 		redirect(action:'selectDoctor');
@@ -185,6 +178,10 @@ class PatientPortalController {
 			os.flush()
 			return
 		}
+	}
+	
+	def explain(){
+		
 	}
 }
 

@@ -1,4 +1,5 @@
 
+<%@page import="com.surelution.whistle.push.GroupInfo"%>
 <%@page import="com.surelution.whistle.push.UserInfo"%>
 <%@ page import="com.surelution.ruijin.Doctor" %>
 <!DOCTYPE html>
@@ -34,19 +35,17 @@
 			<g:link class="create" action="create" data-toggle="modal" data-target="#createModal">新建医生</g:link>
 			<!-- 新增台账的dialog -->	
 			 <div class="modal fade" id="createModal" role="dialog">
-                     <div class="modal-dialog">
-                           <!-- Modal content-->
-                           <div class="modal-content"> 
-                           </div>
-                          </div>
-                      </div>		
+	             <div class="modal-dialog">
+		             <div class="modal-content"> 
+		             </div>
+	             </div>
+             </div>		
           </div>
 				</section>
 	<section class="content">
 		<div id="list-doctor" class="content scaffold-list" role="main">
-			<%--<h4><g:message code="default.list.label" args="[entityName]" /></h4>
-			--%><g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
+			<g:if test="${flash.message}">
+				<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<table class="table table-bordered table-respose">
 				<thead>
@@ -70,6 +69,7 @@
 					</tr>
 				</thead>
 				<tbody>
+				<g:set var="allGroups" value="${GroupInfo.listAll() }"/>
 				<g:each in="${doctorInstanceList}" status="i" var="doctorInstance">
 					<tr>
 						<td><g:link action="show" id="${doctorInstance.id}">${fieldValue(bean: doctorInstance, field: "name")}</g:link></td>
@@ -91,9 +91,17 @@
 						</g:if>
 						<td>${userInfo?.nickname }</td>
 						<td>
-							<%
-								//groupinfo
-							 %>
+						<g:set var="group"/>
+						<g:if test="${doctorInstance.subscriber }">
+							<g:set var="group" value="${GroupInfo.findGroupByOpenId(doctorInstance.subscriber.openId) }"></g:set>
+						</g:if>
+						<g:if test="${group != "100" && group != null }">
+							<%--${allGroups.find{it.id == group} }
+							--%><a href="${createLink(action:'moveToDoctorGroup',controller:'doctorGroup',id:doctorInstance?.subscriber?.openId) }" class="btn btn-default">加入医生组</a>
+						</g:if>
+						<g:elseif test="${group != null }">
+							<a href="${createLink(action:'moveToDefaultGroup',controller:'doctorGroup',id:doctorInstance?.subscriber?.openId) }" class="btn btn-default">移出医生组</a>
+						</g:elseif>
 						</td>
 					    <%--<td>
 					        <a href="${createLink(action:'delete',controller:'doctor',id:doctorInstance.id) }" onclick="return confirm('${message(code:'default.button.delete.confirm.message',default:'亲，确认删除嘛？ ')}')" class="glyphicon glyphicon-trash" data-toggle="tooltip" title="删除"></a>
