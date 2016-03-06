@@ -21,7 +21,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'password', 'error')} required"  style="line-height:50px;">
 <dl class="dl-horizontal">
-	<dt> 
+	<dt>
 		<label for="password">
 		<g:message code="user.password.label" default="Password" />
 		<span class="required-indicator">*</span>
