@@ -70,7 +70,7 @@ class FollowDoctorAction extends RuijinBaseAction {
 			d.isReadFollow = false;
 			d.save();
 			def tm = new TemplateMessage()
-			tm.templateId = "9LT4Pl_kG0JAEjEF4bbUMfPEd4KJI2lBMxjh2fg_nVM"
+			tm.templateId = "w67y6Gin4ZQczkhw-oIZ-bJX7TMCwnbq4z5HnI574GI"
 			tm.url = "http://qiushengming.sh-hansi.com/doctorPortal/doctorPrefered/" + dp.id
 			tm.toUser = dp.doctor.subscriber.openId
 			tm.addEntry("first", "患者关注提醒", "#000")

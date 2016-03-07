@@ -75,7 +75,7 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 				name = UserInfo.loadUserInfo(dp.patient.subscriber.openId).nickname
 			}
 			def tm = new TemplateMessage()
-			tm.templateId = "A4ozynjfXMHOSiXsWXnlUI0gZJ1_XBmxNbdtk_tdsQM"
+			tm.templateId = "DfdmLtv7TkkZfHhtiDv2V1QDzyvlYjKUjXIxILBfcy4"
 			tm.toUser = dp.doctor.subscriber.openId
 			tm.url = "qiushengming.sh-hansi.com/doctorPortal/chat/" + dp.id
 			tm.addEntry("first", "你收到一条新留言，请查看","#000")
