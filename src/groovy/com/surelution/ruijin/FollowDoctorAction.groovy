@@ -65,18 +65,18 @@ class FollowDoctorAction extends RuijinBaseAction {
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)
 			name = ui.nickname
 		}
-		
+		println dp.doctor.attRemind && d.isReadFollow
 		if(dp.doctor.attRemind && d.isReadFollow ){
 			d.isReadFollow = false;
 			d.save();
 			def tm = new TemplateMessage()
-			tm.templateId = "w67y6Gin4ZQczkhw-oIZ-bJX7TMCwnbq4z5HnI574GI"
-			tm.url = "http://qiushengming.sh-hansi.com/doctorPortal/doctorPrefered/" + dp.id
+			tm.templateId = "2zuwp379Jud28xgtxTOtg22KbJTGWxDDYAcyPnu0n6g"
+			tm.url = "${rootPath}/doctorPortal/doctorPrefered/" + dp.id
 			tm.toUser = dp.doctor.subscriber.openId
 			tm.addEntry("first", "患者关注提醒", "#000")
 			tm.addEntry("keyword1",name,"#000")
-			tm.addEntry("keyword2",new Date().format("yyyy-MM-dd HH:mm:ss"),"#000")
-			tm.addEntry("keyword3","系统推荐人","#000")
+			tm.addEntry("keyword2",doctor.name,"#000")
+			tm.addEntry("keyword3",new Date().format("yyyy-MM-dd HH:mm:ss"),"#000")
 			tm.addEntry("remark","点击查看详情,并为患者进行备注","#000")
 			tm.send()
 		}

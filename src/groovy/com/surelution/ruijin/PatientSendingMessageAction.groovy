@@ -3,6 +3,8 @@
  */
 package com.surelution.ruijin
 
+import grails.util.Holders;
+
 import com.surelution.whistle.core.Attribute
 import com.surelution.whistle.core.TemplateMessage
 import com.surelution.whistle.push.UserInfo;
@@ -42,7 +44,7 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 			put(new Attribute(Attribute.KEY_Content, "${dp.doctor.name}忙碌中。"))
 			return
 		}
-		
+		def message
 		Interaction i = new Interaction()
 		i.fromDoctor = false
 		i.dp = dp
@@ -51,9 +53,11 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		if(getParam(Attribute.KEY_MsgType) == "image") {
 			i.msgType = "image"
 			i.message = getParam("PicUrl")
+			message = "[图片]"
 		} else if(getParam(Attribute.KEY_MsgType) == Attribute.Msg_Type_TEXT) {
 			i.msgType = "text"
 			i.message = getParam(Attribute.KEY_Content)
+			message = getParam(Attribute.KEY_Content)
 		}
 		
 		i.save(flush:true)
@@ -75,12 +79,12 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 				name = UserInfo.loadUserInfo(dp.patient.subscriber.openId).nickname
 			}
 			def tm = new TemplateMessage()
-			tm.templateId = "DfdmLtv7TkkZfHhtiDv2V1QDzyvlYjKUjXIxILBfcy4"
+			tm.templateId = "pPsmrYfBwR2RNxWSOYZw9tpMc0KRaOPP26nxItgbezs"
 			tm.toUser = dp.doctor.subscriber.openId
-			tm.url = "qiushengming.sh-hansi.com/doctorPortal/chat/" + dp.id
+			tm.url = "${rootPath}/doctorPortal/chat/" + dp.id
 			tm.addEntry("first", "你收到一条新留言，请查看","#000")
-			tm.addEntry("keyword1", name,"#000")
-			tm.addEntry("keyword2", new Date().format("yyyy-MM-dd HH:mm:ss"),"#000")
+			tm.addEntry("user", name,"#000")
+			tm.addEntry("ask", message,"#000")
 			tm.addEntry("remark","如需回复，点击查看","#000")
 			tm.send()
 		}
