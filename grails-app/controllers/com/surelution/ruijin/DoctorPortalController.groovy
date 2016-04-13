@@ -196,7 +196,7 @@ class DoctorPortalController {
 		dp.commentDate = new Date();
 		dp.save();
 		TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
-		csm.content = dp.doctor.name + "医生以确认，您可以能正常与他沟通。"
+		csm.content = dp.doctor.name + "医生已确认，您可以能正常与他沟通。"
 		csm.touser = dp.patient.subscriber.openId
 		csm.send()
 		redirect(action:'doctorPrefered',id:dpId);
