@@ -122,13 +122,14 @@
 				ic += content;
 				ic += '</h3>'; 
 			}else if(msgType == "image"){
-				ic += '<g:link action="showImg" data-toggle="modal" data-target="#showimg"><img class="preview" id="previe_';
+				ic += '<a href="${createLink(action:"showImg")}/';
+				ic += msgId;
+				
+				ic += '" data-toggle="modal" data-target="#showimg"><img class="preview" id="previe_';
 				ic += msgId;
 				ic += '" src="';
 				ic += content;
-				ic += '" width="30%" height="30%" onclick="showPic(\'';
-				ic += content
-				ic += '\')"/></g:link>';
+				ic += '" width="30%" height="30%"/></a>';
 			}
 			ic += '<span class="talk_time">';
 			ic += msgAt;

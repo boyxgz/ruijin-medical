@@ -1,14 +1,12 @@
 package com.surelution.ruijin
 
 import grails.converters.JSON
-import com.surelution.whistle.core.Attribute
 import grails.util.Holders
 
 import com.surelution.whistle.core.Auth2Util
 import com.surelution.whistle.core.TextCustomerServiceMessage
 import com.surelution.whistle.core.Auth2Util.AuthScope
 import com.surelution.whistle.push.UserInfo
-import com.surelution.ruijin.FollowDoctorAction
 class DoctorPortalController {
 
 	private Doctor doctor
@@ -19,7 +17,7 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-//		doctor = Doctor.get(1);
+//		doctor = Doctor.get(2);
 		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 //		
 		if(!doctor) {
@@ -219,8 +217,9 @@ class DoctorPortalController {
 	}
 	
 	//点击图片放大的modal页面
-	def showImg(){
-		
+	def showImg(Long id){
+		Interaction interation = Interaction.get(id)
+		[interation:interation]
 	}
 	
 	def doctorPreferedList(){

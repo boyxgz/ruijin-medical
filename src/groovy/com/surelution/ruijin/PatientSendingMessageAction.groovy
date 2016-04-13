@@ -3,11 +3,9 @@
  */
 package com.surelution.ruijin
 
-import grails.util.Holders;
-
 import com.surelution.whistle.core.Attribute
 import com.surelution.whistle.core.TemplateMessage
-import com.surelution.whistle.push.UserInfo;
+import com.surelution.whistle.push.UserInfo
 /**
  * @author <a href="mailto:guangzong.syu@gmail.com">guagnzong</a>
  *
@@ -51,8 +49,12 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		i.isRead = false
 		i.message = getParam(Attribute.KEY_Content)
 		if(getParam(Attribute.KEY_MsgType) == "image") {
+			RemoteMedia rm = new RemoteMedia()
+			rm.url = getParam("PicUrl")
+			rm.save(flush:true)
+
 			i.msgType = "image"
-			i.message = getParam("PicUrl")
+			i.message = "${rootPath}/dynImage/patientUpload/${rm.id}"
 			message = "[图片]"
 		} else if(getParam(Attribute.KEY_MsgType) == Attribute.Msg_Type_TEXT) {
 			i.msgType = "text"
