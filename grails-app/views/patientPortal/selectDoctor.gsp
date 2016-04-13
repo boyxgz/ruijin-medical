@@ -3,10 +3,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>医生选择</title>
+<title>在线咨询</title>
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <style>
-	*{margin:0px; padding:0px;}
+	*{margin:0px; padding:0px; border:0px solid red;}
 	body{background-color:#F0F0F0;height:70%; margin-bottom:200px;}
 	.small-wid-td{width:90px;}
 	.wid-td{width:110px;}
@@ -20,9 +20,7 @@ window.onload = function(){
 	var dpCheckBox = document.getElementById("dpCheckBox");
 	var dpId = "checkBox_" + dpCheckBox.value;
 	var check = document.getElementsByName(dpId);
-	if(check[0] != null){
-		check[0].checked = true;
-	}
+	
  	var dp = document.getElementById("dp");
  	dp.value = dpCheckBox.value;
 }
@@ -58,20 +56,26 @@ function confirm(){
 </script>
 </head>
 <body>
-<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:40%;">
+<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:50%;">
 <div style="width:100%; height:20px;"></div>
 <div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
 <div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
-	<g:if test="${flash.message }">${flash.message }如有疑问请点击<g:link action="explain">使用说明</g:link></g:if>
+	<g:if test="${flash.message }">${flash.message }如有疑问请点击
+		<a href="http://mp.weixin.qq.com/s?__biz=MzIwMzI1NjYwMQ==&mid=401723315&idx=1&sn=1ab2e2d01f9d1be0125918009208a1af#rd">
+			使用说明
+		</a>
+	</g:if>
 </div>
 <g:if test="${isNull == false}">
 <table style="width:100%; height:50px; ">
 		<tr>
 		<td align="center" >
 			<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox" />
-			
-				<p style="margin-top:5px; width:160px; font-size:12px;">请选择其中一名专家进行咨询，如有疑问请点击<g:link action="explain">使用说明</g:link></p>
-			
+				<p style="margin-top:5px; width:160px; font-size:12px;">请选择其中一名专家进行咨询，如有疑问请点击
+					<a href="http://mp.weixin.qq.com/s?__biz=MzIwMzI1NjYwMQ==&mid=401723315&idx=1&sn=1ab2e2d01f9d1be0125918009208a1af#rd">
+						使用说明
+					</a>
+				</p>
 		</td>
 		<td>
 		<g:form action="selectDoc" id="${dp?.id }"  onsubmit="return confirm();">
