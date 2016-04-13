@@ -1,6 +1,7 @@
 package com.surelution.ruijin
 
 import com.surelution.whistle.core.Attribute
+import com.surelution.whistle.push.GroupInfo
 
 
 class TempQrScannedAction extends RuijinBaseAction {
@@ -9,6 +10,7 @@ class TempQrScannedAction extends RuijinBaseAction {
 
 	public boolean accept() {
 		def qrId
+		println qrId
 		if(getParam("Event") == "subscribe") {
 			def eventKey = getParam("EventKey")
 			if(eventKey && eventKey.startsWith("qrscene_")) {
@@ -29,6 +31,7 @@ class TempQrScannedAction extends RuijinBaseAction {
 	}
 
 	public void execute() {
+		GroupInfo.moveUserToGroup(subscriber.openId, AppVar.findByKey("doctor-group-id")?.value);
 		def att = code.scanedBy(subscriber)
 		put(att)
 	}

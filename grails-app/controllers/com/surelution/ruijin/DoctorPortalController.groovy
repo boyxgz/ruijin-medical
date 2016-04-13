@@ -1,13 +1,14 @@
 package com.surelution.ruijin
 
 import grails.converters.JSON
+import com.surelution.whistle.core.Attribute
 import grails.util.Holders
 
 import com.surelution.whistle.core.Auth2Util
 import com.surelution.whistle.core.TextCustomerServiceMessage
 import com.surelution.whistle.core.Auth2Util.AuthScope
 import com.surelution.whistle.push.UserInfo
-
+import com.surelution.ruijin.FollowDoctorAction
 class DoctorPortalController {
 
 	private Doctor doctor
@@ -18,7 +19,7 @@ class DoctorPortalController {
 	def beforeInterceptor = {
 		def userSn = request.getCookie('doctor-sn')
 		
-		doctor = Doctor.get(1);
+//		doctor = Doctor.get(1);
 		doctor = DoctorCookie.findByCookieSn(userSn)?.doctor
 //		
 		if(!doctor) {
@@ -43,6 +44,10 @@ class DoctorPortalController {
 	 */
 
 	def chat(Long id) {
+		/**
+		 * def rt = RecordTemplate.findByDoctor(doctor).isReadMsg = true;
+		 * 		rt.save()
+		 */
 		def rt = RecordTemplate.findByDoctor(doctor);
 		if(rt != null){
 			rt.isReadMsg = true;
@@ -50,10 +55,10 @@ class DoctorPortalController {
 		}
 		
 		def dp = DoctorPatient.get(id)
-		if(id == null){
+		/*if(id == null){
 			dp = DoctorPatient.get( );
 		}else{
-		}
+		}*/
 		if(dp?.doctor?.id == doctor.id) {
 			return [dp:dp]
 		}
@@ -184,7 +189,6 @@ class DoctorPortalController {
 	//医生备注页面表单提交 
 	def firstCom(long id){
 		def dpId = id;
-		
 		def dp = DoctorPatient.get(id);
 		dp.isDPrefered = true;
 		dp.doctorPrefered = true;
@@ -193,7 +197,10 @@ class DoctorPortalController {
 		dp.patient.sex = params.sex;
 		dp.commentDate = new Date();
 		dp.save();
-		
+		TextCustomerServiceMessage csm = new TextCustomerServiceMessage()
+		csm.content = dp.doctor.name + "医生以确认，您可以能正常与他沟通。"
+		csm.touser = dp.patient.subscriber.openId
+		csm.send()
 		redirect(action:'doctorPrefered',id:dpId);
 	}
 	
@@ -201,12 +208,12 @@ class DoctorPortalController {
 	def chatOnOff(long id){
 		def dpId = id;
 		def dp = DoctorPatient.get(id);
-		if(dp.doctorPrefered == true){
+		dp.doctorPrefered = dp.doctorPrefered ? false:true;
+		/*if(dp.doctorPrefered == true){
 			dp.doctorPrefered = false;
 		}else{
 			dp.doctorPrefered = true;
-		}
-		
+		}*/
 		dp.save()
 		redirect(action:'chat',id:dpId)
 	}
