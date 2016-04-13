@@ -58,16 +58,18 @@ class FollowDoctorAction extends RuijinBaseAction {
 			rt.doctor = doctor;
 			rt.save();
 		}
-		
-		d = RecordTemplate.findByDoctor(doctor);
+		/**
+		 * 此处写的是有一个模板消息
+		 */
+//		d = RecordTemplate.findByDoctor(doctor);
 		def name = patiend.name
 		if(name == null){
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)
 			name = ui.nickname
 		}
 		println dp.doctor.attRemind && d.isReadFollow
-		if(dp.doctor.attRemind && d.isReadFollow ){
-			d.isReadFollow = false;
+		if(dp.doctor.attRemind){
+//			d.isReadFollow = false;
 			d.save();
 			def tm = new TemplateMessage()
 			tm.templateId = "2zuwp379Jud28xgtxTOtg22KbJTGWxDDYAcyPnu0n6g"
@@ -81,5 +83,4 @@ class FollowDoctorAction extends RuijinBaseAction {
 			tm.send()
 		}
 	}
-
 }
