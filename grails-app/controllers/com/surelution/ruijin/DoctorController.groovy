@@ -34,7 +34,7 @@ class DoctorController {
 		CommonsMultipartFile photo =  request.getFile("doctorPic")
 		def location = Holders.config.grails.dynImage.rootPath
 		def uuid = UUID.randomUUID().toString()
-		def picUrl = "${location}${uuid}"
+		def picUrl = "${location}/${uuid}"
 		
 		if(photo && !photo.empty){
 			def name = photo.getOriginalFilename()
