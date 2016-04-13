@@ -68,7 +68,9 @@ environments {
     }
     production {
         grails.logging.jul.usebridge = false
-        grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "http://ruijin.sh-hansi.com"
+		grails.dynImage.rootPath = "/home/ruijin-pics"
+		
     }
 }
 
