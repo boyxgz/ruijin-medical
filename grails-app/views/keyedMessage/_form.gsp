@@ -1,7 +1,5 @@
 <%@ page import="com.surelution.ruijin.KeyedMessage" %>
 
-
-
 <div class="fieldcontain ${hasErrors(bean: keyedMessageInstance, field: 'key', 'error')} ">
 	<label for="key">
 		<g:message code="keyedMessage.key.label" default="Key" />

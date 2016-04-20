@@ -6,12 +6,11 @@
 		<title><g:message code="default.edit.label" args="[entityName]" /></title>
 	</head>
 	<body>
-	  <div class="modal-header">
+	  	<div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">修改医生信息</h4>
         </div>
         <g:uploadForm action="update" method="post">
-        
          <div class="modal-body">
 				<g:hiddenField name="id" value="${doctorInstance?.id}" />
 				<g:hiddenField name="version" value="${doctorInstance?.version}" />

@@ -47,7 +47,14 @@
 			            <td><span class="property-value" aria-labelledby="title-label"><g:fieldValue bean="${doctorInstance}" field="title"/></span></td>
 			         </tr>
 			         </g:if>
-			         			         
+			         
+			         <g:if test="${doctorInstance?.workingYear}">
+			         <tr>
+			            <th><span id="title-label" class="property-label"><g:message code="doctor.workingYear.label" default="workingYear" /></span></th>
+			            <td><span class="property-value" aria-labelledby="title-label">${doctorInstance?.workingYear }</span></td>
+			         </tr>
+			         </g:if>
+			                 
 			         <g:if test="${doctorInstance?.skills}">
 			            <th><span id="skills-label" class="property-label"><g:message code="doctor.skills.label" default="Skills" /></span></th>
 			            <td><span class="property-value" aria-labelledby="skills-label"><g:fieldValue bean="${doctorInstance}" field="skills"/></span></td>
@@ -67,7 +74,7 @@
 			          </tr>
 			         </g:if>
 			         
-			         <g:if test="${doctorInstance?.inquiries}">
+			         <%--<g:if test="${doctorInstance?.inquiries}">
 			         <tr>
 			             <th><span id="inquiries-label" class="property-label"><g:message code="doctor.inquiries.label" default="Inquiries" /></span></th>
 			             <td><span class="property-value" aria-labelledby="inquiries-label"><g:fieldValue bean="${doctorInstance}" field="inquiries"/></span></td>
@@ -78,7 +85,7 @@
 			             <th><span id="reservations-label" class="property-label"><g:message code="doctor.reservations.label" default="Reservations" /></span></th>
 			             <td><span class="property-value" aria-labelledby="reservations-label"><g:fieldValue bean="${doctorInstance}" field="reservations"/></span></td>
 			         </tr>
-			         </g:if>
+			         </g:if>--%>
 			         
 			         
 			      </tbody>

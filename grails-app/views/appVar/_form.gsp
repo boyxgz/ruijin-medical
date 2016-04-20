@@ -12,7 +12,7 @@
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-				<g:textField name="key" value="${appVarInstance?.key}"/>
+				<g:textField name="key" value="${appVarInstance?.key}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>
@@ -28,7 +28,7 @@
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-				<g:textField name="description" value="${appVarInstance?.description}"/>
+				<g:textField name="description" value="${appVarInstance?.description}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>
@@ -44,7 +44,7 @@
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-				<g:textField name="value" value="${appVarInstance?.value}"/>
+				<g:textField name="value" value="${appVarInstance?.value}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>

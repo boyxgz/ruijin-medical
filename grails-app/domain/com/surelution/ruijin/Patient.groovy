@@ -21,7 +21,7 @@ class Patient {
 	 Date dateOfBirth //生日
 	 Sex sex = Sex.Unknown   //性别
 
-	 String iDcard
+	 String iDcard		//住院号
 	 String phoneNumb
 	 
 	 enum  Sex{

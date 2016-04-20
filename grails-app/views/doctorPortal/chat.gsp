@@ -118,7 +118,7 @@
 			ic += msgId;
 			ic += '">'; 
 			if(msgType == "text") {
-				ic += '<h3>';
+				ic += '<h3 style="font-weight:bold; font-size:16px;">';
 				ic += content;
 				ic += '</h3>'; 
 			}else if(msgType == "image"){

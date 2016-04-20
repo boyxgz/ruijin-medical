@@ -1,5 +1,7 @@
 package com.surelution.ruijin
 
+import java.lang.ProcessBuilder.Redirect;
+
 import com.surelution.whistle.core.Auth2Util;
 import com.surelution.whistle.core.Auth2Util.AuthScope;
 
@@ -55,7 +57,7 @@ class PatientPortalController {
 	
 	def registers(){
 		//注册
-		[patient:patient];
+		[patient:patient]
 	}
 	
 	def showInformation(){

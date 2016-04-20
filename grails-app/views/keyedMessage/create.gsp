@@ -2,23 +2,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'keyedMessage.label', default: 'KeyedMessage')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
+		<style type="text/css">
+		</style>
 	</head>
 	<body>
-		<a href="#create-keyedMessage" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="create-keyedMessage" class="content scaffold-create" role="main">
-			<h1><g:message code="default.create.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<h4 class="modal-title">新建</h4>
+	</div>
+	<g:form action="save" >
+		<div class="modal-body">
 			<g:hasErrors bean="${keyedMessageInstance}">
 			<ul class="errors" role="alert">
 				<g:eachError bean="${keyedMessageInstance}" var="error">
@@ -26,14 +21,27 @@
 				</g:eachError>
 			</ul>
 			</g:hasErrors>
-			<g:form action="save" >
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>
-				<fieldset class="buttons">
-					<g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" />
-				</fieldset>
-			</g:form>
+			<table style="line-height: 50px; margin-left:70px;">
+				<tr>
+					<td align="right"><g:message code="keyedMessage.key.label" default="Key" />&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><g:textField class="form-control" name="key" value="${keyedMessageInstance?.key}"/></td>
+				</tr>
+				<tr>
+					<td align="right"><g:message code="keyedMessage.description.label" default="Description" />&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><g:textField class="form-control" name="description" value="${keyedMessageInstance?.description}"/></td>
+				</tr>
+				<tr>
+					<td align="right"><g:message code="keyedMessage.message.label" default="Message" />&nbsp;&nbsp;&nbsp;</td>
+					<td align="left"><textarea style="height:97px; width:270px; " class="form-control" name="message">${keyedMessageInstance?.message}</textarea></td>
+				</tr>
+			</table>
 		</div>
+		<div class="modal-footer">
+			<fieldset class="buttons">
+				<g:submitButton name="save" class="btn btn-default " value="${message(code: 'default.button.create.label', default: 'Create')}" />
+				<input type="button" class="btn btn-default" value="取消" data-dismiss="modal" />
+			</fieldset>
+		</div>
+	</g:form>
 	</body>
 </html>

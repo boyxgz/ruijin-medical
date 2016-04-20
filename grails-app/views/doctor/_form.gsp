@@ -32,32 +32,16 @@
 	</dl>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'skills', 'error')} ">
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'working', 'error')} ">
 	<dl class="dl-horizontal">
 		<dt>
-			<label for="skills">
-		<g:message code="doctor.skills.label" default="Skills" />
-		
-	</label>
+			<label for="working">
+				<g:message code="doctor.workingYear.label" default="WorkingYear" />
+			</label>
 		</dt>
 		<dd>
 			<div class="col-xs-8">
-			<g:textField name="skills" value="${doctorInstance?.skills}" class="form-control"/>
-			</div>
-		</dd>
-	</dl>
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'description', 'error')} ">
-	<dl class="dl-horizontal">
-		<dt>
-			<label for="description">
-		      <g:message code="doctor.description.label" default="Description" />
-	       </label>
-		</dt>
-		<dd>
-			<div class="col-xs-8">
-				<g:textField name="description" value="${doctorInstance?.description}" class="form-control"/>
+			<g:textField name="workingYear" value="${doctorInstance?.workingYear}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>
@@ -72,13 +56,47 @@
 		</dt>
 		<dd>
 			<div class="col-xs-8">
+				
 				<g:textField name="address" value="${doctorInstance?.address}" class="form-control"/>
 			</div>
 		</dd>
 	</dl>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'inquiries', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'skills', 'error')} ">
+	<dl class="dl-horizontal">
+		<dt>
+			<label for="skills">
+		<g:message code="doctor.skills.label" default="Skills" />
+		
+	</label>
+		</dt>
+		<dd>
+			<div class="col-xs-8">
+			<textarea rows="" cols="" name="skills" style="width:230px; height:70px;">${doctorInstance?.skills}</textarea>
+			<%--<g:textField name="skills" value="${doctorInstance?.skills}" class="form-control"/>--%>
+			</div>
+		</dd>
+	</dl>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'description', 'error')} ">
+	<dl class="dl-horizontal">
+		<dt>
+			<label for="description">
+		      <g:message code="doctor.description.label" default="Description" />
+	       </label>
+		</dt>
+		<dd>
+			<div class="col-xs-8">
+				<textarea name="description" style="width:230px; height:70px">${doctorInstance?.description}</textarea>
+				<%--<g:textField name="description" value="${doctorInstance?.description}" class="form-control"/>--%>
+			</div>
+		</dd>
+	</dl>
+</div>
+
+<%--<div class="fieldcontain ${hasErrors(bean: doctorInstance, field: 'inquiries', 'error')} required">
 	<dl class="dl-horizontal">
 		<dt>
 			<label for="inquiries">
@@ -107,7 +125,7 @@
 			</div>
 		</dd>
 	</dl>
-</div>
+</div>--%>
 
 
 

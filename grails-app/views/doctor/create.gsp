@@ -24,18 +24,17 @@
 		</script>
 	</head>
 	<body>
-	     <div class="modal-header">
+	    <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">新建医生</h4>
         </div>
         <g:uploadForm action="save" method="post">
-        
          <div class="modal-body">
-				<fieldset class="form">
-					<g:render template="form"/>
-				</fieldset>	
-				
-				<dl class="dl-horizontal">
+			<fieldset class="form">
+				<g:render template="form"/>
+			</fieldset>	
+			
+			<dl class="dl-horizontal">
 				<dt>
 					<label for="image"> <g:message code="doctor.image.label"
 							default="image" />

@@ -18,10 +18,10 @@
 		           	<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 					<g:link class="create" action="create" data-toggle="modal" data-target="#createModal">新建全局变量</g:link>
 					<div class="modal fade" id="createModal" role="dialog">
-		            <div class="modal-dialog">
-			            <div class="modal-content"> 
+			            <div class="modal-dialog">
+				            <div class="modal-content"> 
+				            </div>
 			            </div>
-		            </div>
 	             	</div>
              	</div>	
 			</section>
@@ -54,8 +54,8 @@
 					</tbody>
 				</table>
 				<div class="pagination">
-				<g:paginate total="${appVarInstanceTotal}" />
-			</div>
+					<g:paginate total="${appVarInstanceTotal}" />
+				</div>
 			</section>
 		</div>
 	</body>

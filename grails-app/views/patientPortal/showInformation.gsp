@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>个人资料</title>
+<title>个人中心</title>
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="${resource(dir:'js',file:'bootstrap.min.js') }"></script>
 <script type="text/javascript" src="${resource(dir:'js',file:'jquery.min.js') }"></script>
@@ -48,7 +48,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="text-right wtd">身份证号&nbsp;&nbsp;*&nbsp;&nbsp;</td>
+		<td class="text-right wtd">住院号&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>
 			<input type="text" class="winput form-control input-sm" name="iDcard" value="${patient.iDcard }" readonly/>
 		</td>

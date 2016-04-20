@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>个人资料</title>
+<title>个人中心</title>
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="${resource(dir:'js',file:'bootstrap.min.js') }"></script>
 <script type="text/javascript" src="${resource(dir:'js',file:'jquery-1.8.3.min.js') }"></script>
@@ -62,34 +62,6 @@ function check(form){
 		}
 	}
 	//以下身份证号码校验
-	if(form.iDcard.value != '' && form.iDcard.value.length >= 18){
-		var pormpt = 0;
-		var str = form.iDcard.value;
-		for(var i=0; i<form.iDcard.value.length; i++){
-			if(str[i] != ' '){
-				var num = parseInt(str[i]);
-				if(num >= 0 && num <= 9 || str[i] == 'x'){
-					
-				}
-				else{
-					alert("请正确的输入您的身份证号！");
-					return false;
-				}
-			}
-			else{
-				pormpt++;
-			}
-		}
-		if(pormpt == form.iDcard.value.length){
-			alert("您输入的格式可能不对哦，请正确输入。");
-			return false;
-		}
-	}
-	else{
-		alert("您输入的身份证号码，为空或不满18位！");
-		return false;
-	}
-	return true;
 }
 </script>
 </head>
@@ -137,7 +109,7 @@ function check(form){
 		</td>
 	</tr>
 	<tr>
-		<td class="text-right wtd">身份证号&nbsp;&nbsp;*&nbsp;&nbsp;</td>
+		<td class="text-right wtd">住院号&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>
 			<input type="text" class="winput form-control input-sm" name="iDcard" value="${patient?.iDcard }"/>
 		</td>
@@ -150,7 +122,7 @@ function check(form){
 	</g:form>
 </div>
 <div style="width:90%; margin-left:8%; margin-top:10px;">
-<p class="lead">友情提示：请输入正确的身份证号和您的姓名，以便专家能够更精确的了解到您的个人情况。</p>
+<p class="lead">友情提示：请输入正确的住院号和您的姓名，以便专家能够更精确的了解到您的个人情况。</p>
 </div>
 </div>
 </body>

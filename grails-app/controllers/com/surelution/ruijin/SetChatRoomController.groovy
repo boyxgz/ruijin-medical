@@ -37,7 +37,26 @@ class SetChatRoomController {
 		[doctor:doctor]
 	}
 	
-	def remindOnOff(){
+	def onOff(){
+		def value =  params.int("value")
+		if(params.type == "remind" ){
+			doctor.remind = value == 1 ? true : false
+			doctor.msgRemind = value == 1 ? true : false
+			doctor.attRemind = value == 1 ? true : false
+		}
+		if(params.type == "msg"){
+			doctor.msgRemind = value == 1 ? true : false
+			doctor.remind = doctor.msgRemind == false ? false : true
+		}
+		if(params.type == "att"){
+			doctor.attRemind = value == 1 ? true : false
+			doctor.remind = doctor.attRemind == false ? false : true
+		}
+		doctor.save(flush:true)
+		redirect(action:'setChatRoom')
+	}
+	
+/*	def remindOnOff(){
 		if(doctor.remind == false){
 			doctor.remind = true;
 			doctor.msgRemind = true;
@@ -68,6 +87,6 @@ class SetChatRoomController {
 			doctor.attRemind = false;
 		}
 		redirect(action:"setChatRoom");
-	}
+	}*/
 	
 }

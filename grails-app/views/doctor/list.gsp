@@ -17,74 +17,69 @@
 			$(this).data('myModal',null)
 		    event.preventDefault();
 		    var target = $(this).attr("href"); 
-			    $("#myModal").load(target, function() { 
-			    	$("#myModal").addClass("modalstyle")
-	                $("#myModal").modal('show');  }); 				    	
-			    });
+		    $("#myModal").load(target, function() { 
+		    	$("#myModal").addClass("modalstyle")
+                $("#myModal").modal("show");  });			    	
+		    });
 		});
 	</script>
 	</head>
 	<body>
-		  <div class="content-wrapper">
-         <section class="content-header">
-				<h1>
-					医生信息管理 <small></small>
-				</h1>
-				<div class="c1" style=" border-bottom: 1px solid #e5e5e5;margin-bottom:10px; margin-top:10px;">
-            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-			<g:link class="create" action="create" data-toggle="modal" data-target="#createModal">新建医生</g:link>
-			<!-- 新增台账的dialog -->	
-			 <div class="modal fade" id="createModal" role="dialog">
-	             <div class="modal-dialog">
-		             <div class="modal-content"> 
+	<div class="content-wrapper">
+		<section class="content-header">
+			<h1>医生信息管理 <small></small></h1>
+			<div class="c1" style=" border-bottom: 1px solid #e5e5e5;margin-bottom:10px; margin-top:10px;">
+	            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+				<g:link class="create" action="create" data-toggle="modal" data-target="#createModal">新建医生</g:link>
+				 <div class="modal fade" id="createModal" role="dialog">
+		             <div class="modal-dialog">
+			             <div class="modal-content">
+			             </div>
 		             </div>
-	             </div>
-             </div>		
-          </div>
-				</section>
+	             </div>		
+          	</div>
+		</section>
 	<section class="content">
 		<div id="list-doctor" class="content scaffold-list" role="main">
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
 			<table class="table table-bordered table-respose">
 				<thead>
 					<tr>
-						<g:sortableColumn property="name" title="${message(code: 'doctor.name.label', default: 'Name')}" class="alink" />
+						<g:sortableColumn property="name" title="${message(code: 'doctor.name.label', default: 'Name')}" class="alink" style="width:70px;"/>
 					    
-					    <g:sortableColumn property="title" title="${message(code: 'doctor.title.label', default: 'Title')}" class="alink"/>
+					    <g:sortableColumn property="title" title="${message(code: 'doctor.title.label', default: 'Title')}" class="alink" style="width:100px;"/>
+					    
+					    <g:sortableColumn property="workingYear" title="${message(code: 'doctor.workingYear.label', default: 'workingYear')}" class="alink" style="width:100px;"/>
 					    
 					    <g:sortableColumn property="description" title="${message(code: 'doctor.description.label', default: 'Description')}" class="alink"/>
 						
-					    <g:sortableColumn property="skills" title="${message(code: 'doctor.skills.label', default: 'Skills')}" class="alink"/>
+					    <g:sortableColumn property="skills" title="${message(code: 'doctor.skills.label', default: 'Skills')}" class="alink" style="width:350px;"/>
 					    
 						<g:sortableColumn property="address" title="${message(code: 'doctor.address.label', default: 'Address')}" class="alink"/>
 					
-						<g:sortableColumn property="inquiries" title="${message(code: 'doctor.inquiries.label', default: 'Inquiries')}" class="alink"/>
 					
-						<g:sortableColumn property="reservations" title="${message(code: 'doctor.reservations.label', default: 'Reservations')}" class="alink"/>
 						
-						<th>微信信息</th>
+						<th style="width:100px;">微信信息</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
-				<g:set var="allGroups" value="${GroupInfo.listAll() }"/>
+				
 				<g:each in="${doctorInstanceList}" status="i" var="doctorInstance">
 					<tr>
 						<td><g:link action="show" id="${doctorInstance.id}">${fieldValue(bean: doctorInstance, field: "name")}</g:link></td>
 						
 						<td>${fieldValue(bean: doctorInstance, field: "title")}</td>
 						
+						<td>${doctorInstance?.workingYear }</td>
 						<td>${fieldValue(bean: doctorInstance, field: "description")}</td>
 						
 						<td>${fieldValue(bean: doctorInstance, field: "skills")}</td>
 						
 						<td>${fieldValue(bean: doctorInstance, field: "address")}</td>
 						
-						<td>${fieldValue(bean: doctorInstance, field: "inquiries")}</td>
+						<%--<td>${fieldValue(bean: doctorInstance, field: "inquiries")}</td>
 					
-						<td>${fieldValue(bean: doctorInstance, field: "reservations")}</td>
+						<td>${fieldValue(bean: doctorInstance, field: "reservations")}</td>--%>
 						<g:set var="userInfo"/>
 						<g:if test="${doctorInstance.subscriber }">
 							<g:set var="userInfo" value="${UserInfo.loadUserInfo(doctorInstance.subscriber.openId) }"/>

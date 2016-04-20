@@ -35,7 +35,6 @@
 			<!-- 新增台账的dialog -->	
 			 <div class="modal fade" id="createModal" role="dialog">
                      <div class="modal-dialog">
-                           <!-- Modal content-->
                            <div class="modal-content"> 
                            </div>
                           </div>

@@ -1,3 +1,4 @@
+<%@page import="com.surelution.ruijin.KeyedMessage"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -5,14 +6,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>在线咨询</title>
 <link href="${resource(dir:'css',file:'bootstrap.min.css')}" rel="stylesheet" type="text/css"/>
+<wx:registerJsapi apiList="'onMenuShareTimeline','onMenuShareAppMessage'"/>
 <style>
 	*{margin:0px; padding:0px; border:0px solid red;}
-	body{background-color:#F0F0F0;height:70%; margin-bottom:200px;}
+	body{background-color:#E8EBF0;height:70%; margin-bottom:200px;}
 	.small-wid-td{width:90px;}
 	.wid-td{width:110px;}
 	.big-wid-td{width:190px;}
 	.smal{border-buttom:1px solid red;}
 	.hei-td{height:20px; color:#b2b2b2;}
+	.text-content{
+	    margin-top: 10px;
+	    width: 98%;
+	    margin-left: 3%;
+	    font-size:20px;
+	    font-weight:bold;
+	}
 </style>
 <script>
 window.onload = function(){
@@ -39,6 +48,8 @@ function changeBox(id){
 	var dpIdGet = document.getElementById(dpId);
 	var dpSend = document.getElementById("dp");
 	dpSend.value = dpIdGet.value;
+	document.getElementsByName("formDoctor")[0].submit()
+	return true
 }
 
 function confirm(){
@@ -53,92 +64,114 @@ function confirm(){
 		return true;
 	}
 }
+function close(){
+	wx.ready(function(){
+		wx.closeWindow();
+	})
+}
+
 </script>
 </head>
 <body>
-<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:50%;">
-<div style="width:100%; height:20px;"></div>
-<div class="center"style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
-<div style="margin-top:2px; margin-left:10%; font-size:22px; font-weight:bold; color:red;">
-	<g:if test="${flash.message }">${flash.message }如有疑问请点击
-		<a href="http://mp.weixin.qq.com/s?__biz=MzIwMzI1NjYwMQ==&mid=401723315&idx=1&sn=1ab2e2d01f9d1be0125918009208a1af#rd">
-			使用说明
-		</a>
-	</g:if>
-</div>
-<g:if test="${isNull == false}">
-<table style="width:100%; height:50px; ">
-		<tr>
-		<td align="center" >
-			<input type="hidden" name="dpCheckBox" value="${dpCheckBox?.doctor?.id }" id="dpCheckBox" />
-				<p style="margin-top:5px; width:160px; font-size:12px;">请选择其中一名专家进行咨询，如有疑问请点击
-					<a href="http://mp.weixin.qq.com/s?__biz=MzIwMzI1NjYwMQ==&mid=401723315&idx=1&sn=1ab2e2d01f9d1be0125918009208a1af#rd">
-						使用说明
-					</a>
-				</p>
-		</td>
-		<td>
-		<g:form action="selectDoc" id="${dp?.id }"  onsubmit="return confirm();">
-			<input type="hidden" name="dp" value="" id="dp">
-			<g:if test="${ isNull != null}">
-				<input type="submit" class="btn btn-default" value="确认" id="submit"/>
-			</g:if>
-		</g:form>
-		</td>
-	</tr>
-</table>
-</g:if>
-<g:each in="${doctorpatient }" var="dp">
-<g:link action="showDoctor" controller="introDoctor" id="${dp?.doctor?.id }">
-<div style="background-color:#fff; border-radius:1em; margin-top:5px;">
-	<table style="border-radius:1em;">
-	<tr>
-		<td rowspan="5" class="wid-td" align="center">
-			<img src="${createLink(action:'showPic',id:dp?.doctor?.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
-		</td>
-		<td class="big-wid-td">
-			<strong class="name" id="docotorName_${dp?.doctor?.id}">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>
-		</td>
-		<td rowspan="3" class="small-wid-td" align="center">
-		<g:if test="${dp?.doctorPrefered }">
-			<input type="checkbox" class="checkBox" name="checkBox_${ dp?.doctor?.id}" ${dp?.patientPrefered?'checked':'' } onchange ="changeBox(this.id)" id="${dp?.doctor?.id }"/>
-			<input type="hidden" name="dpId" id="dpId_${dp?.doctor?.id }" value="${dp?.id }"/>
-		</g:if>
-		</td>
-	</tr>
-	<tr>
-		<td  class="font_style hei-td">
-			<small><small>预约量：${dp?.doctor?.reservations }</small></small>
-		</td>
-	</tr>
-	<tr>
-		<td class="hei-td">
-		<g:if test="${dp?.doctor?.skills.length() < 7 }">
-			<small><small>擅长领域：${dp?.doctor?.skills}</small></small>
+<%--<img src="${resource(dir:'images',file:'hospital.jpg') }"  style="width:100%; height:50%;">--%>
+	<div class="center" style="border:0px solid red; width:98%; height:100%; margin-left:1%;">
+		<g:if test="${isNull == true }">
+			<div class="text-content">
+				<div style="width:92%; margin-left:4%;">
+					<p style="background-color:#d5d5d5;  font-weight:bold; font-size:16px; line-height:30px; color:#000;">&nbsp;&nbsp;&nbsp;友情提示</p>
+					<div style="background-color:#fff; margin-top:-10px;">
+						<div style="width:96%; margin-left:3%; font-size:16px;">
+							<br>
+							<p>${KeyedMessage.findByKey("selectDoctor-zero").message }</p>
+							<br>
+						</div>
+					</div>
+				</div>	
+			</div>
 		</g:if>
 		<g:else>
-			<small><small>擅长领域：${dp?.doctor?.skills.substring(0,7)}...</small></small>
+			<div>
+				<%--<p style="font-weight:bold; font-size:18px;  color:#fff; background-color:#1F629C;" align="center"></p>--%>
+				<div style="margin-top:0px; border:0px solid red; width:92%; margin-left:4%;">
+					<p style="position:relative; top:60px; width:50%; left:5%; font-size:16px; font-weight:bold;"><%--你目前正在和${dpCheckBox?.doctor?.name }医生进行互动。</p>--%></p>
+					<img src="${resource(file:'images/aa.jpg') }" style="width:100px; height:100px; position:relative; left:65%; " />
+					<%--<div style="border:0px solid red; width:50%; margin-top:-50px; margin-left:5%; font-weight:bold;">
+						<g:if test="${doctorpatient.size() > 0 }">
+							您目前关注多名医生，点击选择框选择向哪位医生进行咨询
+						</g:if>
+					</div>--%>
+				</div>
+				<div style="height:10px;"></div>
+				<div>
+					<div style="width:92%; margin-left:4%;">
+						<p style="background-color:#d5d5d5;  font-weight:bold; font-size:16px; line-height:30px; color:#000;">&nbsp;&nbsp;&nbsp;使用指南</p>
+						<div style="background-color:#fff; margin-top:-10px;">
+							<div style="width:96%; margin-left:3%; font-size:16px;">
+								<p>1、请<span><a href="javascript:close()" >关闭当前页面</a></span>返回微信号。</p>
+								<p>2、点击图片中箭头所指按钮，切到输入模式，即可发送消息与医生进行互动。<span><img src="${resource(file:'images/selectDoctor.jpg') }" style="width:200px; margin-left:30px;"/></span></p>
+								<p>3、目前向医生发送消息所支持的类型两种：纯文字和图片。</p>
+								<p>4、您同时只能与一位医生进行咨询，如需切换医生咨询，请在下方列表中选择。</p>
+							</div>
+						</div>
+					</div>	
+					<div style="width:92%; margin-left:4%; margin-top:20px;">
+						<p style="background-color:#d5d5d5;  font-weight:bold; font-size:16px; line-height:30px; color:#000;">&nbsp;&nbsp;医生列表（当前咨询医生：${dpCheckBox?.doctor?.name }）</p>
+						<div style="background-color:#fff; margin-top:-10px;">
+							<g:form action="selectDoc" id="${dp?.id }"  name="formDoctor" onsubmit="return changeBox()">
+								<input type="hidden" name="dp" value="" id="dp">
+							</g:form>
+							<g:each in="${doctorpatient }" var="dp">
+								<g:link action="showDoctor" controller="introDoctor" id="${dp?.doctor?.id }">
+									<div style="background-color:#fff; border-radius:1em;">
+										<table style="border-radius:1em;">
+											<tr>
+												<td rowspan="5" class="wid-td" align="center">
+													<img src="${createLink(action:'showPic',id:dp?.doctor?.id)}" class="img-rounded" style="width: 80px; height:80px; margin-top:3px;"/>
+												</td>
+												<td class="big-wid-td">
+													<strong class="name" id="docotorName_${dp?.doctor?.id}">${dp?.doctor?.name}</strong>&nbsp;&nbsp;<strong class="title"><small><small>${dp?.doctor?.title}</small></small></strong>
+												</td>
+												<td rowspan="2" class="small-wid-td" align="center">
+												<g:if test="${dp?.doctorPrefered }">
+													<input type="checkbox" class="checkBox" name="checkBox_${ dp?.doctor?.id}" ${dp?.patientPrefered?'checked':'' } onchange ="changeBox(this.id)" id="${dp?.doctor?.id }"/>
+													<input type="hidden" name="dpId" id="dpId_${dp?.doctor?.id }" value="${dp?.id }"/>
+												</g:if>
+												</td>
+											</tr>
+											<tr>
+												<td class="hei-td" >
+													<small><small>从业年限：${dp?.doctor?.workingYear }</small></small>
+												<%--<g:if test="${dp?.doctor?.skills.length() < 7 }">
+													<small><small>擅长领域：${dp?.doctor?.skills}</small></small>
+												</g:if>
+												<g:else>
+													<small><small>擅长领域：${dp?.doctor?.skills.substring(0,7)}...</small></small>
+												</g:else>--%>
+											</td>
+											</tr>
+											<tr style="height:10px;">
+												<td  class="hei-td" style="height:10px;">
+													<small><small>关注时间：<g:formatDate date="${dp?.dateCreated }" format="yyyy.MM.dd"/></small></small>
+												</td>
+												<td align="center" style="height:10px;">
+													<g:if test="${dp?.doctorPrefered}">
+														可咨询
+													</g:if>
+													<g:else>
+														待确认
+													</g:else>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div style="height:2px; background-color:#d5d5d5; border-radius:0.5;"></div>
+								</g:link>
+							</g:each>
+						</div>
+					</div>
+				</div>
+			</div>
 		</g:else>
-	</td>
-	</tr>
-	<tr>
-		<td  class="hei-td">
-			<small><small>关注时间：<g:formatDate date="${dp?.dateCreated }" format="yyyy.MM.dd HH:mm"/></small></small>
-		</td>
-		<td align="center">
-			<g:if test="${dp?.doctorPrefered}">
-				可咨询
-			</g:if>
-			<g:else>
-				待确认
-			</g:else>
-		</td>
-	</tr>
-	</table>
-</div>
-</g:link>
-</g:each>
-</div>
-<div style="position:fixed; left:0; bottom:20px; width:100%; height:auto; z-index:100;"></div>
+	</div>
 </body>
 </html>

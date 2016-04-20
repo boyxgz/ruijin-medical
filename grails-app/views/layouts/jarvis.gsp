@@ -5,12 +5,10 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>瑞金微信管理后台</title>
-<meta
-	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-	name="viewport">
-	<link rel="shortcut icon" href="${resource(dir: 'images', file: '')}" type="image/x-icon">
-		<link rel="apple-touch-icon" href="${resource(dir: 'images', file: '')}">
-		<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: '')}">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="shortcut icon" href="${resource(dir: 'images', file: '')}" type="image/x-icon">
+<link rel="apple-touch-icon" href="${resource(dir: 'images', file: '')}">
+<link rel="apple-touch-icon" sizes="114x114" href="${resource(dir: 'images', file: '')}">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -28,18 +26,10 @@
 <script src="${resource(dir:'jarvis/js',file:'bootstrap-datetimepicker.zh-CN.js') }"></script>
 <script src="${resource(dir:'jarvis/js',file:'jquery-ui.min.js') }"></script>
 <script src="${resource(dir:'jarvis/js',file:'jquery.cookie.js') }"></script>
-
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-  <g:layoutHead/>
-  
-  <style type="text/css">
-     .current{ font-weight:bold}
-  </style>
+<g:layoutHead/>
+<style type="text/css">
+	.current{ font-weight:bold}
+</style>
 </head>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -98,14 +88,18 @@
 						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="Reservation" action="list">预约时间管理</g:link></li>
 						</ul></li>
 					<!-- 一个导航链接结束 -->
-					
+					<li class="treeview"><a href="#"><i class="fa  fa-map"></i>
+							<span>健康宣教</span> <i class="fa fa-angle-left pull-right"></i></a>
+						<ul class="treeview-menu">
+							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="health" action="list">健康宣教</g:link></li>
+						</ul></li>
 					<!-- 一个导航链接开始 -->
 					<li class="treeview"><a href="#"><i class="fa  fa-map"></i>
-							<span>管理</span> <i class="fa fa-angle-left pull-right"></i></a>
+							<span>系统设置</span> <i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="appVar" action="list">全局变量</g:link></li>
-						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="doctorGroup" action="list">群组</g:link></li>
-						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="FollowMessage" action="list">回复内容设置</g:link></li>
+						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="doctorGroup" action="list">群组设置</g:link></li>
+						    <li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="KeyedMessage" action="list">关键字设置</g:link></li>
 						</ul></li>
 					<!-- 一个导航链接结束 -->
 					

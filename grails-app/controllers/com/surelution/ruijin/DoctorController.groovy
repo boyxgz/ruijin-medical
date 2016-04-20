@@ -29,7 +29,6 @@ class DoctorController {
 
     def save() {
         def doctorInstance = new Doctor(params)
-		
 		def image = new DynImage()
 		CommonsMultipartFile photo =  request.getFile("doctorPic")
 		def location = Holders.config.grails.dynImage.rootPath
@@ -47,7 +46,7 @@ class DoctorController {
 		
 		
 		   doctorInstance.image = image
-        
+		   println doctorInstance.save(flush: true)
 		   if (!doctorInstance.save(flush: true)) {
             redirect(action:"list")
             return

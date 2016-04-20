@@ -18,11 +18,11 @@
 				<input type="hidden" value="${dp?.patientName }" id="patientName"/>
 			</td>
 			<td align="right">
-				<g:if test="${dp.doctorPrefered }">
-				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default" onclick="off()" >阻止接收消息</g:link>
+				<g:if test="${dp?.doctorPrefered }">
+				<g:link action="chatOnOff" id="${dp?.id }" class="btn btn-default" onclick="off()" >阻止接收消息</g:link>
 				</g:if>
 				<g:else>
-				<g:link action="chatOnOff" id="${dp.id }" class="btn btn-default" onclick="on()">接收消息</g:link>
+				<g:link action="chatOnOff" id="${dp?.id }" class="btn btn-default" onclick="on()">接收消息</g:link>
 				</g:else>
 			</td>
 		</tr>

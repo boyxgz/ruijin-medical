@@ -4,7 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class KeyedMessageController {
 
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+    static allowedMethods = [save: "POST", update: "POST"]
 
     def index() {
         redirect(action: "list", params: params)
@@ -27,7 +27,8 @@ class KeyedMessageController {
         }
 
         flash.message = message(code: 'default.created.message', args: [message(code: 'keyedMessage.label', default: 'KeyedMessage'), keyedMessageInstance.id])
-        redirect(action: "show", id: keyedMessageInstance.id)
+//        redirect(action: "show", id: keyedMessageInstance.id)
+		redirect(action:"list")
     }
 
     def show(Long id) {
@@ -78,7 +79,8 @@ class KeyedMessageController {
         }
 
         flash.message = message(code: 'default.updated.message', args: [message(code: 'keyedMessage.label', default: 'KeyedMessage'), keyedMessageInstance.id])
-        redirect(action: "show", id: keyedMessageInstance.id)
+//        redirect(action: "show", id: keyedMessageInstance.id)
+		redirect(action:"list")
     }
 
     def delete(Long id) {
