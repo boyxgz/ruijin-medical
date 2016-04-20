@@ -15,7 +15,7 @@ class ErrorMessageAction extends RuijinBaseAction{
 	}
 	
 	public void execute(){
-		def fm = FollowMessage.findByIndexId(51);
+		def fm = KeyedMessage.findByKey("ErrorMessage")
 		put(new Attribute(Attribute.KEY_Content,fm.message))
 	}
 

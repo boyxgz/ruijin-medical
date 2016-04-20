@@ -34,12 +34,14 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 	 */
 	public void execute() {
 		if(dp.isDPrefered == false){
-			put(new Attribute(Attribute.KEY_Content,"待${dp.doctor.name}确认后，您就可以向医生进行咨询。"))
+			def message = KeyedMessage.findByKey("isDPrefered").message.replace("#doctor#",dp.doctor.name)
+			put(new Attribute(Attribute.KEY_Content,message))
 			return 
 		}
 		
 		if(dp.doctorPrefered == false && dp.isDPrefered){
-			put(new Attribute(Attribute.KEY_Content, "${dp.doctor.name}忙碌中。"))
+			def message = KeyedMessage.findByKey("doctorPreferedFalse").message.replace("#doctor#",dp.doctor.name)
+			put(new Attribute(Attribute.KEY_Content, message))
 			return
 		}
 		def message
@@ -73,14 +75,17 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 		}
 		
 		def d = RecordTemplate.findByDoctor(dp.doctor);
-		if(dp.doctor.msgRemind && isDate > 5 && d.isReadMsg){
+		if(dp.doctor.msgRemind == false && isDate > 2 && d.isReadMsg){
 			d.isReadMsg = false
 			d.save(flush:true)
 			def name = dp.patient.name
 			if(name == null){
 				name = UserInfo.loadUserInfo(dp.patient.subscriber.openId).nickname
 			}
+			println name
+			println name == null
 			def tm = new TemplateMessage()
+			//pPsmrYfBwR2RNxWSOYZw9tpMc0KRaOPP26nxItgbezs
 			tm.templateId = "pPsmrYfBwR2RNxWSOYZw9tpMc0KRaOPP26nxItgbezs"
 			tm.toUser = dp.doctor.subscriber.openId
 			tm.url = "${rootPath}/doctorPortal/chat/" + dp.id
@@ -90,8 +95,6 @@ class PatientSendingMessageAction extends RuijinBaseAction {
 			tm.addEntry("remark","如需回复，点击查看","#000")
 			tm.send()
 		}
-		
-		
 		keepSilence()
 	}
 

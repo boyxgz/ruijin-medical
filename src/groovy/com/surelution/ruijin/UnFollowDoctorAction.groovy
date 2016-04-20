@@ -19,7 +19,7 @@ class UnFollowDoctorAction extends RuijinBaseAction{
 	};
 	
 	public void execute() {
-		def msg = FollowMessage.findByIndexId(50);
+		def msg = KeyedMessage.findByKey("UnFollowDoctor");
 		put(new Attribute(Attribute.KEY_Content,msg.message));
 	};
 }

@@ -49,7 +49,8 @@ class FollowDoctorAction extends RuijinBaseAction {
 		dp.patientPrefered = true
 		dp.isFocus = true
 		dp.save(flush:true)
-		put(new Attribute(Attribute.KEY_Content, "您已经关注医生：${doctor.name}，待医生确认后，可以与医生聊天"))
+		String message = KeyedMessage.findByKey("FollowDoctor").message.replace("#doctor#",dp.doctor.name)
+		put(new Attribute(Attribute.KEY_Content, message))
 		
 		def d = RecordTemplate.findByDoctor(doctor);
 		def rt;
@@ -58,20 +59,18 @@ class FollowDoctorAction extends RuijinBaseAction {
 			rt.doctor = doctor;
 			rt.save();
 		}
-		/**
-		 * 此处写的是有一个模板消息
-		 */
+		
 //		d = RecordTemplate.findByDoctor(doctor);
 		def name = patiend.name
 		if(name == null){
 			def ui = UserInfo.loadUserInfo(patiend.subscriber.openId)
 			name = ui.nickname
 		}
-		println dp.doctor.attRemind && d.isReadFollow
-		if(dp.doctor.attRemind){
-//			d.isReadFollow = false;
+		if(dp.doctor.attRemind == false){
+			d.isReadFollow = false;
 			d.save();
 			def tm = new TemplateMessage()
+			//2zuwp379Jud28xgtxTOtg22KbJTGWxDDYAcyPnu0n6g	
 			tm.templateId = "2zuwp379Jud28xgtxTOtg22KbJTGWxDDYAcyPnu0n6g"
 			tm.url = "${rootPath}/doctorPortal/doctorPrefered/" + dp.id
 			tm.toUser = dp.doctor.subscriber.openId
@@ -82,5 +81,7 @@ class FollowDoctorAction extends RuijinBaseAction {
 			tm.addEntry("remark","点击查看详情,并为患者进行备注","#000")
 			tm.send()
 		}
+//		keepSilence()
 	}
+
 }

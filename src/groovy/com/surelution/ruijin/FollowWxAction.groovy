@@ -10,7 +10,7 @@ class FollowWxAction extends RuijinBaseAction{
 	}
 	
 	public void execute(){
-		def message = FollowMessage.findByIndexId(49);
+		def message = KeyedMessage.findByKey("FollowWx");
 		put(new Attribute(Attribute.KEY_Content,message.message));
 	}
 }
