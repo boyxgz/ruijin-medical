@@ -10,7 +10,7 @@
 	<body>
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&times;</button>
-		<h4 class="modal-title">新建</h4>
+		<h4 class="modal-title"><g:message code="default.new.label" default="New"/></h4>
 	</div>
 	<g:form action="save" >
 		<div class="modal-body">

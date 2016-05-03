@@ -70,6 +70,8 @@ class DoctorController {
 			db.doctor = doctorInstance
 			db.save()
 		}
+		
+		
         [doctorInstance: doctorInstance, db:db]
     }
 
@@ -111,7 +113,7 @@ class DoctorController {
 			def image = new DynImage()
 			def location = Holders.config.grails.dynImage.rootPath
 			def uuid = UUID.randomUUID().toString()
-			def picUrl = "${location}${uuid}"
+			def picUrl = "${location}/${uuid}"
 			
 			if(photo && !photo.empty){
 				def name = photo.getOriginalFilename()
@@ -152,6 +154,25 @@ class DoctorController {
         }
     }
 	
+	def doctorPosition(Integer max){   
+        params.max = Math.min(max ?: 10, 100)
+		def doctorList = Doctor.list(params)
+		
+        [doctorList: doctorList, doctorInstanceTotal: Doctor.count()]
+	}
+	
+	def doctorReceivedFollow(){
+		def doctorReceivedFollow = []
+		doctorReceivedFollow = DoctorPatient.createCriteria().list{
+			eq("patientPrefered",true)
+			projections {
+				groupProperty("doctor")
+				count("patient")
+			}
+		}
+		[dotorPatientNumList:doctorReceivedFollow,doctorInstanceTotal: Doctor.count()]
+	}
+	
 	//移出医生微信
 	def removeSubscriber(long id){
 		def doctor = Doctor.get(id);
@@ -169,11 +190,29 @@ class DoctorController {
 		
 		if(pc.enable){
 			def picUrl = pc.picUrl
-			File file = new File(picUrl)
+			File file = new File(picUrl) 
 			def os = response.outputStream
 			os << file.bytes
 			os.flush()
 			return
 		}
+	}
+	
+	def updatePosition(){
+		params.each{
+			println it.key
+			String key = it.key
+			if(key.startsWith("doctor-index-")){
+				def doctorId = key.substring("doctor-index-".length())
+				def doctor = Doctor.get(doctorId)
+				println doctor
+				if(doctor){
+					doctor.index = it.value as Integer
+					doctor.save(flush:true)
+				}
+			}
+		}
+		
+		redirect(action:'doctorPosition')
 	}
 }

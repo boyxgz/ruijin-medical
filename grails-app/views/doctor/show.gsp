@@ -7,32 +7,28 @@
 		<meta name="layout" content="jarvis">
 		<g:set var="entityName" value="${message(code: 'doctor.label', default: 'Doctor')}" />
 		<title><g:message code="default.show.label" args="[entityName]" /></title>
+		<link rel="styleSheet" href="${resource(file:'css/user-defined.css') }"/>
 		<style type="text/css">
 			th{width:50%;}
 		</style>
 	</head>
 	<body>
 	<div class="content-wrapper">
-         <section class="content-header">
-				<h1>
-					医生信息管理 
-					<small><a data-toggle="modal" href="${createLink(action:'edit',controller:'doctor',id:doctorInstance.id) }" data-target="#myModal" class="btn btn-default" data-toggle="tooltip" style="width:50px; height:30px; font-size:10px;">编辑</a></small>
-				</h1>
-				</section>
-	<section class="content">
-		<div id="show-doctor" class="content scaffold-show" role="main">
-			<%--<h4><g:message code="default.show.label" args="[entityName]" /></h4>
-			--%><g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			 
-			 <table class="table table-bordered table-respose">
-			      <thead>
-			         <tr>
-			            <th>名称</th>
-			            <th>内容</th>
-			         </tr>
-			      </thead>
+		<br /><br />
+		<div id="show-doctor" class="box box-info" role="main">
+			<h2>
+				&nbsp;&nbsp;<g:message code="doctor.doctormanage.label" default="Doctor Manage"/>
+			</h2>
+			<br />
+			<div class="edit-doctor-show">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				<a href="${createLink(action:'edit',controller:'doctor',id:doctorInstance.id) }" data-toggle="modal" data-target="#myModal" data-toggle="tooltip">编辑</a>
+			</div>
+			<table class="table table-bordered table-respose">
+			      <thead><tr>
+		            <th><g:message code="default.projectname.label" default="Project Name"/></th>
+		            <th><g:message code="default.content.label" default="Content" /></th>
+			      </tr></thead>
 			      <tbody>
 			      	<g:if test="${doctorInstance?.name}">
 			        <tr>
@@ -55,10 +51,10 @@
 			         </tr>
 			         </g:if>
 			                 
-			         <g:if test="${doctorInstance?.skills}">
+			         <g:if test="${doctorInstance?.skills}"><tr>
 			            <th><span id="skills-label" class="property-label"><g:message code="doctor.skills.label" default="Skills" /></span></th>
 			            <td><span class="property-value" aria-labelledby="skills-label"><g:fieldValue bean="${doctorInstance}" field="skills"/></span></td>
-			         </g:if>
+			         </tr></g:if>
 			         
 			         <g:if test="${doctorInstance?.description}">
 			         <tr>
@@ -73,21 +69,6 @@
 			            <td><span class="property-value" aria-labelledby="address-label"><g:fieldValue bean="${doctorInstance}" field="address"/></span></td>
 			          </tr>
 			         </g:if>
-			         
-			         <%--<g:if test="${doctorInstance?.inquiries}">
-			         <tr>
-			             <th><span id="inquiries-label" class="property-label"><g:message code="doctor.inquiries.label" default="Inquiries" /></span></th>
-			             <td><span class="property-value" aria-labelledby="inquiries-label"><g:fieldValue bean="${doctorInstance}" field="inquiries"/></span></td>
-			         </tr>
-			         </g:if>
-			         <g:if test="${doctorInstance?.reservations}">
-			         <tr>
-			             <th><span id="reservations-label" class="property-label"><g:message code="doctor.reservations.label" default="Reservations" /></span></th>
-			             <td><span class="property-value" aria-labelledby="reservations-label"><g:fieldValue bean="${doctorInstance}" field="reservations"/></span></td>
-			         </tr>
-			         </g:if>--%>
-			         
-			         
 			      </tbody>
 			 </table>
 			 <table class="table table-bordered">
@@ -120,14 +101,15 @@
 			 		</td>
 			 	</tr>
 			 </table>
-		    <div class="modal" id="myModal">
-   			    <div class="modal-dialog">
-      		      <div class="modal-content">
-      		      </div><!-- /.modal-content -->
-			    </div><!-- /.modal -->
-		   </div>
+			<div class="modal" id="myModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+					</div>
+				</div>
+			</div>
+			<br/>
 		</div>
-		</section>
-		</div>
+		<br/>
+	</div>
 	</body>
 </html>

@@ -1,0 +1,26 @@
+.box{
+	width:96%;
+	margin-left:2%;
+	margin-bottom: 0px;
+}
+.table{
+	width:96%; 
+	margin-left:2%;
+}
+
+/*
+	doctorPosition
+*/
+.position-submit{
+	margin-left: 2%;
+    margin-bottom: 10px;
+}
+
+/*
+	doctor list
+*/
+.edit-doctor-show,.create-doctor-list,.create-keyedmessage-list{
+	border-bottom: 1px solid #e5e5e5;
+	margin-left:2%;
+	width:96%;
+}

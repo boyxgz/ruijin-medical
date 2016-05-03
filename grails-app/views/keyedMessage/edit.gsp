@@ -10,7 +10,7 @@
 	<body>
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">编辑</h4>
+			<h4 class="modal-title"><g:message code="default.edit.label" default="Edit"/></h4>
 		</div>
 		<g:form method="post" >
 			<div class="modal-body">

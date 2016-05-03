@@ -76,6 +76,8 @@
 							<span>医生管理</span> <i class="fa fa-angle-left pull-right"></i></a>
 						<ul class="treeview-menu">
 							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="Doctor" action="list">医生信息</g:link></li>
+							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="Doctor" action="doctorPosition">显示位置</g:link></li>
+							<li><a href="" style="float:left;"><i class="fa fa-circle-thin"></i></a><g:link controller="Doctor" action="doctorReceivedFollow">医生报表</g:link></li>
 						</ul></li>
 					<!-- 一个导航链接结束 -->
 					

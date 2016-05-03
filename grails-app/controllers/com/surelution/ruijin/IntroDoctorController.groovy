@@ -6,7 +6,9 @@ class IntroDoctorController {
 	
 	//介绍医生
 	def introDoctor(){
-		def doctorInstanceList = Doctor.list()
+		def doctorInstanceList = Doctor.createCriteria().list([sort:"index", order:"asc"]){
+			gt("index",0)
+		}
 		
 		[doctorInstanceList:doctorInstanceList,doctorInstanceTotal: Doctor.count()]
 	}

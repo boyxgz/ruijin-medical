@@ -8,6 +8,11 @@ class Doctor {
 		inquiries nullable:true
 		reservations nullable:true
 		address nullable:true
+		index nullable: true
+	}
+	
+	static mapping = {
+		index column:'_index'
 	}
 	
 	/**
@@ -29,5 +34,6 @@ class Doctor {
 	Boolean remind = false
 	Boolean attRemind = false	//false表示关着，可以接收消息
 	Boolean msgRemind = false	//false 表示关着，可以接收消息
+	int index					//医生在医生风采中的排序，当为0的时候，不在医生风采中显示。
     
 }
