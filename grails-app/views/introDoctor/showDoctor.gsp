@@ -22,9 +22,9 @@
            <div class="top_right" style="margin-left:10px;">
                <div style="height:60%;">
                <div class="r_l">
-                  <div class="name">${doctor.name }</div>
-                  <div class="title">从业${doctor?.workingYear }年</div>
-                  <div class="title">${doctor.title }</div>
+                  <div class="name">${doctor?.name }</div>
+                  <div class="title">从业年限：${doctor?.workingYear? doctor?.workingYear: '/' }年</div>
+                  <div class="title">${doctor?.title }</div>
                </div>
                <%--<div class="r_r">
                   <dl class="zixun">
@@ -52,14 +52,14 @@
 					<div class="zhiyedian">
 					   <div class="mi" style="padding-top:15px;"><img src="${resource(dir:'images',file:'shan-chang.png')}" style="width: 20px; height:20px; "/><span style="font-size:16px; margin-left:5px;">擅长领域</span></div> 
 					   <div style="margin-top:10px; padding-bottom:8px;">
-					      <p class="mi font_style">${doctor.skills}</p>
+					      <p class="mi font_style">${doctor?.skills}</p>
 					   </div>
 					</div>
 					
 					<div class="zhiyedian">
 					   <div class="mi" style="padding-top:15px;"><img src="${resource(dir:'images',file:'jian-jie.png')}" style="width: 20px; height:20px; "/><span style="font-size:16px; margin-left:5px;">服务理念</span></div> 
 					   <div style="margin-top:10px;padding-bottom:8px;">
-					      <p class="mi font_style">${doctor.description }</p>
+					      <p class="mi font_style">${doctor?.description }</p>
 					   </div>
 					</div>
 			  </div>

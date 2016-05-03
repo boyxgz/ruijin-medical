@@ -29,7 +29,7 @@
                       <%--<div style="width: 20%; float: left; margin-top:5px;" class="btn btn-success btn-xs">有号</div>--%>
                  </div>
 	             <div class="cr"><span class="title">职称：${doctor.title }</span></div>
-	             <g:if test="${doctor.skills.length() >= 13 }">
+	             <g:if test="${doctor?.skills?.length() >= 13 }">
 	             <div class="cr"><span class="font_style">从业年限 ：${doctor?.workingYear}年</span></div>
 		         </g:if>
 		         <g:else>
