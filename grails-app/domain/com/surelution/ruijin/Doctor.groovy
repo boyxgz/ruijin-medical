@@ -9,6 +9,11 @@ class Doctor {
 		reservations nullable:true
 		address nullable:true
 		index nullable: true
+		description nullable: true
+		title nullable : true
+		workingYear nullable : true
+		skills nullable : true
+		
 	}
 	
 	static mapping = {
